@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"          
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>Página Inicial</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="css/bootstrap.min.css"/>
+        <script src="js/bootstrap.min.js"></script>
+        <link href="css/hoja_personalizada.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    <h:body>
+        <nav id="menu_superior" class="navbar navbar-default navbar-fixed-top navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu_navbar" aria-expanded="false" aria-controls="menu_navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="menu.com">Sistema de Reeducación</a>
+                </div>
+                <div class="collapse navbar-collapse" id="menu_navbar" aria-expanded="false" style="height: 1px;">     
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" style="padding-right: 35px;">Usuario</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Cerrar Sesión</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Cambiar Contraseña</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="contenedor">
+            <div id="menu_lateral">
+                <li class="logo text-center">MENU PRINCIPAL</li>
+                <li><a href="#demo1" data-toggle="collapse" aria-expanded="false" data-parent="#MainMenu">Adolescentes Infractores</a></li>
+                <div class="collapse sub-menu" id="demo1">
+                    <li ><b:navLink  href="paginas/adolescente_infractor_udi_crear.com">UDI</b:navLink></li>
+                    <li ><b:navLink  href="paginas/adolescente_infractor_cai_crear.com">CAI</b:navLink></li>
+                </div>
+                <li><b:navLink rendered="#{personalSesion.rol=='ADMINISTRADOR'}" href="#">Personal Administrativo</b:navLink></li>
+                <li><b:navLink rendered="true"><a href="#demo3" data-toggle="collapse"  aria-expanded="false" data-parent="#MainMenu">Consultas</a></b:navLink></li>
+                <div class="collapse sub-menu" id="demo3">
+                    <li><b:navLink href="#SubMenu1">Subitem 1 </b:navLink></li>
+                    <li><b:navLink href="#">Subitem 2</b:navLink></li>
+                </div>
+                <li><a href="#demo4" data-toggle="collapse" aria-expanded="false" data-parent="#MainMenu">Fichas </a></li>
+                <div class="collapse sub-menu" id="demo4">
+                    <li><b:navLink href="paginas/psicologia/ficha_planificacion_taller.com" >Planificación de Taller</b:navLink></li>
+                    <li><b:navLink href="paginas/psicologia/ficha_informe_taller.com" >Informe de Taller</b:navLink></li>
+                </div>
+            </div>
+            <div id="contenido">
+                <h:form rendered="#{estadoGeneralControlador.estadoGeneral.estadoMenu}">
+                    <b:commandButton value="VER CAI" class="btn-primary" style="margin-bottom: 20px" action="#{estadoGeneralControlador.actualizarEstadoMenu()}" />
+                    <b:dataTable  value="#{adolescenteInfractorUDIControlador.listadoAdolescentesInfractoresUDI}"
+                                  var="ai"
+                                  searching="true"
+                                  select="true"
+                                  selectionMode="multiple"
+                                  responsive="true">
+                        <b:dataTableColumn value="#{ai.apellidos} #{ai.nombres}" />
+                        <b:dataTableColumn value="#{ai.cedula}"/>
+                        <b:dataTableColumn value="#{ai.edad}"/>
+                        <b:dataTableColumn label="Añadir Información">
+                            <b:commandButton value="Añadir Información" class="btn btn-success btn-block" action="#{adolescenteInfractorUDIControlador.obtenerAdolescenteInfractor(ai.idAdolescenteInfractor)}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn rendered="#{personalSesion.rol=='ADMINISTRADOR'}" label="Editar">
+                            <b:commandButton  value="Editar"  class="btn btn-primary btn-block" action="#{adolescenteInfractorUDIControlador.editarAdolescenteInfractor(ai.idAdolescenteInfractor)}" />
+                        </b:dataTableColumn>
+                        <b:dataTableColumn rendered="#{personalSesion.rol=='ADMINISTRADOR'}" label="Eliminar">
+                            <b:commandButton  value="Eliminar" class="btn btn-danger btn-block" action="#{adolescenteInfractorUDIControlador.eliminarAdolescenteInfractor(ai.idAdolescenteInfractor)}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn  label="Ver Información">
+                            <b:commandButton value="Ver Información" class="btn btn-default btn-block" action="#{adolescenteInfractorUDIControlador.verDatos(ai.idAdolescenteInfractor)}"/>
+                        </b:dataTableColumn>
+
+
+                    </b:dataTable>
+
+                </h:form>
+                <h:form rendered="#{!estadoGeneralControlador.estadoGeneral.estadoMenu}">
+                    <b:commandButton value="VER UDI" class="btn-primary" style="margin-bottom: 20px" action="#{estadoGeneralControlador.actualizarEstadoMenu()}" />
+                    <b:dataTable  value="#{adolescenteInfractorCAIControlador.listadoAdolescentesInfractoresCAI}"
+                                  var="ai"
+                                  searching="true"
+                                  select="true"
+                                  selectionMode="multiple"
+                                  responsive="true">
+                        <b:dataTableColumn value="#{ai.apellidosNombres}" />
+                        <b:dataTableColumn value="#{ai.cedula}"/>
+                        <b:dataTableColumn value="#{ai.edad}"/>
+                        <b:dataTableColumn label="Añadir Información"><!-->DatosPersonalesCAIBean  adolescenteInfractorBean.obtenerAdolescenteInfractor(ai.idAdolescenteInfractor)<-->
+                            <b:commandButton value="Añadir Información" class="btn btn-success btn-block" action="#{adolescenteInfractorCAIControlador.obtenerAdolescenteCAI(ai.idAdolescenteCai)}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn rendered="#{personalSesion.rol=='ADMINISTRADOR'}" label="Editar">
+                            <b:commandButton  value="Editar"  class="btn btn-primary btn-block" action="#{adolescenteInfractorCAIControlador.editarAdolescenteCAI(ai.idAdolescenteCai)}" />
+                        </b:dataTableColumn>
+                        <b:dataTableColumn rendered="#{personalSesion.rol=='ADMINISTRADOR'}" label="Eliminar">
+                            <b:commandButton  value="Eliminar" class="btn btn-danger btn-block" action="#{adolescenteInfractorCAIControlador.eliminarAdolescenteCAI(ai.idAdolescenteCai)}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn  label="Ver Información">
+                            <b:commandButton value="Ver Información" class="btn btn-default btn-block" action="#{adolescenteInfractorCAIControlador.verDatos(ai.idAdolescenteCai)}"/>
+                        </b:dataTableColumn>
+                    </b:dataTable>
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>

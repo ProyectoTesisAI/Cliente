@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"          
+      xmlns:p="http://primefaces.org/ui">    
+    <h:head>
+        <title>ADOLESCENTE INFRACTOR</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="../../../css/bootstrap.min.css"/>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <link href="../../../css/hoja_personalizada.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    <h:body>
+        <nav id="menu_superior" class="navbar navbar-default navbar-fixed-top" >
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu_navbar" aria-expanded="false" aria-controls="menu_navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../../paginas/inicio/cai.com">Sistemas Reeducación</a>
+                </div>
+                <div class="collapse navbar-collapse" id="menu_navbar" aria-expanded="false" style="height: 1px;">     
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >Usuario</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Cerrar Sesión</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Cambiar Contrasña</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="contenedor">
+            <div id="menu_lateral">
+                <li class="logo text-center">MENU PRINCIPAL</li>
+                <li><a href="#demo1" data-toggle="collapse" aria-expanded="false" data-parent="#MainMenu">Adolescentes Infractores</a></li>
+                <div class="collapse sub-menu" id="demo1">
+                    <li ><b:navLink  href="adolescente_infractor_udi_crear.com">UDI</b:navLink></li>
+                    <li ><b:navLink  href="adolescente_infractor_cai_crear.com">CAI</b:navLink></li>
+                </div>
+                <li><b:navLink href="#">Personal Administrativo</b:navLink></li>
+                <li><b:navLink rendered="true"><a href="#demo3" data-toggle="collapse"  aria-expanded="false" data-parent="#MainMenu">Consultas</a></b:navLink></li>
+                <div class="collapse sub-menu" id="demo3">
+                    <li><b:navLink href="#SubMenu1"   >Subitem 1 </b:navLink></li>
+                    <li><b:navLink href="#" >Subitem 2</b:navLink></li>
+                </div>
+                <li><a href="#demo4" data-toggle="collapse" aria-expanded="false" data-parent="#MainMenu">Fichas </a></li>
+                <div class="collapse sub-menu" id="demo4">
+                    <li><b:navLink href="../psicologia/ficha_planificacion_taller.com" >Planificación de Taller</b:navLink></li>
+                    <li><b:navLink href="../psicologia/ficha_informe_taller.com" >Informe de Taller</b:navLink></li>
+                </div>
+            </div>
+            <div id="contenido">
+                <div class="panel panel-default">
+                    <div style="background-color: #337ab8; color: white; font-weight: bold" class="panel-heading text-center">ADOLESCENTE INFRACTOR CAI</div>
+                    <div class="panel-body"  >
+                        <!-- PANEL ADOLESCENTE INFRACTOR-GUARDAR INFORMACION-->
+                        <b:form>
+                            <div class="panel-body" >
+                                <b:panel>
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtFechaReporteCAI" value="Fecha de reporte"/>
+                                                <b:dateTimePicker id="txtFechaReporteCAI" placeholder="dd/mm/aa" showTodayButton="true" showTime="false" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.fechaReporte}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-md-offset-1">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtEdadCAI" value="Edad "/>
+                                                <b:inputText mask="integer" id="txtEdadCAI" readonly="true" placeholder="Edad" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.edad}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 col-md-offset-1">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtApellidosCAI" value="Apellidos"/>
+                                                <b:inputText id="txtApellidosCAI" placeholder="Apellidos" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.apellidos}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-md-offset-1">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtNombresCAI" value="Nombres"/>
+                                                <b:inputText id="txtNombresCAI" placeholder="Nombres" required="true" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.nombres}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </b:panel>                                            
+                                <b:panel>
+                                    <div class="row">
+                                        <div class="col-md-2 col-md-offset-1">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtCedulaCAI" value="Cédula"/>
+                                                <b:inputText id="txtCedulaCAI" placeholder="Cédula" mask="integer" maxlength="10" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.cedula}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-md-offset-1">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtFechaNacimientoCAI" value="Fecha Nacimiento"/>
+                                                <b:dateTimePicker id="txtFechaNacimientoCAI" required="true" placeholder="Fecha"  showTime="false" update="txtEdadCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.fechaNacimiento}" />  
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-2 col-md-offset-1">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtSexoCAI" value="Sexo"/>
+                                                <b:selectOneMenu id="txtSexoCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.sexo}">
+                                                    <f:selectItem itemLabel="Seleccione una opcion"   itemDisabled="false" />
+                                                    <f:selectItem itemLabel="HOMBRE"  itemValue="HOMBRE" />
+                                                    <f:selectItem itemLabel="MUJER"  itemValue="MUJER" />
+                                                </b:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-2 col-md-offset-1"><!-->HAY QUE CONSIDERAR QUE ES UN COMBOBOX CON TODOS LOS PAISES DEL MUNDO<-->
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtPaisOrigenCAI" value="País de origen"/>
+                                                <b:inputText id="txtPaisOrigenCAI" placeholder="País de origen" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.paisOrigen}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-md-offset-1">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtNacionalidadCAI" value="Nacionalidad"/>
+                                                <b:selectOneMenu id="txtNacionalidadCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.nacionalidad}">
+                                                    <f:selectItem itemLabel="Seleccione una opcion"   itemDisabled="false" />
+                                                    <f:selectItem itemLabel="ECUATORIANA"  itemValue="ECUATORIANA" />
+                                                    <f:selectItem itemLabel="EXTRANJERA"  itemValue="EXTRANJERA" />
+                                                </b:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-md-offset-1">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtEstadoCivilCAI" value="Estado Civil"/>
+                                                <b:selectOneMenu id="txtEstadoCivilCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.estadoCivil}">
+                                                    <f:selectItem itemLabel="Seleccione una opcion"  itemDisabled="false" />
+                                                    <f:selectItem itemLabel="SOLTERO"  itemValue="SOLTERO" />
+                                                    <f:selectItem itemLabel="CASADO"  itemValue="CASADO" />
+                                                    <f:selectItem itemLabel="DIVORCIADO"  itemValue="DIVORCIADO" />
+                                                    <f:selectItem itemLabel="VIUDO"  itemValue="VIUDO" />
+                                                    <f:selectItem itemLabel="UNIÓN LIBRE"  itemValue="UNIÓN LIBRE" />
+                                                </b:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-0">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtOcupacionCAI" value="Ocupación"/>
+                                                <b:inputText id="txtOcupacionCAI" placeholder="Ocupación" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.ocupacion}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-md-offset-1">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtTieneHijosCAI" value="Tiene Hijos"/>
+                                                <b:selectOneMenu id="txtTieneHijosCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.tieneHijos}">
+                                                    <f:selectItem itemLabel="Seleccione una opcion"  itemDisabled="false" />
+                                                    <f:selectItem itemLabel="NINGUNO"  itemValue="NINGUNO" />
+                                                    <f:selectItem itemLabel="UNO"  itemValue="UNO" />
+                                                    <f:selectItem itemLabel="DOS"  itemValue="DOS" />
+                                                    <f:selectItem itemLabel="TRES"  itemValue="TRES" />
+                                                    <f:selectItem itemLabel="CUATRO"  itemValue="CUATRO" />
+                                                </b:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-md-offset-1">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtEtniaCAI" value="Etnia"/>
+                                                <b:selectOneMenu id="txtEtniaCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.etnia}">
+                                                    <f:selectItem itemLabel="Seleccione una opcion"  itemDisabled="false" />
+                                                    <f:selectItem itemLabel="MESTIZA"  itemValue="MESTIZA" />
+                                                    <f:selectItem itemLabel="INDÍGENA"  itemValue="INDÍGENA" />
+                                                    <f:selectItem itemLabel="AFROECUATORIANA"  itemValue="AFROECUATORIANA" />
+                                                    <f:selectItem itemLabel="BLANCA"  itemValue="BLANCA" />
+                                                    <f:selectItem itemLabel="MONTUVIA"  itemValue="MONTUVIA" />
+                                                    <f:selectItem itemLabel="OTRO"  itemValue="OTRO" />
+                                                </b:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-md-offset-1">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtRegistroSocialCAI" value="Registro Social"/>
+                                                <b:selectOneMenu id="txtRegistroSocialCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.registroSocial}">
+                                                    <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
+                                                    <f:selectItem itemLabel="SI"  itemValue="true" />
+                                                    <f:selectItem itemLabel="NO"  itemValue="false" />
+                                                </b:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">                                                    
+                                        <div class="col-md-6 col-md-offset-0">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtDireccionDomiciliariaCAI" value="Dirección domiciliaria"/>
+                                                <b:inputText id="txtDireccionDomiciliariaCAI" placeholder="Dirección domiciliaria" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.direccionDomicilio}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-md-offset-0"> <!-->esta parte de la provincia y canton hay que revisar si esta bien hecho<-->
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtProvinciaCAI" value="Provincia"/><!-->update="txtCantonCAI" process="@this" <-->
+                                                <b:selectOneMenu id="txtProvinciaCAI" update="txtCantonCAI" process="@this" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.provinciaAdolescente}">
+                                                    <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
+                                                    <f:selectItem itemLabel="AZUAY"  itemValue="AZUAY" />
+                                                    <f:selectItem itemLabel="BOLIVAR"  itemValue="BOLIVAR" />
+                                                    <f:selectItem itemLabel="CAÑAR"  itemValue="CAÑAR" />
+                                                    <f:selectItem itemLabel="CARCHI"  itemValue="CARCHI" />
+                                                    <f:selectItem itemLabel="CHIMBORAZO"  itemValue="CHIMBORAZO" />
+                                                    <f:selectItem itemLabel="COTOPAXI"  itemValue="COTOPAXI" />
+                                                    <f:selectItem itemLabel="EL_ORO"  itemValue="EL_ORO" />
+                                                    <f:selectItem itemLabel="ESMERALDAS"  itemValue="ESMERALDAS" />
+                                                    <f:selectItem itemLabel="GALAPAGOS"  itemValue="GALAPAGOS" />
+                                                    <f:selectItem itemLabel="GUAYAS"  itemValue="GUAYAS" />
+                                                    <f:selectItem itemLabel="IMBABURA"  itemValue="IMBABURA" />
+                                                    <f:selectItem itemLabel="LOJA"  itemValue="LOJA" />
+                                                    <f:selectItem itemLabel="LOS_RIOS"  itemValue="LOS_RIOS" />
+                                                    <f:selectItem itemLabel="MANABI"  itemValue="MANABI" />
+                                                    <f:selectItem itemLabel="MORONA_SANTIAGO"  itemValue="MORONA_SANTIAGO" />
+                                                    <f:selectItem itemLabel="NAPO"  itemValue="NAPO" />
+                                                    <f:selectItem itemLabel="ORELLANA"  itemValue="ORELLANA" />
+                                                    <f:selectItem itemLabel="PASTAZA"  itemValue="PASTAZA" />
+                                                    <f:selectItem itemLabel="PICHINCHA"  itemValue="PICHINCHA" />
+                                                    <f:selectItem itemLabel="SANTA_ELENA"  itemValue="SANTA_ELENA" />
+                                                    <f:selectItem itemLabel="SANTO_DOMINGO_DE_LOS_TSÁCHILAS"  itemValue="SANTO_DOMINGO_DE_LOS_TSÁCHILAS" />
+                                                    <f:selectItem itemLabel="SUCUMBIOS"  itemValue="SUCUMBIOS" />
+                                                    <f:selectItem itemLabel="TUNGURAHUA"  itemValue="TUNGURAHUA" />
+                                                    <f:selectItem itemLabel="ZAMORA_CHINCHIPE"  itemValue="ZAMORA_CHINCHIPE" />
+                                                </b:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-md-offset-0">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtCantonCAI" value="Cantón"/>
+                                                <b:selectOneMenu id="txtCantonCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.cantonAdolescente}">
+                                                    <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
+                                                    <f:selectItems value="#{adolescenteInfractorCAIControlador.cantones}" var="canton" itemValue="#{canton.canton}" itemLabel="#{canton.canton}"/>
+                                                </b:selectOneMenu>
+
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </b:panel>
+                                <b:panel>
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-0">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtNumeroContactoCAI" value="Número de contacto"/>
+                                                <b:inputText id="txtNumeroContactoCAI" maxlength="10" placeholder="Número de contacto" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.numeroContacto}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-md-offset-0">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtNombreRepresentanteCAI" value="Nombre del representante"/>
+                                                <b:inputText id="txtNombreRepresentanteCAI" placeholder="Nombre del representante" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.nombresRepresentante}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-md-offset-0">
+                                            <div class="form-group">
+                                                <h:outputLabel for="txtObservacionesCAI" value="Observaciones de ingreso"/>
+                                                <b:inputText id="txtObservacionesCAI" placeholder="Observaciones de ingreso" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAI.observacionIngreso}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </b:panel>
+                                <div class="col-md-3 col-md-offset-6">
+                                    <div class="col-md-6 col-md-offset-6">
+                                        <b:button onclick="$('.formGuardarAdolescenteInfractorCAI').modal('show')" class="btn btn-primary btn-block" value="Guardar"/>
+                                    </div>
+                                </div>
+                                <b:modal title="Adolescente Infractor CAI" styleClass="formGuardarAdolescenteInfractorCAI"
+                                         closable="false"
+                                         closeOnEscape="true">
+                                    <p>¿Desea Guardar Cambios?</p>                         
+                                    <b:row>
+                                        <b:column>
+                                            <b:button largeScreen="half"  value="Cancelar"
+                                                      dismiss="modal" onclick="return false;"/>
+                                            <b:commandButton largeScreen="half" update="@form" value="Guardar" look="success"                    
+                                                             action="#{adolescenteInfractorCAIControlador.guardarAdolescenteInfractor()}"
+                                                             onclick="$('.modalPseudoClass2').modal('hide')"
+                                                             />
+                                        </b:column>
+                                    </b:row>
+                                </b:modal>
+                            </div>
+                        </b:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

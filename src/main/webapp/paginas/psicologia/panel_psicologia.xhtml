@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Psicología</title>
+        <link rel="stylesheet" href="../../css/bootstrap.min.css"/>
+        <script src="../../js/bootstrap.min.js"></script>
+        <link href="../../css/hoja_personalizada.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    <h:body>
+        <nav id="menu_superior" class="navbar navbar-default navbar-fixed-top" >
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu_navbar" aria-expanded="false" aria-controls="menu_navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../menu.com">Sistemas Reeducación</a>
+                </div>
+                <div class="collapse navbar-collapse" id="menu_navbar" aria-expanded="false" style="height: 1px;">     
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >Usuario</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Cerrar Sesión</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Cambiar Contrasña</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="contenedor">
+            <div id="menu_lateral">
+                <li class="logo text-center">MENU PRINCIPAL</li>
+                <li><a href="#demo1" data-toggle="collapse" aria-expanded="false" data-parent="#MainMenu">Adolescentes Infractores</a></li>
+                <div class="collapse sub-menu" id="demo1">
+                    <li ><b:navLink  href="../adolescente_infractor_crear.com">UDI</b:navLink></li>
+                    <li ><b:navLink  href="../adolescente_infractor_cai_crear.com">CAI</b:navLink></li>
+                </div>
+                <li><b:navLink href="#">Personal Administrativo</b:navLink></li>
+                <li><b:navLink rendered="true"><a href="#demo3" data-toggle="collapse"  aria-expanded="false" data-parent="#MainMenu">Consultas</a></b:navLink></li>
+                <div class="collapse sub-menu" id="demo3">
+                    <li><b:navLink href="#SubMenu1"   >Subitem 1 </b:navLink></li>
+                    <li><b:navLink href="#" >Subitem 2</b:navLink></li>
+                </div>
+                <li><a href="#demo4" data-toggle="collapse" aria-expanded="false" data-parent="#MainMenu">Fichas </a></li>
+                <div class="collapse sub-menu" id="demo4">
+                    <li><b:navLink href="../ficha_planificacion_taller.com" >Planificación de Taller</b:navLink></li>
+                <li><b:navLink href="../psicologia/ficha_informe_taller.com" >Informe de Taller</b:navLink></li>
+                </div>
+            </div>
+            
+            <div id="contenido">
+            <!-- Panel para la creación de la Ficha de Planificación del Taller-->
+                <div class="panel panel-default">
+
+                <div style="background-color: #337ab8; color: white; font-weight: bold" class="panel-heading text-center "> FICHA DE PLANIFICACIÓN DEL TALLER</div>
+                    <div class="panel-body" style="padding: 40px;">
+                        
+                        <b:form id="form">
+   
+                            <b:dataTable  value="#{panelPsicologiaControlador.listaTalleresPsicologia}"
+                                 var="tp"
+                                 searching="true"
+                                 select="true"
+                                 selectionMode="multiple"
+                                 responsive="true">
+                                <b:dataTableColumn value="#{tp.numeroTaller}"/>
+                                <b:dataTableColumn value="#{tp.tema}"/>
+                                <b:dataTableColumn value="#{tp.fecha}"/>
+                                <b:dataTableColumn value="#{tp.elaborado}"/>
+
+                                <b:dataTableColumn label="Ver Taller">
+                                    <b:commandButton value="Ver Taller" class="btn btn-success btn-block" action="#{panelPsicologiaControlador.verTallerPsicologia(tp)}"/>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn label="Agregar Informe">
+                                    <b:commandButton  value="Agregar Informe"  class="btn btn-primary btn-block"  />
+                                </b:dataTableColumn>
+                                
+                            </b:dataTable>  
+                        </b:form>
+                    </div>
+                </div>
+            <!-- Fin del Panel para la creación de Fichas de Planificación del Taller-->
+            </div>
+        </div> 
+    </h:body>
+</html>
+
