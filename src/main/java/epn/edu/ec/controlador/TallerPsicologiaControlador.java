@@ -412,7 +412,7 @@ public class TallerPsicologiaControlador implements Serializable{
             else{
                 if(registroAux.size()>0){
                     
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ADOLESCENTES INFRACTORES PERTENECIENTES A "+tallerPsicologia.getIdUdi().getUdi(),"Aviso" ));
+                    //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ADOLESCENTES INFRACTORES PERTENECIENTES A "+tallerPsicologia.getIdUdi().getUdi(),"Aviso" ));
                     listaAdolescentesUzdi=registroAux;
                 }
             }
