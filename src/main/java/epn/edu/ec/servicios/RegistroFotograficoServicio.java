@@ -20,28 +20,27 @@ import javax.ws.rs.core.Response;
  *
  * @author User
  */
-public class InformePsicologiaServicio {
-    
+public class RegistroFotograficoServicio {
+ 
     private final Client cliente;
-    public String URL_INFORME_PSICOLOGIA=Constantes.URL_INFORME_PSICOLOGIA;
+    public String URL_REGISTRO_FOTOGRAFICO=Constantes.URL_REGISTRO_FOTOGRAFICO;
     
-    public InformePsicologiaServicio(){
+    public RegistroFotograficoServicio(){
         cliente= ClientBuilder.newClient();
     }
     
-    public InformePsicologia guardarInformePsicologia(InformePsicologia informe){
+    public RegistroFotografico guardarRegistroFotografico(RegistroFotografico registroFotografico){
         
-        InformePsicologia informePsicologiaAux=null;
+        RegistroFotografico registroFotograficoAux=null;
         
-        WebTarget webTarget=cliente.target(URL_INFORME_PSICOLOGIA);        
+        WebTarget webTarget=cliente.target(URL_REGISTRO_FOTOGRAFICO);        
         Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");     
-        Response response =invocationBuilder.post(Entity.entity(informe, MediaType.APPLICATION_JSON+";charset=UTF-8"));
+        Response response =invocationBuilder.put(Entity.entity(registroFotografico, MediaType.APPLICATION_JSON+";charset=UTF-8"));
         if(response.getStatus()==200){
-            informePsicologiaAux =response.readEntity(InformePsicologia.class);
+            registroFotograficoAux =response.readEntity(RegistroFotografico.class);
         }
         
-        return informePsicologiaAux;
+        return registroFotograficoAux;
 
     }
-    
 }

@@ -6,15 +6,21 @@
 package epn.edu.ec.controlador;
 
 import epn.edu.ec.modelo.CAI;
+import epn.edu.ec.modelo.Fotografia;
 import epn.edu.ec.modelo.InformePsicologia;
 import epn.edu.ec.modelo.ItemInformePsicologia;
+import epn.edu.ec.modelo.RegistroFotografico;
 import epn.edu.ec.modelo.TallerPsicologia;
 import epn.edu.ec.modelo.UDI;
 import epn.edu.ec.servicios.CaiServicio;
 import epn.edu.ec.servicios.InformePsicologiaServicio;
 import epn.edu.ec.servicios.ItemInformePsicologiaServicio;
+import epn.edu.ec.servicios.RegistroFotograficoServicio;
 import epn.edu.ec.servicios.TallerPsicologiaServicio;
 import epn.edu.ec.servicios.UdiServicio;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +29,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -46,6 +54,10 @@ public class InformePsicologiaControlador implements Serializable{
     ItemInformePsicologiaServicio controladorItemInforme;
     TallerPsicologiaServicio controladorTaller;
     
+    ///////////////////////////////////////////////
+    RegistroFotografico registroFotografico;
+    RegistroFotograficoServicio controladorRegistroFotografico;
+    ///////////////////////////////////////////////
     boolean informeGuardado=false;
     boolean registroAsistenciaGuardado=true;
     
@@ -56,9 +68,11 @@ public class InformePsicologiaControlador implements Serializable{
         controlador= new InformePsicologiaServicio();
         controladorItemInforme= new ItemInformePsicologiaServicio();
         controladorTaller= new TallerPsicologiaServicio();
+        controladorRegistroFotografico= new RegistroFotograficoServicio();
         
         informePsicologia= new InformePsicologia();
         tallerPsicologia= new TallerPsicologia();
+        registroFotografico= new RegistroFotografico();
         
         item1= new ItemInformePsicologia();
         item2= new ItemInformePsicologia();
@@ -161,6 +175,47 @@ public class InformePsicologiaControlador implements Serializable{
         return controladorTaller;
     }
 
+    public RegistroFotografico getRegistroFotografico() {
+        return registroFotografico;
+    }
+
+    public void setRegistroFotografico(RegistroFotografico registroFotografico) {
+        this.registroFotografico = registroFotografico;
+    }
+
+    public RegistroFotograficoServicio getControladorRegistroFotografico() {
+        return controladorRegistroFotografico;
+    }
+
+    public void setControladorRegistroFotografico(RegistroFotograficoServicio controladorRegistroFotografico) {
+        this.controladorRegistroFotografico = controladorRegistroFotografico;
+    }
+
+    public boolean isInformeGuardado() {
+        return informeGuardado;
+    }
+
+    public void setInformeGuardado(boolean informeGuardado) {
+        this.informeGuardado = informeGuardado;
+    }
+
+    public boolean isRegistroAsistenciaGuardado() {
+        return registroAsistenciaGuardado;
+    }
+
+    public void setRegistroAsistenciaGuardado(boolean registroAsistenciaGuardado) {
+        this.registroAsistenciaGuardado = registroAsistenciaGuardado;
+    }
+
+    public int getIndiceInforme() {
+        return indiceInforme;
+    }
+
+    public void setIndiceInforme(int indiceInforme) {
+        this.indiceInforme = indiceInforme;
+    }
+
+    
 
     public void guardarInformePsicologia(){
         
@@ -195,6 +250,41 @@ public class InformePsicologiaControlador implements Serializable{
         }catch(Exception e){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "HA OCURRIDO UN ERROR AL GUARDAR EL TALLER DE PSICOLOGÍA","Aviso" ));
         }  
+    }
+    
+    public void subirFoto(FileUploadEvent evento) {
+        
+        UploadedFile foto = evento.getFile();
+        
+        try{
+            String nombre=foto.getFileName();
+            InputStream in=(InputStream)foto.getInputstream();
+            byte[] buffer = new byte[(int) foto.getSize()];
+            
+            ByteArrayOutputStream buffer2 = new ByteArrayOutputStream();
+            int nRead;
+            byte[] data = new byte[1024];
+            while ((nRead = in.read(data, 0, data.length)) != -1) {
+                buffer2.write(data, 0, nRead);
+            }
+
+            buffer2.flush();
+            byte[] byteArray = buffer2.toByteArray();
+            
+            Fotografia imagen= new Fotografia();
+            imagen.setNombre(nombre);
+            imagen.setArray(byteArray);
+            imagen.setBuffer(buffer);
+        
+            registroFotografico.setDescripcion("Foto subida desde la app web");
+            registroFotografico.setImagen(imagen);
+            
+            RegistroFotografico registroFotograficoAux= controladorRegistroFotografico.guardarRegistroFotografico(registroFotografico);
+            registroFotografico=registroFotograficoAux;
+        }
+        catch (IOException e) {
+            
+        }
     }
     
 }
