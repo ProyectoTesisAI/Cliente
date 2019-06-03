@@ -31,7 +31,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="#">Cerrar Sesión</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="#">Cambiar Contrasña</a></li>
+                                <li><a href="#">Cambiar Contraseña</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -43,8 +43,8 @@
                 <li class="logo text-center">MENU PRINCIPAL</li>
                 <li><a href="#demo1" data-toggle="collapse" aria-expanded="false" data-parent="#MainMenu">Adolescentes Infractores</a></li>
                 <div class="collapse sub-menu" id="demo1">
-                    <li ><b:navLink  href="../adolescente_infractor_crear.com">UDI</b:navLink></li>
-                    <li ><b:navLink  href="../adolescente_infractor_cai_crear.com">CAI</b:navLink></li>
+                    <li ><b:navLink  href="../inicio/udi.com">UDI</b:navLink></li>
+                    <li ><b:navLink  href="../inicio/cai.com">CAI</b:navLink></li>
                 </div>
                 <li><b:navLink href="#">Personal Administrativo</b:navLink></li>
                 <li><b:navLink rendered="true"><a href="#demo3" data-toggle="collapse"  aria-expanded="false" data-parent="#MainMenu">Consultas</a></b:navLink></li>
@@ -54,7 +54,7 @@
                 </div>
                 <li><a href="#demo4" data-toggle="collapse" aria-expanded="false" data-parent="#MainMenu">Fichas </a></li>
                 <div class="collapse sub-menu" id="demo4">
-                    <li><b:navLink href="../ficha_planificacion_taller.com" >Planificación de Taller</b:navLink></li>
+                    <li><b:navLink href="../psicologia/taller_psicologia.com" >Planificación de Taller</b:navLink></li>
                 <li><b:navLink href="../psicologia/ficha_informe_taller.com" >Informe de Taller</b:navLink></li>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                                     <b:commandButton value="Ver Taller" class="btn btn-success btn-block" action="#{panelPsicologiaControlador.verTallerPsicologia(tp)}"/>
                                 </b:dataTableColumn>
                                 <b:dataTableColumn label="Agregar Informe">
-                                    <b:commandButton  value="Agregar Informe"  class="btn btn-primary btn-block"  />
+                                    <b:commandButton  value="Agregar Informe"  class="btn btn-primary btn-block" action="#{panelPsicologiaControlador.agregarInformePsicologia(tp)}"/>
                                 </b:dataTableColumn>
                                 
                             </b:dataTable>  
