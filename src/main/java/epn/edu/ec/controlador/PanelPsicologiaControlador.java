@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package epn.edu.ec.controlador;
 
 import epn.edu.ec.modelo.TallerPsicologia;
@@ -15,25 +10,21 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
-/**
- *
- * @author User
- */
 @Named(value = "panelPsicologiaControlador")
 @ViewScoped
-public class PanelPsicologiaControlador implements Serializable{
+public class PanelPsicologiaControlador implements Serializable {
 
     private List<TallerPsicologia> listaTalleresPsicologia;
     private TallerPsicologiaServicio servicio;
-    
+
     @PostConstruct
-    public void init(){
-    
-        servicio= new TallerPsicologiaServicio();
-        
-        listaTalleresPsicologia= new ArrayList<>();
-        listaTalleresPsicologia=servicio.listaTalleresPsicologia();
-        
+    public void init() {
+
+        servicio = new TallerPsicologiaServicio();
+
+        listaTalleresPsicologia = new ArrayList<>();
+        listaTalleresPsicologia = servicio.listaTalleresPsicologia();
+
     }
 
     public List<TallerPsicologia> getListaTalleresPsicologia() {
@@ -48,19 +39,23 @@ public class PanelPsicologiaControlador implements Serializable{
         return servicio;
     }
 
-    public String verTallerPsicologia(TallerPsicologia taller){
-        
-        try{
-        
+    public String verTallerPsicologia(TallerPsicologia taller) {
+
+        try {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia", taller);
             return "/paginas/psicologia/taller_psicologia.com?faces-redirect=true";
-            
-        }catch(Exception ex){
+
+        } catch (Exception ex) {
             return null;
         }
-        
-        
     }
-    
-    
+
+    public String agregarInformePsicologia(TallerPsicologia taller) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia", taller);
+            return "/paginas/psicologia/informe_psicologia.com?faces-redirect=true";
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

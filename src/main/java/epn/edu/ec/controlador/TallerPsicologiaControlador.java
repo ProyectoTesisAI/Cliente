@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package epn.edu.ec.controlador;
 
 import epn.edu.ec.modelo.AdolescenteInfractorUDI;
@@ -20,7 +15,6 @@ import epn.edu.ec.servicios.TallerPsicologiaServicio;
 import epn.edu.ec.servicios.UdiServicio;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,25 +23,17 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
-/**
- *
- * @author User
- */
 @Named(value = "tallerPsicologiaControlador")
 @ViewScoped
 public class TallerPsicologiaControlador implements Serializable{
@@ -168,8 +154,6 @@ public class TallerPsicologiaControlador implements Serializable{
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "AÚN NO HA GUARDADO EL REGISTRO DE ASISTENCIA","Aviso" ));
                 }
             }
-            
-            
         }
     }
 
@@ -410,8 +394,7 @@ public class TallerPsicologiaControlador implements Serializable{
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO HAY ADOLESCENTES INFRACTORES EN LA "+tallerPsicologia.getIdUdi().getUdi(),"Aviso" ));
             }
             else{
-                if(registroAux.size()>0){
-                    
+                if(registroAux.size()>0){                    
                     //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ADOLESCENTES INFRACTORES PERTENECIENTES A "+tallerPsicologia.getIdUdi().getUdi(),"Aviso" ));
                     listaAdolescentesUzdi=registroAux;
                 }
@@ -470,8 +453,7 @@ public class TallerPsicologiaControlador implements Serializable{
             registroAsistencia.setIdRegistroAsistencia(tallerPsicologia);
             RegistroAsistencia registroAsistenciaAux= controladorAsistencia.guardarRegistroAsistencia(registroAsistencia);
         
-            if(registroAsistenciaAux!=null){
-                
+            if(registroAsistenciaAux!=null){                
                 int asistenciaAdolescentes=0;
                 
                 for(AdolescenteInfractorUDI a : listaAdolescentesUzdi){
