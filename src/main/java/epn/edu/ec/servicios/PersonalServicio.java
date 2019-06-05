@@ -35,7 +35,7 @@ public class PersonalServicio {
             System.out.println("Login correcto");
             personal=response.readEntity(new GenericType<Personal>(){});
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("personalSesion", personal);
-            url = "/paginas/inicio/udi.com?faces-redirect=true";
+            url = "/paginas/psicologia/panel_psicologia.com?faces-redirect=true";
         } else {
             System.out.println("No existe el usuario");
         }

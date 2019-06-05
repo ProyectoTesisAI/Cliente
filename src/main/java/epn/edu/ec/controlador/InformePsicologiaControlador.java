@@ -1,23 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package epn.edu.ec.controlador;
 
-import epn.edu.ec.modelo.CAI;
+import epn.edu.ec.modelo.AdolescenteInfractorUDI;
 import epn.edu.ec.modelo.Fotografia;
 import epn.edu.ec.modelo.InformePsicologia;
 import epn.edu.ec.modelo.ItemInformePsicologia;
+import epn.edu.ec.modelo.RegistroAsistenciaAdolescenteUDI;
 import epn.edu.ec.modelo.RegistroFotografico;
 import epn.edu.ec.modelo.TallerPsicologia;
-import epn.edu.ec.modelo.UDI;
-import epn.edu.ec.servicios.CaiServicio;
 import epn.edu.ec.servicios.InformePsicologiaServicio;
 import epn.edu.ec.servicios.ItemInformePsicologiaServicio;
+import epn.edu.ec.servicios.RegistroAsistenciaAdolescenteUDIServicio;
+import epn.edu.ec.servicios.RegistroAsistenciaServicio;
 import epn.edu.ec.servicios.RegistroFotograficoServicio;
 import epn.edu.ec.servicios.TallerPsicologiaServicio;
-import epn.edu.ec.servicios.UdiServicio;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,10 +27,6 @@ import javax.faces.view.ViewScoped;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-/**
- *
- * @author User
- */
 @Named(value = "informePsicologiaControlador")
 @ViewScoped
 public class InformePsicologiaControlador implements Serializable{
@@ -54,10 +45,17 @@ public class InformePsicologiaControlador implements Serializable{
     ItemInformePsicologiaServicio controladorItemInforme;
     TallerPsicologiaServicio controladorTaller;
     
-    ///////////////////////////////////////////////
+    //Registro Fotografico
     RegistroFotografico registroFotografico;
     RegistroFotograficoServicio controladorRegistroFotografico;
-    ///////////////////////////////////////////////
+    
+    //Lista de asistentes de UDI que son provenientes de el taller
+    RegistroAsistenciaServicio controladorAsistencia;
+    RegistroAsistenciaAdolescenteUDIServicio controladorAsistenciaUDI;
+
+    List<AdolescenteInfractorUDI> listaAdolescentesUzdi;
+    List<RegistroAsistenciaAdolescenteUDI> listaParaChequeo;
+    
     boolean informeGuardado=false;
     boolean registroAsistenciaGuardado=true;
     
@@ -69,10 +67,15 @@ public class InformePsicologiaControlador implements Serializable{
         controladorItemInforme= new ItemInformePsicologiaServicio();
         controladorTaller= new TallerPsicologiaServicio();
         controladorRegistroFotografico= new RegistroFotograficoServicio();
+        controladorAsistencia = new RegistroAsistenciaServicio();
+        controladorAsistenciaUDI = new RegistroAsistenciaAdolescenteUDIServicio();
         
         informePsicologia= new InformePsicologia();
         tallerPsicologia= new TallerPsicologia();
         registroFotografico= new RegistroFotografico();
+        
+        listaAdolescentesUzdi = new ArrayList<>();
+        listaParaChequeo = new ArrayList<>();
         
         item1= new ItemInformePsicologia();
         item2= new ItemInformePsicologia();
@@ -88,12 +91,22 @@ public class InformePsicologiaControlador implements Serializable{
         itemsInformePsicologia.add(item5);
         
         
-        InformePsicologia informePsicologiaAux= (InformePsicologia)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("informe_psicologia");
+        TallerPsicologia tallerPsicologiaRescatado = (TallerPsicologia) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("taller_psicologia");
+
+        if (tallerPsicologiaRescatado != null) {
+            tallerPsicologia = tallerPsicologiaRescatado;
+            obtenerRegistroAsistencia();
+        }
         
-        if(informePsicologiaAux != null){
-            informePsicologia=informePsicologiaAux;
-            informeGuardado=true;
-            registroAsistenciaGuardado=false;
+        InformePsicologia informePsicologiaAux = (InformePsicologia) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("informe_psicologia");
+
+        if (informePsicologiaAux != null) {
+            informePsicologia = informePsicologiaAux;
+            informeGuardado = true;
+            registroAsistenciaGuardado = false;
+        } else {
+            //InformePsicologia informePsicologiaGenerico = controlador.
+            informeGuardado = false;
         }
 
     }
@@ -183,6 +196,22 @@ public class InformePsicologiaControlador implements Serializable{
         this.registroFotografico = registroFotografico;
     }
 
+    public List<AdolescenteInfractorUDI> getListaAdolescentesUzdi() {
+        return listaAdolescentesUzdi;
+    }
+
+    public void setListaAdolescentesUzdi(List<AdolescenteInfractorUDI> listaAdolescentesUzdi) {
+        this.listaAdolescentesUzdi = listaAdolescentesUzdi;
+    }
+    
+    public List<RegistroAsistenciaAdolescenteUDI> getListaParaChequeo() {
+        return listaParaChequeo;
+    }
+
+    public void setListaParaChequeo(List<RegistroAsistenciaAdolescenteUDI> listaParaChequeo) {
+        this.listaParaChequeo = listaParaChequeo;
+    }
+
     public RegistroFotograficoServicio getControladorRegistroFotografico() {
         return controladorRegistroFotografico;
     }
@@ -217,7 +246,7 @@ public class InformePsicologiaControlador implements Serializable{
 
     
 
-    public void guardarInformePsicologia(){
+    public String guardarInformePsicologia(){
         
         try{
             int itemsGuardados=0;
@@ -229,7 +258,6 @@ public class InformePsicologiaControlador implements Serializable{
                     i.setIdInformePsicologia(informePsicologiaAux);
                     controladorItemInforme.guardarItemInformePsicologia(i);
                     itemsGuardados++;
-
                 }
                 
                 if(itemsGuardados >0 && itemsGuardados==itemsInformePsicologia.size()){
@@ -240,7 +268,7 @@ public class InformePsicologiaControlador implements Serializable{
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("informe_psicologia", informePsicologiaAux);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL INFORME DE PSICOLOGÍA","Aviso" ));
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "AHORA PUEDE GUARDAR EL REGISTRO DE ASISTENCIA","Aviso" ));
-                    
+                    return "/paginas/psicologia/informe_psicologia.com?faces-redirect=true";
                 }
             }
             else{
@@ -249,7 +277,29 @@ public class InformePsicologiaControlador implements Serializable{
             
         }catch(Exception e){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "HA OCURRIDO UN ERROR AL GUARDAR EL TALLER DE PSICOLOGÍA","Aviso" ));
-        }  
+        }
+        return null;
+    }
+    
+    public void obtenerRegistroAsistencia() {
+
+        if (tallerPsicologia == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO SE HA PODIDO CARGAR EL TALLER", "Aviso"));
+        } else {
+            List<RegistroAsistenciaAdolescenteUDI> registroAux = controladorAsistencia.listaAdolescentesInfractoresPorTaller(tallerPsicologia);
+            if (registroAux == null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO HAY ADOLESCENTES INFRACTORES EN EL " + tallerPsicologia.getIdTallerPsicologia(), "Aviso"));
+            } else {
+                if (registroAux.size() > 0) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ADOLESCENTES INFRACTORES PERTENECIENTES A " + tallerPsicologia.getIdUdi().getUdi(), "Aviso"));
+                    listaParaChequeo = registroAux;
+                    for (AdolescenteInfractorUDI a : listaAdolescentesUzdi) {
+                        System.out.println("adolescente: " + a);
+
+                    }
+                }
+            }
+        }
     }
     
     public void subirFoto(FileUploadEvent evento) {
