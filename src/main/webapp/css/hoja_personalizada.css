@@ -110,6 +110,7 @@ body{
     margin-left: 250px;
     padding: 50px;
     position: relative;
+    
 }
 
 @media(max-width:760px){
@@ -117,6 +118,7 @@ body{
     #contenido{
         margin: 0px;
         padding: 50px;
+        width: calc(100% - 250px);
     }
     #menu_lateral{
         display: none;
