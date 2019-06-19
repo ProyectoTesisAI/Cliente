@@ -6,13 +6,17 @@
 package epn.edu.ec.servicios;
 
 import epn.edu.ec.modelo.InformePsicologia;
+import epn.edu.ec.modelo.ItemInformePsicologia;
+import epn.edu.ec.modelo.ItemTallerPsicologia;
 import epn.edu.ec.modelo.RegistroFotografico;
 import epn.edu.ec.utilidades.Constantes;
+import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -42,6 +46,32 @@ public class InformePsicologiaServicio {
         
         return informePsicologiaAux;
 
+    }
+    
+    public List<ItemInformePsicologia> obtenerItemsPorInformePsicologia(Integer idInformePsicologia){
+        
+        List<ItemInformePsicologia> listaItemsInformePsicologia=null;
+        
+        WebTarget webTarget=cliente.target(URL_INFORME_PSICOLOGIA+"/ItemsInformePsicologia").path(idInformePsicologia.toString());        
+        Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");        
+        Response response =invocationBuilder.get();
+        if(response.getStatus()==200){
+            listaItemsInformePsicologia= response.readEntity(new GenericType<List<ItemInformePsicologia>>(){});
+        }           
+        return listaItemsInformePsicologia;
+    }
+
+    public List<InformePsicologia> listarInformePsicologia(){
+        
+        List<InformePsicologia> listaItemsInformePsicologia=null;
+        
+        WebTarget webTarget=cliente.target(URL_INFORME_PSICOLOGIA);        
+        Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");        
+        Response response =invocationBuilder.get();
+        if(response.getStatus()==200){
+            listaItemsInformePsicologia= response.readEntity(new GenericType<List<InformePsicologia>>(){});
+        }           
+        return listaItemsInformePsicologia;
     }
     
 }

@@ -55,7 +55,20 @@ public class TallerPsicologiaServicio {
         
         List<TallerPsicologia> listaActividadesAux=null;
         
-        WebTarget webTarget=cliente.target(URL_TALLER_PSICOLOGIA);        
+        WebTarget webTarget=cliente.target(URL_TALLER_PSICOLOGIA+"/TalleresSinInforme");        
+        Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");        
+        Response response =invocationBuilder.get();
+        if(response.getStatus()==200){
+            listaActividadesAux= response.readEntity(new GenericType<List<TallerPsicologia>>(){});
+        }           
+        return listaActividadesAux;
+    }
+    
+    public List<TallerPsicologia> listaTalleresPsicologiaConInforme(){
+        
+        List<TallerPsicologia> listaActividadesAux=null;
+        
+        WebTarget webTarget=cliente.target(URL_TALLER_PSICOLOGIA+"/TalleresConInforme");        
         Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");        
         Response response =invocationBuilder.get();
         if(response.getStatus()==200){

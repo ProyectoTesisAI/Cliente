@@ -8,6 +8,7 @@ package epn.edu.ec.controlador;
 import epn.edu.ec.modelo.AdolescenteInfractorUDI;
 import epn.edu.ec.modelo.Representante;
 import epn.edu.ec.servicios.RepresentanteServicio;
+import epn.edu.ec.utilidades.EnlacesPrograma;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -26,9 +27,12 @@ public class RepresentanteControlador implements Serializable{
     private Representante representante;
     private RepresentanteServicio servicio;
     private boolean guardado;
+    private EnlacesPrograma enlaces;
     
     @PostConstruct
     public void init(){
+        
+        enlaces= new EnlacesPrograma();
         servicio= new RepresentanteServicio();
         
         representante= new Representante();
@@ -84,7 +88,7 @@ public class RepresentanteControlador implements Serializable{
 
         Representante representanteAux = servicio.guardarRepresentante(representante);
         if(representanteAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";    
         }
         else{
             return null;

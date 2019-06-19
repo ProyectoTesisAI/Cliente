@@ -17,8 +17,8 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class AdolescenteInfractorCAIControlador implements Serializable {
 
-    private AdolescenteInfractorCAI adolescenteInfractorCAI;
-    private List<AdolescenteInfractorCAI> listadoAdolescentesInfractoresCAI;
+    private AdolescenteInfractorCAI adolescenteInfractorCAIEditar;
+    private AdolescenteInfractorCAI adolescenteInfractorCAICrear;
     private AdolescenteInfractorCAIServicio servicio;
     private boolean guardado;
 
@@ -34,39 +34,44 @@ public class AdolescenteInfractorCAIControlador implements Serializable {
         provincias = new ArrayList<>();
         servicioCAIPC = new DatosProvinciaCantonServicio();
 
-        adolescenteInfractorCAI = new AdolescenteInfractorCAI();
-        adolescenteInfractorCAI = (AdolescenteInfractorCAI) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_cai");
+        adolescenteInfractorCAICrear= new AdolescenteInfractorCAI();
+        
+        adolescenteInfractorCAIEditar = new AdolescenteInfractorCAI();
+        AdolescenteInfractorCAI adolescenteInfractorCAIAux = (AdolescenteInfractorCAI) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_cai");
 
-        if (adolescenteInfractorCAI != null) {
-            AdolescenteInfractorCAI adolescenteInfractorUDIAux = servicio.obtenerAdolescenteInfractorCAI(adolescenteInfractorCAI.getIdAdolescenteCai());
-            if (adolescenteInfractorUDIAux != null) {
-                adolescenteInfractorCAI = adolescenteInfractorUDIAux;
-                guardado = true;
-            }
-        } else {
-            adolescenteInfractorCAI = new AdolescenteInfractorCAI();
-        }
-        listadoAdolescentesInfractoresCAI = new ArrayList<>();
-
-        listadoAdolescentesInfractoresCAI = servicio.listaAdolescentesInfractoresCAI();
-
+        if (adolescenteInfractorCAIAux != null) {
+            adolescenteInfractorCAIEditar = adolescenteInfractorCAIAux;
+            guardado = true;
+            
+        } 
+        
         provincias = servicioCAIPC.listarDatosProvinciaCanton();
     }
 
-    public AdolescenteInfractorCAI getAdolescenteInfractorCAI() {
-        return adolescenteInfractorCAI;
+    public AdolescenteInfractorCAI getAdolescenteInfractorCAICrear() {
+        return adolescenteInfractorCAICrear;
     }
 
-    public void setAdolescenteInfractorCAI(AdolescenteInfractorCAI adolescenteInfractorCAI) {
-        this.adolescenteInfractorCAI = adolescenteInfractorCAI;
+    public void setAdolescenteInfractorCAICrear(AdolescenteInfractorCAI adolescenteInfractorCAICrear) {
+        this.adolescenteInfractorCAICrear = adolescenteInfractorCAICrear;
     }
 
-    public List<AdolescenteInfractorCAI> getListadoAdolescentesInfractoresCAI() {
-        return listadoAdolescentesInfractoresCAI;
+    public List<DatosProvinciaCanton> getProvincias() {
+        return provincias;
     }
 
-    public void setListadoAdolescentesInfractoresCAI(List<AdolescenteInfractorCAI> listadoAdolescentesInfractoresCAI) {
-        this.listadoAdolescentesInfractoresCAI = listadoAdolescentesInfractoresCAI;
+    public void setProvincias(List<DatosProvinciaCanton> provincias) {
+        this.provincias = provincias;
+    }
+    
+    
+
+    public AdolescenteInfractorCAI getAdolescenteInfractorCAIEditar() {
+        return adolescenteInfractorCAIEditar;
+    }
+
+    public void setAdolescenteInfractorCAIEditar(AdolescenteInfractorCAI adolescenteInfractorCAIEditar) {
+        this.adolescenteInfractorCAIEditar = adolescenteInfractorCAIEditar;
     }
 
     public AdolescenteInfractorCAIServicio getServicio() {
@@ -94,19 +99,17 @@ public class AdolescenteInfractorCAIControlador implements Serializable {
 
     public List<DatosProvinciaCanton> getCantones() {
         cantones = new ArrayList<>();
-        String provincia = adolescenteInfractorCAI.getProvinciaAdolescente();
-        System.out.println("Provincia del adoles: "+provincia);
+        String provincia = adolescenteInfractorCAIEditar.getProvinciaAdolescente();
+        
         if (provincia != null) {
             cantones = listarCantonesPorProvincia(provincia);
-        } else {
-            System.out.println("No hay provincia seleccionada");
         }
         return cantones;
     }
 
     //Métodos para invocar a los diferentes servicios web************
     public String guardarAdolescenteInfractor() {
-        AdolescenteInfractorCAI ai_cai = servicio.guardarAdolescenteInfractorCAI(this.adolescenteInfractorCAI);
+        AdolescenteInfractorCAI ai_cai = servicio.guardarAdolescenteInfractorCAI(this.adolescenteInfractorCAICrear);
         if (ai_cai != null) {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("adolescente_infractor_cai", ai_cai);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se ha guardado correctamente el Adolescente ", "Aviso"));
@@ -115,32 +118,6 @@ public class AdolescenteInfractorCAIControlador implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ha ocurrido un error, no se guardó el Adolescente Infractor", "Error"));
             return null;
         }
-    }
-
-    public String agregarInformacion(AdolescenteInfractorCAI ai_udi) {
-
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("adolescente_infractor_cai", ai_udi);
-        return "/paginas/cai/matriz/panel_crear_cai.com?faces-redirect=true";
-    }
-
-    public String editarAdolescenteInfractor(Integer id) {
-        //return servicio.editarAdolescenteInfractorCAI(id);
-        return null;
-    }
-
-    public String actualizarAdolescenteInfractor(AdolescenteInfractorCAI ai) {
-        //return servicio.actualizarAdolescenteInfractorCAI(ai);
-        return null;
-    }
-
-    public String verDatos(Integer id) {
-        //return servicio.verDatos(id);
-        return null;
-    }
-
-    public String eliminarAdolescenteInfractor(Integer id) {
-        //return servicio.eliminarAdolescenteInfractor(id);
-        return null;
     }
 
 }
