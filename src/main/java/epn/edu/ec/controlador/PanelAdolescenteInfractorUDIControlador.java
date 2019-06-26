@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -45,5 +46,24 @@ public class PanelAdolescenteInfractorUDIControlador implements Serializable{
         
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("adolescente_infractor_udi", ai_udi);
         return "/paginas/udi/matriz/panel_crear_udi.com?faces-redirect=true";
+    }
+    
+    public String editarInformacion(AdolescenteInfractorUDI ai_udi){
+        
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("adolescente_infractor_udi", ai_udi);
+        return "/paginas/udi/matriz/panel_editar_udi.com?faces-redirect=true";
+    }
+    
+    public String eliminarAdolescenteInfractor(AdolescenteInfractorUDI adolescenteSeleccionado){
+        
+        int statusRespuesta=servicio.eliminarAdolescenteInfractor(adolescenteSeleccionado.getId_adolescente_udi_pk());
+        
+        if(statusRespuesta==200){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se ha eliminado correctamente el Adolescente Infractor ","Aviso" ));
+        }
+        else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ha ocurrido un error guardadando el Adolescente Infrctor","Error" ));
+        }
+        return "/paginas/udi/udi.com?faces-redirect=true";
     }
 }

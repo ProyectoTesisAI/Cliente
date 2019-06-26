@@ -50,7 +50,6 @@ public class UnidadZonalControlador implements Serializable{
             UnidadZonal unidadZonalAux= obtenerUnidadZonal(adolescenteInfractorUDI.getId_adolescente_udi_pk());
             if(unidadZonalAux!=null){
                 unidadZonal=unidadZonalAux;
-                udi=unidadZonalAux.getIdUdi();
                 guardado=true;
             }            
         }
@@ -117,6 +116,11 @@ public class UnidadZonalControlador implements Serializable{
     
     public String guardarUnidadZonal(){
         
+        for(UDI u: listaUDI){
+            if(u.getUdi().equals(unidadZonal.getIdUdi().getUdi())){
+                udi=u;
+            }
+        }
         this.unidadZonal.setIdUdi(udi);
         this.unidadZonal.setIdUnidadZonal(adolescenteInfractorUDI);
         UnidadZonal uz= servicio.guardarUnidadZonal(unidadZonal);

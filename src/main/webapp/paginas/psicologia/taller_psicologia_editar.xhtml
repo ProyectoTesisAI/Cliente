@@ -32,7 +32,7 @@
                                 
                                 <b:tab title="Taller Psicología">
                                     <h:form id="formTallerPsicologia" >                                
-                                        <b:panel content-disabled="#{tallerPsicologiaEditarControlador.tallerGuardado}" style="border: transparent;" >
+                                        <b:panel content-disabled="#{!tallerPsicologiaEditarControlador.tallerGuardado}" style="border: transparent;" >
 
                                             <div class="row"  style="margin-top: 50px;">
                                                 <div class="col-md-10 col-md-offset-1">
@@ -70,7 +70,6 @@
                                                         <b:selectOneMenu id="selecTipoCentro" required="true" update="tipoCentro" process="@this" value="#{tallerPsicologiaEditarControlador.tipoCentro}" >
                                                             <f:selectItem itemLabel="UZDI"  itemValue="UZDI"/>
                                                             <f:selectItem itemLabel="CAI"  itemValue="CAI"/>
-                                                            <!--<f:ajax render=":formPsicologia:tipoCentro" />-->
                                                         </b:selectOneMenu>
                                                     </div>
                                                 </div>
@@ -79,9 +78,9 @@
                                                     <div class="col-md-3 col-md-offset-1">
                                                         <div class="form-group">
                                                             <h:outputLabel for="txtUzdi"  value="UZDI" rendered="#{tallerPsicologiaEditarControlador.esUzdi}"/>
-                                                            <b:selectOneMenu id="txtUzdi" required="true" rendered="#{tallerPsicologiaEditarControlador.esUzdi}" value="#{tallerPsicologiaEditarControlador.tallerPsicologiaEditar.idUdi}" update="txtNumeroTotalParticipantes" process="@this">
+                                                            <b:selectOneMenu id="txtUzdi" required="true"  value="#{tallerPsicologiaEditarControlador.udi.udi}" update="txtNumeroTotalParticipantes" process="@this">
                                                                 <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
-                                                                <f:selectItems value="#{tallerPsicologiaEditarControlador.listaUdi}" var="u" itemValue="#{u}" itemLabel="#{u.udi}" />
+                                                                <f:selectItems value="#{tallerPsicologiaEditarControlador.listaUdi}" var="u" itemValue="#{u.udi}" itemLabel="#{u.udi}" />
                                                             </b:selectOneMenu>
                                                             <h:outputLabel for="txtCai" value="CAI" rendered="#{!tallerPsicologiaEditarControlador.esUzdi}"/>
                                                             <b:selectOneMenu id="txtCai" required="true" rendered="#{!tallerPsicologiaEditarControlador.esUzdi}" value="#{tallerPsicologiaEditarControlador.tallerPsicologiaEditar.idCai}" update="txtNumeroTotalParticipantes" process="@this">
@@ -183,7 +182,7 @@
                                             <div class="row" style="margin-bottom: 20px; margin-top: 20px;">
                                                 <div class=" col-md-2 col-md-offset-9">
                                                     <div class="form-group">
-                                                        <b:commandButton id="btnTaller" value="Guardar" class="btn btn-primary btn-block" action="#{tallerPsicologiaEditarControlador.guardarTallerPsicologia()}">
+                                                        <b:commandButton id="btnTaller" value="Guardar" class="btn btn-primary btn-block" action="#{tallerPsicologiaEditarControlador.editarTallerPsicologia()}">
                                                         </b:commandButton>
                                                         <b:growl id="growlTallerPsicologia" for="btnTaller" globalOnly="false" severity="info,error"/>
                                                     </div>   
@@ -198,7 +197,7 @@
 
                                     <h:form id="formRegistroAsistenciaPsicologia">
 
-                                        <b:panel content-disabled="#{tallerPsicologiaEditarControlador.registroAsistenciaGuardado}" style="border: transparent">
+                                        <b:panel content-disabled="#{!tallerPsicologiaEditarControlador.registroAsistenciaGuardado}" style="border: transparent">
 
                                             <div class="row" style="margin-top: 50px;">
                                                 <div class="col-md-10 col-md-offset-1 ">
@@ -228,9 +227,6 @@
                                             <div class="row" style="margin-top: 20px;">
 
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <!--b:commandButton rendered="false" id="btnObtenerAsistencia" ajax="true" value="Obtener Registro de Asistencia" class="btn btn-success" actionListener="#{tallerPsicologiaEditarControlador.generarRegistroAsistencia()}" >
-                                                        <f:ajax execute="dtRegistroAsistencia growlRegistro" render="dtRegistroAsistencia growlRegistro"/>
-                                                    </b:commandButton-->
                                                     <b:growl id="growlRegistro" globalOnly="false" severity="info,warn,error"/>
                                                 </div>                                          
 

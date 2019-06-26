@@ -82,6 +82,4 @@ public class AdolescenteInfractorUDIControlador implements Serializable{
             return null;
         }        
     }
-    
-    
 }

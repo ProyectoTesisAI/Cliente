@@ -336,8 +336,11 @@ public class InformePsicologiaControlador implements Serializable{
         
             registroFotografico.setDescripcion("Foto subida desde la app web");
             registroFotografico.setImagen(imagen);
-            
-            RegistroFotografico registroFotograficoAux= controladorRegistroFotografico.guardarRegistroFotografico(registroFotografico);
+            registroFotografico.setIdInformePsicologia(informePsicologia);
+            RegistroFotografico registroFotograficoAux = controladorRegistroFotografico.guardarRegistroFotografico(registroFotografico);
+            if(registroFotograficoAux.getFoto()!=null){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se ha guardado correctamente la imagen", "Aviso"));
+            }
             registroFotografico=registroFotograficoAux;
         }
         catch (IOException e) {

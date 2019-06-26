@@ -50,6 +50,21 @@ public class TallerPsicologiaServicio {
         return tallerPsicologiaAux;
 
     }
+    
+    public TallerPsicologia editarTallerPsicologia(TallerPsicologia taller){
+        
+        TallerPsicologia tallerPsicologiaAux=null;
+        
+        WebTarget webTarget=cliente.target(URL_TALLER_PSICOLOGIA);        
+        Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");     
+        Response response =invocationBuilder.put(Entity.entity(taller, MediaType.APPLICATION_JSON+";charset=UTF-8"));
+        if(response.getStatus()==200){
+            tallerPsicologiaAux =response.readEntity(TallerPsicologia.class);
+        }
+        
+        return tallerPsicologiaAux;
+
+    }
         
     public List<TallerPsicologia> listaTalleresPsicologia(){
         

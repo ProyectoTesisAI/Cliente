@@ -48,6 +48,7 @@ public class TallerPsicologiaEditarControlador implements Serializable{
     
     //////////variables usadas para el Taller Psicologia/////////
     TallerPsicologia tallerPsicologiaEditar;
+    UDI udi;
     
     List<UDI> listaUdi; 
     List<CAI> listaCai;
@@ -94,12 +95,10 @@ public class TallerPsicologiaEditarControlador implements Serializable{
         
         tallerPsicologiaEditar= new TallerPsicologia();
         registroAsistencia= new RegistroAsistencia();
+        udi= new UDI();
         listaCai= new ArrayList<>();
         listaUdi= new ArrayList<>();
         listaAdolescentesUzdi= new ArrayList<>();
-        
-        listaCai=controladorCai.listaCai(); //muestro la lista de CAIs rescatadas de la base de datos
-        listaUdi=controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de datos
 
         item1= new ItemTallerPsicologia();
         item2= new ItemTallerPsicologia();
@@ -115,10 +114,12 @@ public class TallerPsicologiaEditarControlador implements Serializable{
         listaItemsTallerPsicologia.add(item5);
         
         if(isEsUzdi()){
-            tipoCentro="UZDI";
+            tipoCentro="UZDI";           
+            listaUdi=controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de datos
         }
         else{
             tipoCentro="CAI";
+            listaCai=controladorCai.listaCai(); //muestro la lista de CAIs rescatadas de la base de datos
         }
         
         //////////EN EL CASO DE QUE EL TALLER SE HAYA GUARDADO////////////////////77
@@ -130,11 +131,13 @@ public class TallerPsicologiaEditarControlador implements Serializable{
             registroAsistenciaGuardado=false;
             if(tallerAux.getIdCai()!=null){
                 tipoCentro="CAI";
-                
+                esUzdi=false;
             }
             if(tallerAux.getIdUdi() != null){
                 tipoCentro="UZDI";
-                
+                esUzdi=true;
+                listaUdi=controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de datos
+                udi=tallerPsicologiaEditar.getIdUdi();
             }
             
             List<ItemTallerPsicologia> itemsAux= controlador.obtenerItemsPorTalleresPsicologia(tallerPsicologiaEditar.getIdTallerPsicologia());
@@ -189,10 +192,12 @@ public class TallerPsicologiaEditarControlador implements Serializable{
         if("UZDI".equals(tipoCentro)){
             System.out.println("Ha seleccionado UZDI");
             esUzdi=true;
+            listaUdi=controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de datos
         }
         else if("CAI".equals(tipoCentro)){
             System.out.println("Ha seleccionado CAI");
             esUzdi=false;
+            listaCai=controladorCai.listaCai(); //muestro la lista de CAIs rescatadas de la base de datos
         }    
      }
 
@@ -233,9 +238,15 @@ public class TallerPsicologiaEditarControlador implements Serializable{
     
     public Integer getNumeroParticipantes() {
         
-        if(tallerPsicologiaEditar.getIdUdi()!=null){
+        if(udi.getUdi()!=null){
             
-            numeroParticipantes=controlador.obtenerNumeroAdolescentePorUdi(tallerPsicologiaEditar.getIdUdi());
+            for(UDI u: listaUdi){
+                if(u.getUdi().equals(udi.getUdi())){
+                    udi=u;
+                    break;
+                }
+            }
+            numeroParticipantes=controlador.obtenerNumeroAdolescentePorUdi(udi);
             
         }
         else if(tallerPsicologiaEditar.getIdCai()!=null){
@@ -351,20 +362,36 @@ public class TallerPsicologiaEditarControlador implements Serializable{
     public void setIndiceTaller(int indiceTaller) {
         this.indiceTaller = indiceTaller;
     }
-    
-    
+
+    public UDI getUdi() {
+        return udi;
+    }
+
+    public void setUdi(UDI udi) {
+        this.udi = udi;
+    }
     
     /*****************************Eventos*********************************************/
     
-    public String guardarTallerPsicologia(){
+    public String editarTallerPsicologia(){
         
         try{
+            
             int itemsGuardados=0;
+            for(UDI u: listaUdi){
+                if(u.getUdi().equals(udi.getUdi())){
+                    udi=u;
+                    break;
+                }
+            }
+            tallerPsicologiaEditar.setIdUdi(udi);
             tallerPsicologiaEditar.setNumeroTotalParticipantes(numeroParticipantes);
-            TallerPsicologia taller= controlador.guardarTallerPsicologia(tallerPsicologiaEditar);
+            tallerPsicologiaEditar.setIdTallerPsicologia(tallerPsicologiaEditar.getIdTallerPsicologia());
+            TallerPsicologia taller= controlador.editarTallerPsicologia(tallerPsicologiaEditar);
 
             if(taller != null){
                 for(ItemTallerPsicologia i : listaItemsTallerPsicologia){
+                    i.setIdItemTallerPsicologia(i.getIdItemTallerPsicologia());
                     i.setIdTallerPsicologia(taller);
                     controladroItemTaller.guardarItemTallerPsicologia(i);
                     itemsGuardados++;
@@ -379,8 +406,7 @@ public class TallerPsicologiaEditarControlador implements Serializable{
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia", taller);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL TALLER DE PSICOLOGÍA","Aviso" ));
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "AHORA PUEDE GENERAR EL REGISTRO DE ASISTENCIA","Aviso" ));
-                    generarRegistroAsistencia();
-                    return "/paginas/psicologia/taller_psicologia.com?faces-redirect=true";
+                    return "/paginas/psicologia/taller_psicologia_editar.com?faces-redirect=true";
                 }
             }
             else{

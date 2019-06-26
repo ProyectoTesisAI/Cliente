@@ -63,4 +63,17 @@ public class AdolescenteInfractorUDIServicio {
         }           
         return listaAdolescentesUDIAux;
     }
+    
+    public int eliminarAdolescenteInfractor(Integer id){
+        
+        int statusRespuesta=0;
+        
+        WebTarget webTarget=cliente.target(URL_ADOLESCENTE_INFRACTOR_UDI).path(id.toString());        
+        Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+ ";charset=UTF-8");        
+        Response response=invocationBuilder.delete();
+        if(response.getStatus() == 200){
+            statusRespuesta=200;
+        }
+        return statusRespuesta;
+    }
 }

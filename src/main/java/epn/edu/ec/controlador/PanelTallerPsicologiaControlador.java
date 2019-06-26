@@ -43,6 +43,17 @@ public class PanelTallerPsicologiaControlador implements Serializable {
 
         try {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia", taller);
+            return "/paginas/psicologia/taller_psicologia_ver.com?faces-redirect=true";
+
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+    
+    public String editarTallerPsicologia(TallerPsicologia taller) {
+
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia", taller);
             return "/paginas/psicologia/taller_psicologia_editar.com?faces-redirect=true";
 
         } catch (Exception ex) {

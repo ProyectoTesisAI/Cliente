@@ -101,7 +101,8 @@ public class InformePsicologiaEditarControlador implements Serializable{
             registroAsistenciaGuardado = false;
             
             tallerPsicologia=informePsicologiaAux.getIdTallerPsicologia();
-            
+            obtenerRegistroAsistencia();
+
             List<ItemInformePsicologia> itemsInforme=controlador.obtenerItemsPorInformePsicologia(informePsicologiaEditar.getIdInformePsicologia());
             
             if(itemsInforme!=null && itemsInforme.size()>0){
