@@ -4,62 +4,23 @@
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Psicología</title>
-        <link rel="stylesheet" href="../../css/bootstrap.min.css"/>
-        <script src="../../js/bootstrap.min.js"></script>
-        <link href="../../css/hoja_personalizada.css" rel="stylesheet" type="text/css"/>
-    </h:head>
+    
     <h:body>
-        <nav id="menu_superior" class="navbar navbar-default navbar-fixed-top" >
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu_navbar" aria-expanded="false" aria-controls="menu_navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="../../menu.com">Sistemas Reeducación</a>
-                </div>
-                <div class="collapse navbar-collapse" id="menu_navbar" aria-expanded="false" style="height: 1px;">     
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >Usuario</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Cerrar Sesión</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Cambiar Contrasña</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <div id="contenedor">
-            <div id="menu_lateral">
-                <li class="logo text-center">MENU PRINCIPAL</li>
-                <li><a href="#demo1" data-toggle="collapse" aria-expanded="false" data-parent="#MainMenu">Adolescentes Infractores</a></li>
-                <div class="collapse sub-menu" id="demo1">
-                    <li ><b:navLink  href="../adolescente_infractor_crear.com">UDI</b:navLink></li>
-                    <li ><b:navLink  href="../adolescente_infractor_cai_crear.com">CAI</b:navLink></li>
-                </div>
-                <li><b:navLink href="#">Personal Administrativo</b:navLink></li>
-                <li><b:navLink rendered="true"><a href="#demo3" data-toggle="collapse"  aria-expanded="false" data-parent="#MainMenu">Consultas</a></b:navLink></li>
-                <div class="collapse sub-menu" id="demo3">
-                    <li><b:navLink href="#SubMenu1"   >Subitem 1 </b:navLink></li>
-                    <li><b:navLink href="#" >Subitem 2</b:navLink></li>
-                </div>
-                <li><a href="#demo4" data-toggle="collapse" aria-expanded="false" data-parent="#MainMenu">Fichas </a></li>
-                <div class="collapse sub-menu" id="demo4">
-                    <li><b:navLink href="../psicologia/ficha_planificacion_taller.com" >Planificación de Taller</b:navLink></li>
-                    <li><b:navLink href="../psicologia/ficha_informe_taller.com" >Informe de Taller</b:navLink></li>
-                </div>
-            </div>
-
-            <div id="contenido">
-                <!-- Panel para la creación de la Ficha de Informe de Taller-->
+       <ui:composition template="./../../templates/psicologo.xhtml">
+            
+            <ui:define name="head">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                <link rel="stylesheet" type="text/css" href="../../resources/css/default.css"/>
+                <link rel="stylesheet" type="text/css" href="../../resources/css/cssLayout.css"/>
+                <link rel="stylesheet" type="text/css" href="../../resources/css/menu.css"/>
+                <link rel="stylesheet" type="text/css" href="../../resources/css/bootstrap.css"/>
+                <script src="../../resources/js/bootstrap.min.js"></script>
+            </ui:define>
+            
+            <ui:define name="content">
+               <!-- Panel para la creación de la Ficha de Informe de Taller-->
                 <div class="panel panel-default">
 
                     <div style="background-color: #337ab8; color: white; font-weight: bold" class="panel-heading text-center "> FICHA DE INFORME DE PSICOLOGÍA</div>
@@ -246,17 +207,20 @@
                                             <div class="row" style="margin-top: 35px;">
                                                 <div class="col-md-10 col-md-offset-1">
                                                     <b:dataTable id="dtRegistroAsistencia" value="#{informePsicologiaControlador.listaParaChequeo}"
-                                                                 var="ai"
-                                                                 searching="true"
-                                                                 select="true"
-                                                                 selectionMode="multiple"
-                                                                 responsive="false" >
+                                                                var="ai"
+                                                                fixed-header="true"
+                                                                scroll-x="true"
+                                                                scroll-size="1000px"
+                                                                responsive="true"
+                                                                searching="false"
+                                                                select="true"
+                                                                selectionMode="multiple"
+                                                                style="margin: auto; width: 100%;">
                                                         <b:dataTableColumn value="#{ai.idAdolescenteUdi.nombres}"/>
                                                         <b:dataTableColumn value="#{ai.idAdolescenteUdi.apellidos}"/>
                                                         <b:dataTableColumn value="#{ai.idAdolescenteUdi.cedula}"/>
-                                                        <b:dataTableColumn>
-                                                            <f:facet name="¿Asistió?"/>
-                                                            <b:selectBooleanCheckbox value="#{ai.asistio}"/>
+                                                        <b:dataTableColumn label="¿Asistió?">
+                                                            <b:selectBooleanCheckbox value="true"/>
                                                         </b:dataTableColumn>
                                                     </b:dataTable>
                                                 </div>
@@ -264,13 +228,38 @@
                                         </b:panel>
                                     </h:form>
                                 </b:tab>
+                                
+                                <b:tab title="Registro Fotográfico">
+                                    <h:form id="formRegistroFotografico">
+                                        <b:growl id="growlRegistroFotografico" for="idSubir" globalOnly="false" severity="info,error"/>
+                                        <p:fileUpload id="idSubir"
+                                                      fileUploadListener="#{informePsicologiaControlador.subirFoto}"
+                                                      sizeLimit="500000"
+                                                      cancelLabel="Cancelar"
+                                                      uploadLabel="Guardar"
+                                                      label="Seleccionar imagen"
+                                                      allowTypes="/(\.|\/)(gif|jpe?g|JPG|png)$/"
+                                                      update="growlRegistroFotografico"
+                                                      />   
+
+                                        <b:carousel id="registroFotografico" style="width: 360px;" interval="2500">
+                                            <b:carouselItem >
+                                                <img src="http://127.0.0.1:40040/SistemaReeducacion_Server/registro_fotografico/12595936_811632628966066_156389165_n.jpg" alt="Valladolid" style="width: 360px; height: 240px" />
+                                                <b:carouselCaption>
+                                                    <h2>You'll love Valladolid!</h2>
+                                                </b:carouselCaption>
+                                            </b:carouselItem>
+                                        </b:carousel>
+                                    </h:form>
+                                </b:tab>
                             </b:tabView>
                         </b:form>
                     </div>
                 </div>
                 <!-- Fin del Panel para la creación de Fichas de Planificación del Taller-->
-            </div>
-        </div> 
+                    
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>
 
