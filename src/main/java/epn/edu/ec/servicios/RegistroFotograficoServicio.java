@@ -39,7 +39,6 @@ public class RegistroFotograficoServicio {
         if(response.getStatus()==200){
             registroFotograficoAux =response.readEntity(RegistroFotografico.class);
         }
-        
         return registroFotograficoAux;
 
     }

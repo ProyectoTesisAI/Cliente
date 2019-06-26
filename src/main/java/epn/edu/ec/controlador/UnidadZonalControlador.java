@@ -5,6 +5,7 @@ import epn.edu.ec.modelo.UDI;
 import epn.edu.ec.modelo.UnidadZonal;
 import epn.edu.ec.servicios.UdiServicio;
 import epn.edu.ec.servicios.UnidadZonalServicio;
+import epn.edu.ec.utilidades.EnlacesPrograma;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +28,11 @@ public class UnidadZonalControlador implements Serializable{
     private UDI udi; 
     private List<UDI> listaUDI;
     private UdiServicio servicioUDI;
+    private EnlacesPrograma enlaces;
 
     @PostConstruct
     public void init(){
-        
+        enlaces= new EnlacesPrograma();
         servicio = new UnidadZonalServicio();
         servicioUDI = new UdiServicio();
         guardado=false;
@@ -48,7 +50,6 @@ public class UnidadZonalControlador implements Serializable{
             UnidadZonal unidadZonalAux= obtenerUnidadZonal(adolescenteInfractorUDI.getId_adolescente_udi_pk());
             if(unidadZonalAux!=null){
                 unidadZonal=unidadZonalAux;
-                udi=unidadZonalAux.getIdUdi();
                 guardado=true;
             }            
         }
@@ -115,11 +116,16 @@ public class UnidadZonalControlador implements Serializable{
     
     public String guardarUnidadZonal(){
         
+        for(UDI u: listaUDI){
+            if(u.getUdi().equals(unidadZonal.getIdUdi().getUdi())){
+                udi=u;
+            }
+        }
         this.unidadZonal.setIdUdi(udi);
         this.unidadZonal.setIdUnidadZonal(adolescenteInfractorUDI);
         UnidadZonal uz= servicio.guardarUnidadZonal(unidadZonal);
         if(uz!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";    
         }
         else{
             return null;

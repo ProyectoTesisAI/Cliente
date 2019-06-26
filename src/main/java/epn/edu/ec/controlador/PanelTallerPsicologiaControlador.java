@@ -10,9 +10,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
-@Named(value = "panelPsicologiaControlador")
+@Named(value = "panelTallerPsicologiaControlador")
 @ViewScoped
-public class PanelPsicologiaControlador implements Serializable {
+public class PanelTallerPsicologiaControlador implements Serializable {
 
     private List<TallerPsicologia> listaTalleresPsicologia;
     private TallerPsicologiaServicio servicio;
@@ -43,7 +43,18 @@ public class PanelPsicologiaControlador implements Serializable {
 
         try {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia", taller);
-            return "/paginas/psicologia/taller_psicologia.com?faces-redirect=true";
+            return "/paginas/psicologia/taller_psicologia_ver.com?faces-redirect=true";
+
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+    
+    public String editarTallerPsicologia(TallerPsicologia taller) {
+
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia", taller);
+            return "/paginas/psicologia/taller_psicologia_editar.com?faces-redirect=true";
 
         } catch (Exception ex) {
             return null;

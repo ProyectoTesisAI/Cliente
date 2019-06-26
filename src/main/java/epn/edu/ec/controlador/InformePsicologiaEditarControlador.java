@@ -27,11 +27,11 @@ import javax.faces.view.ViewScoped;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-@Named(value = "informePsicologiaControlador")
+@Named(value = "informePsicologiaEditarControlador")
 @ViewScoped
-public class InformePsicologiaControlador implements Serializable{
+public class InformePsicologiaEditarControlador implements Serializable{
 
-    InformePsicologia informePsicologia;
+    InformePsicologia informePsicologiaEditar;
     TallerPsicologia tallerPsicologia;
     
     ItemInformePsicologia item1;
@@ -70,7 +70,7 @@ public class InformePsicologiaControlador implements Serializable{
         controladorAsistencia = new RegistroAsistenciaServicio();
         controladorAsistenciaUDI = new RegistroAsistenciaAdolescenteUDIServicio();
         
-        informePsicologia= new InformePsicologia();
+        informePsicologiaEditar= new InformePsicologia();
         tallerPsicologia= new TallerPsicologia();
         registroFotografico= new RegistroFotografico();
         
@@ -91,22 +91,19 @@ public class InformePsicologiaControlador implements Serializable{
         itemsInformePsicologia.add(item5);
         
         
-        TallerPsicologia tallerPsicologiaRescatado = (TallerPsicologia) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("taller_psicologia");
-
-        if (tallerPsicologiaRescatado != null) {
-            tallerPsicologia = tallerPsicologiaRescatado;
-            obtenerRegistroAsistencia();
-        }
         
-        InformePsicologia informePsicologiaAux = (InformePsicologia) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("informe_psicologia");
+        InformePsicologia informePsicologiaAux = (InformePsicologia) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("informe_psicologia_editar");
 
         if (informePsicologiaAux != null) {
             
-            informePsicologia = informePsicologiaAux;
+            informePsicologiaEditar = informePsicologiaAux;
             informeGuardado = true;
             registroAsistenciaGuardado = false;
             
-            List<ItemInformePsicologia> itemsInforme=controlador.obtenerItemsPorInformePsicologia(informePsicologia.getIdInformePsicologia());
+            tallerPsicologia=informePsicologiaAux.getIdTallerPsicologia();
+            obtenerRegistroAsistencia();
+
+            List<ItemInformePsicologia> itemsInforme=controlador.obtenerItemsPorInformePsicologia(informePsicologiaEditar.getIdInformePsicologia());
             
             if(itemsInforme!=null && itemsInforme.size()>0){
                 itemsInformePsicologia=itemsInforme;
@@ -119,12 +116,12 @@ public class InformePsicologiaControlador implements Serializable{
 
     }
 
-    public InformePsicologia getInformePsicologia() {
-        return informePsicologia;
+    public InformePsicologia getInformePsicologiaEditar() {
+        return informePsicologiaEditar;
     }
 
-    public void setInformePsicologia(InformePsicologia informePsicologia) {
-        this.informePsicologia = informePsicologia;
+    public void setInformePsicologiaEditar(InformePsicologia informePsicologiaEditar) {
+        this.informePsicologiaEditar = informePsicologiaEditar;
     }
 
     public TallerPsicologia getTallerPsicologia() {
@@ -258,8 +255,8 @@ public class InformePsicologiaControlador implements Serializable{
         
         try{
             int itemsGuardados=0;
-            informePsicologia.setIdTallerPsicologia(tallerPsicologia);
-            InformePsicologia informePsicologiaAux= controlador.guardarInformePsicologia(this.informePsicologia);
+            informePsicologiaEditar.setIdTallerPsicologia(tallerPsicologia);
+            InformePsicologia informePsicologiaAux= controlador.guardarInformePsicologia(this.informePsicologiaEditar);
 
             if(informePsicologiaAux != null){
                 for(ItemInformePsicologia i : itemsInformePsicologia){
@@ -273,10 +270,10 @@ public class InformePsicologiaControlador implements Serializable{
                     informeGuardado=true;
                     registroAsistenciaGuardado=false; 
                     indiceInforme=1;
-                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("informe_psicologia", informePsicologiaAux);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("informe_psicologia_editar", informePsicologiaAux);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL INFORME DE PSICOLOGÍA","Aviso" ));
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "AHORA PUEDE GUARDAR EL REGISTRO DE ASISTENCIA","Aviso" ));
-                    return "/paginas/psicologia/informe_psicologia.com?faces-redirect=true";
+                    return "/paginas/psicologia/informe_psicologia_editar.com?faces-redirect=true";
                 }
             }
             else{
@@ -336,11 +333,8 @@ public class InformePsicologiaControlador implements Serializable{
         
             registroFotografico.setDescripcion("Foto subida desde la app web");
             registroFotografico.setImagen(imagen);
-            registroFotografico.setIdInformePsicologia(informePsicologia);
-            RegistroFotografico registroFotograficoAux = controladorRegistroFotografico.guardarRegistroFotografico(registroFotografico);
-            if(registroFotograficoAux.getFoto()!=null){
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se ha guardado correctamente la imagen", "Aviso"));
-            }
+            
+            RegistroFotografico registroFotograficoAux= controladorRegistroFotografico.guardarRegistroFotografico(registroFotografico);
             registroFotografico=registroFotograficoAux;
         }
         catch (IOException e) {

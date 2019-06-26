@@ -50,12 +50,40 @@ public class TallerPsicologiaServicio {
         return tallerPsicologiaAux;
 
     }
+    
+    public TallerPsicologia editarTallerPsicologia(TallerPsicologia taller){
+        
+        TallerPsicologia tallerPsicologiaAux=null;
+        
+        WebTarget webTarget=cliente.target(URL_TALLER_PSICOLOGIA);        
+        Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");     
+        Response response =invocationBuilder.put(Entity.entity(taller, MediaType.APPLICATION_JSON+";charset=UTF-8"));
+        if(response.getStatus()==200){
+            tallerPsicologiaAux =response.readEntity(TallerPsicologia.class);
+        }
+        
+        return tallerPsicologiaAux;
+
+    }
         
     public List<TallerPsicologia> listaTalleresPsicologia(){
         
         List<TallerPsicologia> listaActividadesAux=null;
         
-        WebTarget webTarget=cliente.target(URL_TALLER_PSICOLOGIA);        
+        WebTarget webTarget=cliente.target(URL_TALLER_PSICOLOGIA+"/TalleresSinInforme");        
+        Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");        
+        Response response =invocationBuilder.get();
+        if(response.getStatus()==200){
+            listaActividadesAux= response.readEntity(new GenericType<List<TallerPsicologia>>(){});
+        }           
+        return listaActividadesAux;
+    }
+    
+    public List<TallerPsicologia> listaTalleresPsicologiaConInforme(){
+        
+        List<TallerPsicologia> listaActividadesAux=null;
+        
+        WebTarget webTarget=cliente.target(URL_TALLER_PSICOLOGIA+"/TalleresConInforme");        
         Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");        
         Response response =invocationBuilder.get();
         if(response.getStatus()==200){

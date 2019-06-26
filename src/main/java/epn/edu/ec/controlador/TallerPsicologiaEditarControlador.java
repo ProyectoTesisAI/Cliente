@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package epn.edu.ec.controlador;
 
 import epn.edu.ec.modelo.AdolescenteInfractorUDI;
@@ -21,30 +26,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
-@Named(value = "tallerPsicologiaControlador")
+/**
+ *
+ * @author User
+ */
+@Named(value = "tallerPsicologiaEditarControlador")
 @ViewScoped
-public class TallerPsicologiaControlador implements Serializable{
+public class TallerPsicologiaEditarControlador implements Serializable{
 
+    
     //////////variables usadas para el Taller Psicologia/////////
-    TallerPsicologia tallerPsicologiaCrear;
+    TallerPsicologia tallerPsicologiaEditar;
     UDI udi;
     
     List<UDI> listaUdi; 
     List<CAI> listaCai;
-
+    
     ItemTallerPsicologia item1;
     ItemTallerPsicologia item2;
     ItemTallerPsicologia item3;
@@ -85,13 +93,13 @@ public class TallerPsicologiaControlador implements Serializable{
         controladorAsistenciaUDI= new RegistroAsistenciaAdolescenteUDIServicio();
         
         
-        tallerPsicologiaCrear= new TallerPsicologia();
+        tallerPsicologiaEditar= new TallerPsicologia();
         registroAsistencia= new RegistroAsistencia();
-        udi=new UDI();
-        listaAdolescentesUzdi= new ArrayList<>();
-        listaUdi= new ArrayList<>();
+        udi= new UDI();
         listaCai= new ArrayList<>();
-        
+        listaUdi= new ArrayList<>();
+        listaAdolescentesUzdi= new ArrayList<>();
+
         item1= new ItemTallerPsicologia();
         item2= new ItemTallerPsicologia();
         item3= new ItemTallerPsicologia();
@@ -106,7 +114,7 @@ public class TallerPsicologiaControlador implements Serializable{
         listaItemsTallerPsicologia.add(item5);
         
         if(isEsUzdi()){
-            tipoCentro="UZDI";
+            tipoCentro="UZDI";           
             listaUdi=controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de datos
         }
         else{
@@ -115,30 +123,31 @@ public class TallerPsicologiaControlador implements Serializable{
         }
         
         //////////EN EL CASO DE QUE EL TALLER SE HAYA GUARDADO////////////////////77
-        TallerPsicologia tallerAux= (TallerPsicologia)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("taller_psicologia_crear");
+        TallerPsicologia tallerAux= (TallerPsicologia)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("taller_psicologia");
         
         if(tallerAux != null){
-            tallerPsicologiaCrear=tallerAux;
+            tallerPsicologiaEditar=tallerAux;
             tallerGuardado=true;
             registroAsistenciaGuardado=false;
             if(tallerAux.getIdCai()!=null){
                 tipoCentro="CAI";
-                
+                esUzdi=false;
             }
             if(tallerAux.getIdUdi() != null){
                 tipoCentro="UZDI";
+                esUzdi=true;
                 listaUdi=controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de datos
-                udi=tallerPsicologiaCrear.getIdUdi();
-            }           
+                udi=tallerPsicologiaEditar.getIdUdi();
+            }
             
-            List<ItemTallerPsicologia> itemsAux= controlador.obtenerItemsPorTalleresPsicologia(tallerPsicologiaCrear.getIdTallerPsicologia());
+            List<ItemTallerPsicologia> itemsAux= controlador.obtenerItemsPorTalleresPsicologia(tallerPsicologiaEditar.getIdTallerPsicologia());
             if(itemsAux != null){
                 listaItemsTallerPsicologia=itemsAux;
                 generarRegistroAsistencia();
                 indiceTaller=1;
             }
             
-            RegistroAsistencia asistenciaAux= (RegistroAsistencia)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("registro_asistencia_crear");
+            RegistroAsistencia asistenciaAux= (RegistroAsistencia)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("registro_asistencia");
             //si la sesión del registro asistencia está vigente, ocurre cuando guardas el registro de asistencia
             if(asistenciaAux !=null){
                 registroAsistencia= asistenciaAux;
@@ -148,7 +157,7 @@ public class TallerPsicologiaControlador implements Serializable{
             }
             //en el caso de que no haya una sesión del registro de asistencia, ocurre cuando se desea ver el Taller a partir de otra página
             else{
-                RegistroAsistencia registroAsistenciaAux= controlador.obtenerRegistroAsistenciaPorTaller(tallerPsicologiaCrear.getIdTallerPsicologia());
+                RegistroAsistencia registroAsistenciaAux= controlador.obtenerRegistroAsistenciaPorTaller(tallerPsicologiaEditar.getIdTallerPsicologia());
                 if(registroAsistenciaAux!=null){
                     registroAsistencia=registroAsistenciaAux;
                     
@@ -161,12 +170,12 @@ public class TallerPsicologiaControlador implements Serializable{
         }
     }
 
-    public TallerPsicologia getTallerPsicologiaCrear() {
-        return tallerPsicologiaCrear;
+    public TallerPsicologia getTallerPsicologiaEditar() {
+        return tallerPsicologiaEditar;
     }
 
-    public void setTallerPsicologiaCrear(TallerPsicologia tallerPsicologiaCrear) {
-        this.tallerPsicologiaCrear = tallerPsicologiaCrear;
+    public void setTallerPsicologiaEditar(TallerPsicologia tallerPsicologiaEditar) {
+        this.tallerPsicologiaEditar = tallerPsicologiaEditar;
     }
 
     public TallerPsicologiaServicio getControlador() {
@@ -240,7 +249,7 @@ public class TallerPsicologiaControlador implements Serializable{
             numeroParticipantes=controlador.obtenerNumeroAdolescentePorUdi(udi);
             
         }
-        else if(tallerPsicologiaCrear.getIdCai()!=null){
+        else if(tallerPsicologiaEditar.getIdCai()!=null){
         
         }
         return numeroParticipantes;
@@ -362,13 +371,12 @@ public class TallerPsicologiaControlador implements Serializable{
         this.udi = udi;
     }
     
-    
-    
     /*****************************Eventos*********************************************/
     
-    public String guardarTallerPsicologia(){
+    public String editarTallerPsicologia(){
         
         try{
+            
             int itemsGuardados=0;
             for(UDI u: listaUdi){
                 if(u.getUdi().equals(udi.getUdi())){
@@ -376,12 +384,14 @@ public class TallerPsicologiaControlador implements Serializable{
                     break;
                 }
             }
-            tallerPsicologiaCrear.setIdUdi(udi);
-            tallerPsicologiaCrear.setNumeroTotalParticipantes(numeroParticipantes);
-            TallerPsicologia taller= controlador.guardarTallerPsicologia(tallerPsicologiaCrear);
+            tallerPsicologiaEditar.setIdUdi(udi);
+            tallerPsicologiaEditar.setNumeroTotalParticipantes(numeroParticipantes);
+            tallerPsicologiaEditar.setIdTallerPsicologia(tallerPsicologiaEditar.getIdTallerPsicologia());
+            TallerPsicologia taller= controlador.editarTallerPsicologia(tallerPsicologiaEditar);
 
             if(taller != null){
                 for(ItemTallerPsicologia i : listaItemsTallerPsicologia){
+                    i.setIdItemTallerPsicologia(i.getIdItemTallerPsicologia());
                     i.setIdTallerPsicologia(taller);
                     controladroItemTaller.guardarItemTallerPsicologia(i);
                     itemsGuardados++;
@@ -393,10 +403,10 @@ public class TallerPsicologiaControlador implements Serializable{
                     tallerGuardado=true;
                     registroAsistenciaGuardado=false; 
                     indiceTaller=1;
-                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia_crear", taller);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia", taller);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL TALLER DE PSICOLOGÍA","Aviso" ));
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "AHORA PUEDE GENERAR EL REGISTRO DE ASISTENCIA","Aviso" ));
-                    return "/paginas/psicologia/taller_psicologia.com?faces-redirect=true";
+                    return "/paginas/psicologia/taller_psicologia_editar.com?faces-redirect=true";
                 }
             }
             else{
@@ -411,13 +421,13 @@ public class TallerPsicologiaControlador implements Serializable{
     
     public void generarRegistroAsistencia(){
         
-        if( tallerPsicologiaCrear.getIdUdi() == null){
+        if( tallerPsicologiaEditar.getIdUdi() == null){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO SE HA SELECCIONADO UNIDAD ZONAL ","Aviso" ));
         }
         else{
-            List<AdolescenteInfractorUDI> registroAux = controladorAsistencia.listaAdolescentesInfractoresPorUzdi(tallerPsicologiaCrear.getIdUdi());
+            List<AdolescenteInfractorUDI> registroAux = controladorAsistencia.listaAdolescentesInfractoresPorUzdi(tallerPsicologiaEditar.getIdUdi());
             if(registroAux==null){
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO HAY ADOLESCENTES INFRACTORES EN LA "+tallerPsicologiaCrear.getIdUdi().getUdi(),"Aviso" ));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO HAY ADOLESCENTES INFRACTORES EN LA "+tallerPsicologiaEditar.getIdUdi().getUdi(),"Aviso" ));
             }
             else{
                 if(registroAux.size()>0){                    
@@ -438,7 +448,7 @@ public class TallerPsicologiaControlador implements Serializable{
         ruta= ruta.substring(6); 
 
         Map<String,Object> parametros= new HashMap<String,Object>();
-	parametros.put("txtUDI","REGISTRO DE ASISTENCIA "+ tallerPsicologiaCrear.getIdUdi().getUdi());
+	parametros.put("txtUDI","REGISTRO DE ASISTENCIA "+ tallerPsicologiaEditar.getIdUdi().getUdi());
 			       
         try{
            
@@ -475,8 +485,8 @@ public class TallerPsicologiaControlador implements Serializable{
     public void guardarRegistroAsistencia(){
     
         try{
-            registroAsistencia.setFecha(tallerPsicologiaCrear.getFecha());
-            registroAsistencia.setIdRegistroAsistencia(tallerPsicologiaCrear);
+            registroAsistencia.setFecha(tallerPsicologiaEditar.getFecha());
+            registroAsistencia.setIdRegistroAsistencia(tallerPsicologiaEditar);
             RegistroAsistencia registroAsistenciaAux= controladorAsistencia.guardarRegistroAsistencia(registroAsistencia);
         
             if(registroAsistenciaAux!=null){                
@@ -493,7 +503,7 @@ public class TallerPsicologiaControlador implements Serializable{
                 if(asistenciaAdolescentes>0 && asistenciaAdolescentes== listaAdolescentesUzdi.size()){
                     tallerGuardado=true;
                     registroAsistenciaGuardado=true;
-                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("registro_asistencia_crear", registroAsistenciaAux);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("registro_asistencia", registroAsistenciaAux);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL REGISTRO DE ASISTENCIA","Aviso" ));
                 }
             }
@@ -504,5 +514,4 @@ public class TallerPsicologiaControlador implements Serializable{
         
         
     }
- 
 }

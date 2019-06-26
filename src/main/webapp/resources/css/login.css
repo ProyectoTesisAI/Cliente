@@ -1,3 +1,13 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 21-jun-2019, 23:19:00
+    Author     : User
+*/
+
 body{
   font: 15px/1.5 Arial, Helvetica,sans-serif;
   padding:0;
@@ -60,14 +70,14 @@ header nav{
 header .highlight, header .current a{
   color: #e8492b;
   font-weight:bold;
-  
+
 }
 
 header a:hover{
   color:#cccccc;
   font-weight:bold;
   text-decoration: none;
-  
+
 }
 
 /* Showcase */
@@ -122,7 +132,7 @@ header a:hover{
     justify-content: flex-start;
     align-items: stretch;*/
     width: 100%;
-    
+
 }
 
 
@@ -153,7 +163,7 @@ header a:hover{
   padding-left: 0px;
   border-bottom: 1px solid #23282e;
 }
-  
+
 /*atributos para el texto de cada item del menu: color, tamaño*/
 #menu_lateral li a {
 
@@ -175,7 +185,7 @@ header a:hover{
   border: none;
   line-height: 38px;
   border-bottom: 1px solid #23282e;
-  
+
 }
 #menu_lateral .sub-menu li a::before {
   content: '\f054'; /*flecha lateral*/
@@ -185,7 +195,7 @@ header a:hover{
   font-family: FontAwesome;
   font-size: 10px;
 
-  
+
 }
 
 #menu_lateral .sub-menu li a {
@@ -251,9 +261,9 @@ footer{
     width: 340px;
     margin: 60px auto;
     color: #333333;
-    
-    
-    
+
+
+
 }
 #login-form form {
     margin-bottom: 15px;
@@ -262,14 +272,13 @@ footer{
     padding: 30px;
     text-align: start;
     opacity: 0.92;
-    
+
 }
  #login-form h2 {
     margin: 0 0 15px;
-    
+
 }
 #form-control, .btn {
     min-height: 38px;
     border-radius: 2px;
 }
-

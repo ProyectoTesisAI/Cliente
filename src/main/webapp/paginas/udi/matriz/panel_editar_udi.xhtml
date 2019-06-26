@@ -29,7 +29,7 @@
 
                                     <!-- PANEL UNIDAD ZONAL GUARDAR INFORMACION -->
                                     <b:form id="formUnidadZonal">
-                                        <b:panel look="primary"  content-disabled="#{unidadZonalControlador.guardado}">
+                                        <b:panel look="primary"  content-disabled="#{!unidadZonalControlador.guardado}">
                                             <f:facet name="heading">
                                                 <h:outputText value="UNIDAD ZONAL" style="color: white; font-weight: bold"  />
                                             </f:facet>
@@ -60,7 +60,7 @@
 
                                     <!-- PANEL ADOLESCENTE INFRACTOR GUARDAR INFORMACION -->
                                     <b:form>
-                                        <b:panel look="primary" content-disabled="#{adolescenteInfractorUDIControlador.guardado}">
+                                        <b:panel look="primary" content-disabled="#{!adolescenteInfractorUDIControlador.guardado}">
                                             <f:facet name="heading">
                                                 <h:outputText value="ADOLESCENTE INFRACTOR" style="color: white; font-weight: bold"  />
                                             </f:facet>
@@ -192,7 +192,7 @@
 
                                     <!-- PANEL REPRESENTANTE - GUARDAR INFORMACION -->
                                     <b:form id="formRepresentante">
-                                        <b:panel look="primary" content-disabled="#{representanteControlador.guardado}">
+                                        <b:panel look="primary" content-disabled="#{!representanteControlador.guardado}">
                                             <f:facet name="heading">
                                                 <h:outputText value="REPRESENTANTE" style="color: white; font-weight: bold"  />
                                             </f:facet>
@@ -230,7 +230,7 @@
                                     <!-- PANEL  INFORMACION GEOGRAFICA -GUARDAR INFORMACION -->
 
                                     <b:form id="formInfoGeografica">
-                                        <b:panel look="primary" content-disabled="#{identificacionGeograficaControlador.guardado}">
+                                        <b:panel look="primary" content-disabled="#{!identificacionGeograficaControlador.guardado}">
                                             <f:facet name="heading">
                                                 <h:outputText value="INFORMACIÓN GEOGRÁFICA" style="color: white; font-weight: bold"  />
                                             </f:facet>
@@ -314,7 +314,7 @@
 
                                     <!-- PANEL  INFORMACION INFRACCION - GUARDAR INFORMACION-->
                                     <b:form id="formInfoInfraccion">
-                                        <b:panel look="primary" content-disabled="#{informacionInfraccionControlador.guardado}">
+                                        <b:panel look="primary" content-disabled="#{!informacionInfraccionControlador.guardado}">
                                             <f:facet name="heading">
                                                 <h:outputText value="INFORMACIÓN INFRACCIÓN" style="color: white; font-weight: bold"  />
                                             </f:facet>
@@ -380,7 +380,7 @@
 
                                     <!-- PANEL EJE SALUD - GUARDAR INFORMACION-->                        
                                     <b:form id="formEjeSalud">
-                                        <b:panel look="primary" content-disabled="#{ejeSaludUDIControlador.guardado}">
+                                        <b:panel look="primary" content-disabled="#{!ejeSaludUDIControlador.guardado}">
                                             <f:facet name="heading">
                                                 <h:outputText value="EJE SALUD" style="color: white; font-weight: bold"  />
                                             </f:facet>
@@ -499,7 +499,7 @@
 
                                     <!-- PANEL EJE LABORAL - GUARDAR INFORMACION-->       
                                     <b:form id="formEjeLaboral">
-                                        <b:panel look="primary" content-disabled="#{ejeLaboralControlador.guardado}">
+                                        <b:panel look="primary" content-disabled="#{!ejeLaboralControlador.guardado}">
                                             <f:facet name="heading">
                                                 <h:outputText value="EJE LABORAL" style="color: white; font-weight: bold"  />
                                             </f:facet>
@@ -601,7 +601,7 @@
 
                                     <!-- PANEL EJE EDUCATIVO -GUARDAR INFORMACION -->
                                     <b:form id="formEjeEducativo">
-                                        <b:panel look="primary" content-disabled="#{ejeEducativoUDIControlador.guardado}">
+                                        <b:panel look="primary" content-disabled="#{!ejeEducativoUDIControlador.guardado}">
                                             <f:facet name="heading">
                                                 <h:outputText value="EJE EDUCATIVO" style="color: white; font-weight: bold"  />
                                             </f:facet>
@@ -814,7 +814,7 @@
 
                                     <!-- PANEL INFORMACIÓN JUDICIAL  GUARDAR INFORMACION-->
                                     <b:form id="formInfoJuducial">
-                                        <b:panel look="primary" content-disabled="#{informacionJudicialControlador.guardado}">
+                                        <b:panel look="primary" content-disabled="#{!informacionJudicialControlador.guardado}">
                                             <f:facet name="heading">
                                                 <h:outputText value="INFORMACIÓN JUDICIAL" style="color: white; font-weight: bold"  />
                                             </f:facet>
@@ -994,7 +994,7 @@
                                             <h:outputText value="MEDIDA SOCIOEDUCATIVA" style="color: white; font-weight: bold"  />
                                         </f:facet>
 
-                                        <b:row style="margin-top: 30px;margin-bottom: 30px;" rendered="#{!medidaSocioEducativaControlador.guardado}" >
+                                        <b:row style="margin-top: 30px;margin-bottom: 30px;" rendered="#{medidaSocioEducativaControlador.guardado}" >
                                             <b:column span="10" offset="1">
                                                 <h:outputLabel style="color: #e8492b" value="NO DISPONIBLE, UNA VEZ QUE HAYA REGISTRADO EL MÓDULO INFORMACIÓN JUDICIAL SE HABILITARÁ EL MÓDULO"  />
                                             </b:column>                                           
@@ -1002,7 +1002,7 @@
 
                                         <b:form id="formMedidaSocioeducativa1">
                                             <!--PANEL DE AMONESTACIÓN VERBAL -->
-                                            <b:panel rendered="#{medidaSocioEducativaControlador.activarAmonestacionVerbal}" content-disabled="#{medidaSocioEducativaControlador.amonestacionVerbalGuardado}">
+                                            <b:panel rendered="#{!medidaSocioEducativaControlador.activarAmonestacionVerbal}" content-disabled="#{medidaSocioEducativaControlador.amonestacionVerbalGuardado}">
                                                 <f:facet name="heading">
                                                     <h:outputText value="AMONESTACIÓN VERBAL"/>
                                                 </f:facet>
@@ -1066,7 +1066,7 @@
 
                                         <b:form id="formMedidaSocioeducativa2">
                                             <!--PANEL DE IMPOSICIÓN REGLAS CONDUCTA -->
-                                            <b:panel rendered="#{medidaSocioEducativaControlador.activarImposicionReglasConducta}" content-disabled="#{medidaSocioEducativaControlador.imposicionReglasConductaGuardado}">
+                                            <b:panel rendered="#{!medidaSocioEducativaControlador.activarImposicionReglasConducta}" content-disabled="#{medidaSocioEducativaControlador.imposicionReglasConductaGuardado}">
                                                 <f:facet name="heading">
                                                     <h:outputText value="IMPOSICIÓN REGLAS CONDUCTA"/>
                                                 </f:facet>
@@ -1129,7 +1129,7 @@
 
                                         <b:form id="formMedidaSocioeducativa3">
                                             <!--PANEL DE APOYO SOCIO FAMILIAR -->
-                                            <b:panel rendered="#{medidaSocioEducativaControlador.activarApoyoSocioFamiliar}" content-disabled="#{medidaSocioEducativaControlador.apoyoSocioFamiliarGuardado}">
+                                            <b:panel rendered="#{!medidaSocioEducativaControlador.activarApoyoSocioFamiliar}" content-disabled="#{medidaSocioEducativaControlador.apoyoSocioFamiliarGuardado}">
                                                 <f:facet name="heading">
                                                     <h:outputText value="APOYO SOCIO FAMILIAR"/>
                                                 </f:facet>
@@ -1195,7 +1195,7 @@
 
                                         <b:form id="formMedidaSocioeducativa4">
                                             <!--PANEL DE SERVICIO COMUNIDAD -->
-                                            <b:panel rendered="#{medidaSocioEducativaControlador.activarServicioComunidad}" content-disabled="#{medidaSocioEducativaControlador.servicioComunidadGuardado}">
+                                            <b:panel rendered="#{!medidaSocioEducativaControlador.activarServicioComunidad}" content-disabled="#{medidaSocioEducativaControlador.servicioComunidadGuardado}">
                                                 <f:facet name="heading">
                                                     <h:outputText value="SERVICIO COMUNIDAD"/>
                                                 </f:facet>
@@ -1258,7 +1258,7 @@
 
                                         <b:form id="formMedidaSocioeducativa5">
                                             <!--PANEL DE LIBERTAD ASISTIDA -->
-                                            <b:panel rendered="#{medidaSocioEducativaControlador.activarLibertadAsistida}" content-disabled="#{medidaSocioEducativaControlador.libertadAsistidaGuardado}">
+                                            <b:panel rendered="#{!medidaSocioEducativaControlador.activarLibertadAsistida}" content-disabled="#{medidaSocioEducativaControlador.libertadAsistidaGuardado}">
                                                 <f:facet name="heading">
                                                     <h:outputText value="LIBERTAD ASISTIDA"/>
                                                 </f:facet>
@@ -1326,13 +1326,13 @@
                                                 <h:outputText value="MEDIDA MAS ALTA" style="color: white; font-weight: bold"  />
                                             </f:facet>
 
-                                            <b:row style="margin-top: 30px;margin-bottom: 30px;" rendered="#{!medidaMasAltaControlador.guardado}" >
+                                            <b:row style="margin-top: 30px;margin-bottom: 30px;" rendered="#{medidaMasAltaControlador.guardado}" >
                                                 <b:column span="10" offset="1">
                                                     <h:outputLabel style="color: #e8492b" value="NO DISPONIBLE, AÚN NO SE HAN REGISTRADO MEDIDAS SOCIOEDUCATIVAS"  />
                                                 </b:column>                                           
                                             </b:row>
 
-                                            <b:row rendered="#{medidaMasAltaControlador.guardado}" content-disabled="true">
+                                            <b:row rendered="#{!medidaMasAltaControlador.guardado}" content-disabled="true">
                                                 <b:column span="4" offset="1">
                                                     <h:outputLabel for="txtMedidaMasAlta" value="Medida Más Alta"/>
                                                     <b:inputText id="txtMedidaMasAlta" placeholder="Medida Más Alta" value="#{medidaMasAltaControlador.medidaMasAlta.medidaSocioeducativa}"/>
@@ -1357,7 +1357,7 @@
 
                                     <!-- PANEL ACTIVIDADES E INSTRUMENTOS GUARDAR INFORMACION -->
                                     <b:form id="formActividadesInstrumentos">
-                                        <b:panel look="primary" content-disabled="#{actividadesInstrumentosControlador.guardado}">
+                                        <b:panel look="primary" content-disabled="#{!actividadesInstrumentosControlador.guardado}">
                                             <f:facet name="heading">
                                                 <h:outputText value="ACTIVIDADES E INSTRUMENTOS" style="color: white; font-weight: bold"  />
                                             </f:facet>
@@ -1412,7 +1412,7 @@
 
                                     <!-- PANEL ESTADO DE CUMPLIMIENTO MEDIDA GUARDAR INFORMACION-->
                                     <b:form id="formCumplimientoMedida">
-                                        <b:panel look="primary" content-disabled="#{estadoCumplimientoMedidaControlador.guardado}">
+                                        <b:panel look="primary" content-disabled="#{!estadoCumplimientoMedidaControlador.guardado}">
                                             <f:facet name="heading">
                                                 <h:outputText value="ESTADO DE CUMPLIMIENTO MEDIDA" style="color: white; font-weight: bold"  />
                                             </f:facet>

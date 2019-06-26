@@ -28,21 +28,21 @@
                                 <b:row>
                                     <b:column span="4" offset="1">                                        
                                             <h:outputLabel for="txtNombres" value="Nombres"/>
-                                            <b:inputText id="txtNombres" required="true" requiredMessage="Nombres es requerido, ingrese un valor" placeholder="Nombres" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.nombres}"/>                                        
+                                            <b:inputText id="txtNombres" required="true" placeholder="Nombres" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.nombres}"/>                                        
                                     </b:column>
                                     <b:column span="4" offset="2">                                        
                                             <h:outputLabel for="txtApellidos" value="Apellidos"/>
-                                            <b:inputText id="txtApellidos" required="true" requiredMessage="Apellidos es requerido, ingrese un valor" placeholder="Apellidos" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.apellidos}"/>                                        
+                                            <b:inputText id="txtApellidos" required="true" placeholder="Apellidos" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.apellidos}"/>                                        
                                     </b:column>
                                 </b:row>
                                 <b:row>
                                     <b:column span="4" offset="1">                                        
                                             <h:outputLabel for="txtCedula" value="Cédula"/>
-                                            <b:inputText id="txtCedula" placeholder="Cédula" required="true" requiredMessage="Cédula es requerida, ingrese un valor" mask="numeric" maxlength="10" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.cedula}"/>                                        
+                                            <b:inputText id="txtCedula" placeholder="Cédula" required="true" mask="numeric" maxlength="10" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.cedula}"/>                                        
                                     </b:column>
                                     <b:column span="4" offset="2">                                        
                                             <h:outputLabel for="txtGenero" value="Género"/>
-                                            <b:selectOneMenu id="txtGenero" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.genero}">
+                                            <b:selectOneMenu id="txtGenero" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.genero}">
                                                 <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
                                                 <f:selectItem itemLabel="MASCULINO"  itemValue="MASCULINO" />
                                                 <f:selectItem itemLabel="FEMENINO"  itemValue="FEMENINO" />
@@ -53,7 +53,7 @@
                                 <b:row>
                                     <b:column span="4" offset="1">                                        
                                             <h:outputLabel  for="txtEtnia" value="Etnia"/>
-                                            <b:selectOneMenu id="txtEtnia" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.etnia}">
+                                            <b:selectOneMenu id="txtEtnia" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.etnia}">
                                                 <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
                                                 <f:selectItem itemLabel="MESTIZOS"  itemValue="MESTIZOS" />
                                                 <f:selectItem itemLabel="INDÍGENAS"  itemValue="INDÍGENAS" />
@@ -66,7 +66,7 @@
                                     
                                     <b:column span="4" offset="2">                                        
                                             <h:outputLabel for="txtFechaNacimiento" value="Fecha Nacimiento"/>
-                                            <b:dateTimePicker id="txtFechaNacimiento" placeholder="Fecha" showTime="false" update="txtEdad" process="@this" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.fechaNacimiento}" />                                        
+                                            <b:dateTimePicker id="txtFechaNacimiento" placeholder="Fecha" showTime="false" update="txtEdad" process="@this" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.fechaNacimiento}" />                                        
                                     </b:column>
                                     
                                 </b:row>
@@ -75,7 +75,7 @@
                                     
                                     <b:column span="4" offset="1">                                        
                                             <h:outputLabel for="txtDiscapacidad" value="Discapacidad"/>
-                                            <b:selectOneMenu id="txtDiscapacidad" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.discapacidad}">
+                                            <b:selectOneMenu id="txtDiscapacidad" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.discapacidad}">
                                                 <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
                                                 <f:selectItem itemLabel="SI"  itemValue="SI" />
                                                 <f:selectItem itemLabel="NO"  itemValue="NO" />
@@ -85,7 +85,7 @@
                                     
                                     <b:column span="4" offset="2">                                                        
                                             <h:outputLabel for="txtTipoDiscapacidad" value="Tipo Discapacidad"/>
-                                            <b:selectOneMenu id="txtTipoDiscapacidad" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.tipoDiscapacidad}">
+                                            <b:selectOneMenu id="txtTipoDiscapacidad" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.tipoDiscapacidad}">
                                                 <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
                                                 <f:selectItem itemLabel="NINGUNA"  itemValue="NINGUNA" />
                                                 <f:selectItem itemLabel="FÍSICA"  itemValue="FÍSICA" />
@@ -102,12 +102,12 @@
                                 <b:row>
                                     <b:column span="4" offset="1">                                        
                                             <h:outputLabel for="txtPorcentajeDiscapacidad" value="Porcentaje Discapacidad"/>
-                                            <b:inputText id="txtPorcentajeDiscapacidad" placeholder="Porcentaje Discapacidad" mask="numeric" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.porcentajeDiscapacidad}"/>                                        
+                                            <b:inputText id="txtPorcentajeDiscapacidad" placeholder="Porcentaje Discapacidad" mask="numeric" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.porcentajeDiscapacidad}"/>                                        
                                     </b:column>
                                     
                                     <b:column span="4" offset="2">                                        
                                             <h:outputLabel for="txtEnfermedadesRaras" value="Enfermedades Catastroficas Raras"/>
-                                            <b:selectOneMenu id="txtEnfermedadesRaras" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.enfermedadesCatastroficasRaras}">
+                                            <b:selectOneMenu id="txtEnfermedadesRaras" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.enfermedadesCatastroficasRaras}">
                                                 <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
                                                 <f:selectItem itemLabel="SI"  itemValue="true" />
                                                 <f:selectItem itemLabel="NO"  itemValue="false" />
@@ -119,7 +119,7 @@
                                     
                                     <b:column span="4" offset="1">                                       
                                             <h:outputLabel for="txtRegistroSocial" value="Registro Social"/>
-                                            <b:selectOneMenu id="txtRegistroSocial" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.registroSocial}">
+                                            <b:selectOneMenu id="txtRegistroSocial" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.registroSocial}">
                                                 <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
                                                 <f:selectItem itemLabel="SI"  itemValue="true" />
                                                 <f:selectItem itemLabel="NO"  itemValue="false" />
@@ -128,7 +128,7 @@
                                     
                                     <b:column span="4" offset="2">                                        
                                             <h:outputLabel for="txtEstadoCivil" value="Estado Civil"/>
-                                            <b:selectOneMenu id="txtEstadoCivil" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.estadoCivil}">
+                                            <b:selectOneMenu id="txtEstadoCivil" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.estadoCivil}">
                                                 <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
                                                 <f:selectItem itemLabel="SOLTERO"  itemValue="SOLTERO" />
                                                 <f:selectItem itemLabel="CASADO"  itemValue="CASADO" />
@@ -143,12 +143,12 @@
                                     
                                     <b:column span="4" offset="1">                                        
                                             <h:outputLabel for="txtNumeroHijos" value="Número Hijos"/>
-                                            <b:inputText id="txtNumeroHijos" placeholder="Número Hijos" mask="numeric" maxlength="2" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.numeroHijos}"/>                                        
+                                            <b:inputText id="txtNumeroHijos" placeholder="Número Hijos" mask="numeric" maxlength="2" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.numeroHijos}"/>                                        
                                     </b:column>
                                     
                                     <b:column span="4" offset="2">                                        
                                             <h:outputLabel for="txtConQuienVive" value="Con quien Vive"/>
-                                            <b:inputText id="txtConQuienVive" placeholder="Con quien Vive" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.conQuienVive}"/>                                        
+                                            <b:inputText id="txtConQuienVive" placeholder="Con quien Vive" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.conQuienVive}"/>                                        
                                     </b:column>
                                     
                                 </b:row>
@@ -157,7 +157,7 @@
                             <b:row>
                                 <b:column span="4" offset="1">                                    
                                         <h:outputLabel rendered="false" for="txtEdad" value="Edad "/>
-                                        <b:inputText rendered="false" mask="integer" id="txtEdad" readonly="true" placeholder="Edad" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDICrear.edad}"/>                                    
+                                        <b:inputText rendered="false" mask="integer" id="txtEdad" readonly="true" placeholder="Edad" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.edad}"/>                                    
                                 </b:column>
                             </b:row>
                             
@@ -167,8 +167,13 @@
                                 </b:column>
                             </b:row>
                             
-
-                            <b:modal title="Adolescente Infractor UDI" styleClass="formGuardarAdolescenteInfractorUDI"
+                            <b:commandButton id="btnGuardarAdolescenteInfractorUDI" largeScreen="half" update="growlAdolescenteInfractorUDI" value="Guardar" look="success"                    
+                                                         action="#{adolescenteInfractorUDIControlador.guardarAdolescenteInfractor()}"
+                                                         
+                                                         />
+                                        <b:growl id="growlAdolescenteInfractorUDI" for="btnGuardarAdolescenteInfractorUDI" globalOnly="false" severity="info,error"/>
+                            
+<!--                            <b:modal title="Adolescente Infractor UDI" styleClass="formGuardarAdolescenteInfractorUDI"
                                      closable="false"
                                      closeOnEscape="true">
                                 <p>¿Desea Guardar Cambios?</p>                         
@@ -177,13 +182,13 @@
                                         <b:button largeScreen="half"  value="Cancelar"
                                                   dismiss="modal" onclick="return false;"/>
                                         <b:commandButton id="btnGuardarAdolescenteInfractorUDI" largeScreen="half" update="growlAdolescenteInfractorUDI" value="Guardar" look="success"                    
-                                                         action="#{adolescenteInfractorUDIControlador.guardarAdolescenteInfractor()}"
+                                                         action="{adolescenteInfractorUDIControlador.guardarAdolescenteInfractor()}"
                                                          onclick="$('.modalPseudoClass2').modal('hide')"
                                                          />
-                                        <b:growl id="growlAdolescenteInfractorUDI" globalOnly="false" severity="info,error"/>
+                                        <b:growl id="growlAdolescenteInfractorUDI" for="btnGuardarAdolescenteInfractorUDI" globalOnly="false" severity="info,error"/>
                                     </b:column>
                                 </b:row>
-                            </b:modal>
+                            </b:modal>-->
                         </b:form>
                     </div>
                 </div>
