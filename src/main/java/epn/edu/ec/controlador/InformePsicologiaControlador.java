@@ -310,6 +310,31 @@ public class InformePsicologiaControlador implements Serializable{
         }
     }
     
+    public String guardarRegistroAsistencia(){
+        
+        int cantidadAsistentes=0;
+        for(RegistroAsistenciaAdolescenteUDI asistencia : listaParaChequeo){
+            if(asistencia.getAsistio()==true){
+                RegistroAsistenciaAdolescenteUDI asistenciAux= controladorAsistenciaUDI.guardarRegistroAsistenciaAdolescenteUDI(asistencia);
+                
+                if(asistenciAux!=null){
+                    cantidadAsistentes++;
+                }
+                
+            }
+        }
+        
+        if(cantidadAsistentes>0 ){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se ha guardado correctamente el Registro de Asistencia", "Aviso"));
+            return "/paginas/psicologia/informe_psicologia.com?faces-redirect=true";
+        }
+        else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ha ocurrido un error, no se guardó correctamente el Registro de Asistencia", "Aviso"));
+            return null;
+        }
+        
+    }
+    
     public void subirFoto(FileUploadEvent evento) {
         
         UploadedFile foto = evento.getFile();

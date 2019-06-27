@@ -8,6 +8,7 @@ package epn.edu.ec.controlador;
 import epn.edu.ec.modelo.ActividadesInstrumentos;
 import epn.edu.ec.modelo.AdolescenteInfractorUDI;
 import epn.edu.ec.servicios.ActividadesInstrumentosServicio;
+import epn.edu.ec.utilidades.EnlacesPrograma;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -26,18 +27,26 @@ public class ActividadesInstrumentosControlador implements Serializable{
     private ActividadesInstrumentos actividadesInstrumentos;
     private ActividadesInstrumentosServicio servicio;
     private boolean guardado;
+    private EnlacesPrograma enlaces;
+    
     
     @PostConstruct
     public void init(){
+        
+        
+        enlaces= new EnlacesPrograma();
         servicio= new ActividadesInstrumentosServicio();
         
        actividadesInstrumentos= new ActividadesInstrumentos();
         guardado=false;
         
         adolescenteInfractorUDI= new AdolescenteInfractorUDI();
-        adolescenteInfractorUDI= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
+        AdolescenteInfractorUDI adolescenteInfractorUDIAux= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
         
-        if(adolescenteInfractorUDI != null){
+        if(adolescenteInfractorUDIAux != null){
+            
+            adolescenteInfractorUDI=adolescenteInfractorUDIAux;
+            
             ActividadesInstrumentos actividadesInstrumentosAux= servicio.obtenerActividadesInstrumentos(adolescenteInfractorUDI.getId_adolescente_udi_pk());
             if(actividadesInstrumentosAux!=null){
                 actividadesInstrumentos=actividadesInstrumentosAux;
@@ -84,7 +93,7 @@ public class ActividadesInstrumentosControlador implements Serializable{
 
         ActividadesInstrumentos actividadesInstrumentosAux = servicio.guardarActividadesInstrumentos(actividadesInstrumentos);
         if(actividadesInstrumentosAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";      
         }
         else{
             return null;

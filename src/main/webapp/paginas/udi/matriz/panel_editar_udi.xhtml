@@ -994,7 +994,7 @@
                                             <h:outputText value="MEDIDA SOCIOEDUCATIVA" style="color: white; font-weight: bold"  />
                                         </f:facet>
 
-                                        <b:row style="margin-top: 30px;margin-bottom: 30px;" rendered="#{medidaSocioEducativaControlador.guardado}" >
+                                        <b:row style="margin-top: 30px;margin-bottom: 30px;" rendered="#{!medidaSocioEducativaControlador.guardado}" >
                                             <b:column span="10" offset="1">
                                                 <h:outputLabel style="color: #e8492b" value="NO DISPONIBLE, UNA VEZ QUE HAYA REGISTRADO EL MÓDULO INFORMACIÓN JUDICIAL SE HABILITARÁ EL MÓDULO"  />
                                             </b:column>                                           
@@ -1002,7 +1002,7 @@
 
                                         <b:form id="formMedidaSocioeducativa1">
                                             <!--PANEL DE AMONESTACIÓN VERBAL -->
-                                            <b:panel rendered="#{!medidaSocioEducativaControlador.activarAmonestacionVerbal}" content-disabled="#{medidaSocioEducativaControlador.amonestacionVerbalGuardado}">
+                                            <b:panel rendered="#{medidaSocioEducativaControlador.activarAmonestacionVerbal}" content-disabled="#{!medidaSocioEducativaControlador.amonestacionVerbalGuardado}">
                                                 <f:facet name="heading">
                                                     <h:outputText value="AMONESTACIÓN VERBAL"/>
                                                 </f:facet>
@@ -1066,7 +1066,7 @@
 
                                         <b:form id="formMedidaSocioeducativa2">
                                             <!--PANEL DE IMPOSICIÓN REGLAS CONDUCTA -->
-                                            <b:panel rendered="#{!medidaSocioEducativaControlador.activarImposicionReglasConducta}" content-disabled="#{medidaSocioEducativaControlador.imposicionReglasConductaGuardado}">
+                                            <b:panel rendered="#{medidaSocioEducativaControlador.activarImposicionReglasConducta}" content-disabled="#{!medidaSocioEducativaControlador.imposicionReglasConductaGuardado}">
                                                 <f:facet name="heading">
                                                     <h:outputText value="IMPOSICIÓN REGLAS CONDUCTA"/>
                                                 </f:facet>
@@ -1129,7 +1129,7 @@
 
                                         <b:form id="formMedidaSocioeducativa3">
                                             <!--PANEL DE APOYO SOCIO FAMILIAR -->
-                                            <b:panel rendered="#{!medidaSocioEducativaControlador.activarApoyoSocioFamiliar}" content-disabled="#{medidaSocioEducativaControlador.apoyoSocioFamiliarGuardado}">
+                                            <b:panel rendered="#{medidaSocioEducativaControlador.activarApoyoSocioFamiliar}" content-disabled="#{!medidaSocioEducativaControlador.apoyoSocioFamiliarGuardado}">
                                                 <f:facet name="heading">
                                                     <h:outputText value="APOYO SOCIO FAMILIAR"/>
                                                 </f:facet>
@@ -1195,7 +1195,7 @@
 
                                         <b:form id="formMedidaSocioeducativa4">
                                             <!--PANEL DE SERVICIO COMUNIDAD -->
-                                            <b:panel rendered="#{!medidaSocioEducativaControlador.activarServicioComunidad}" content-disabled="#{medidaSocioEducativaControlador.servicioComunidadGuardado}">
+                                            <b:panel rendered="#{medidaSocioEducativaControlador.activarServicioComunidad}" content-disabled="#{!medidaSocioEducativaControlador.servicioComunidadGuardado}">
                                                 <f:facet name="heading">
                                                     <h:outputText value="SERVICIO COMUNIDAD"/>
                                                 </f:facet>
@@ -1258,7 +1258,7 @@
 
                                         <b:form id="formMedidaSocioeducativa5">
                                             <!--PANEL DE LIBERTAD ASISTIDA -->
-                                            <b:panel rendered="#{!medidaSocioEducativaControlador.activarLibertadAsistida}" content-disabled="#{medidaSocioEducativaControlador.libertadAsistidaGuardado}">
+                                            <b:panel rendered="#{medidaSocioEducativaControlador.activarLibertadAsistida}" content-disabled="#{!medidaSocioEducativaControlador.libertadAsistidaGuardado}">
                                                 <f:facet name="heading">
                                                     <h:outputText value="LIBERTAD ASISTIDA"/>
                                                 </f:facet>

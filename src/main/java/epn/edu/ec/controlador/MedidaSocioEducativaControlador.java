@@ -10,6 +10,7 @@ import epn.edu.ec.modelo.InformacionJudicial;
 import epn.edu.ec.modelo.MedidaSocioeducativa;
 import epn.edu.ec.servicios.InformacionJudicialServicio;
 import epn.edu.ec.servicios.MedidaSocioeducativaServicio;
+import epn.edu.ec.utilidades.EnlacesPrograma;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +52,12 @@ public class MedidaSocioEducativaControlador implements Serializable{
     private boolean servicioComunidadGuardado;
     private boolean libertadAsistidaGuardado;
     
+    private EnlacesPrograma enlaces;
+    
     @PostConstruct
     public void init(){
+        
+        enlaces= new EnlacesPrograma();
         servicio= new MedidaSocioeducativaServicio();
         servicioJudicial= new InformacionJudicialServicio();
         
@@ -81,9 +86,11 @@ public class MedidaSocioEducativaControlador implements Serializable{
         libertadAsistidaGuardado=false;
         
         adolescenteInfractorUDI= new AdolescenteInfractorUDI();
-        adolescenteInfractorUDI= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
+        AdolescenteInfractorUDI adolescenteInfractorUDIAux= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
         
-        if(adolescenteInfractorUDI!=null){
+        if(adolescenteInfractorUDIAux!=null){
+            
+            adolescenteInfractorUDI=adolescenteInfractorUDIAux;
             
             InformacionJudicial  informacionJudicialAux= servicioJudicial.obtenerInformacionJudicial(adolescenteInfractorUDI.getId_adolescente_udi_pk());
         
@@ -102,8 +109,12 @@ public class MedidaSocioEducativaControlador implements Serializable{
                    guardado=true;
                }
                
-               listaMedidasSocioeducativas= servicio.listaMedidaSocioeducativosPorAdolescentesUzdi(adolescenteInfractorUDI);
-               if(listaMedidasSocioeducativas!=null){
+               List<MedidaSocioeducativa> listaMedidasSocioeducativasAux= servicio.listaMedidaSocioeducativosPorAdolescentesUzdi(adolescenteInfractorUDI);
+               
+               if(listaMedidasSocioeducativasAux!=null){
+                   
+                   listaMedidasSocioeducativas=listaMedidasSocioeducativasAux;
+                   
                    for(MedidaSocioeducativa m : listaMedidasSocioeducativas){
                        if("AMONESTACIÓN VERBAL".equals(m.getMedidaSocioeducativa())){
                            medidaSocioeducativa=m;
@@ -298,7 +309,7 @@ public class MedidaSocioEducativaControlador implements Serializable{
 
         MedidaSocioeducativa medidaSocioeducativaAux = servicio.guardarMedidaSocioeducativa(medidaSocioeducativa);
         if(medidaSocioeducativaAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";    
         }
         else{
             return null;
@@ -311,7 +322,7 @@ public class MedidaSocioEducativaControlador implements Serializable{
 
         MedidaSocioeducativa medidaSocioeducativaAux = servicio.guardarMedidaSocioeducativa(medidaSocioeducativa2);
         if(medidaSocioeducativaAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true"; 
         }
         else{
             return null;
@@ -324,7 +335,7 @@ public class MedidaSocioEducativaControlador implements Serializable{
 
         MedidaSocioeducativa medidaSocioeducativaAux = servicio.guardarMedidaSocioeducativa(medidaSocioeducativa3);
         if(medidaSocioeducativaAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";   
         }
         else{
             return null;
@@ -337,7 +348,7 @@ public class MedidaSocioEducativaControlador implements Serializable{
 
         MedidaSocioeducativa medidaSocioeducativaAux = servicio.guardarMedidaSocioeducativa(medidaSocioeducativa4);
         if(medidaSocioeducativaAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";     
         }
         else{
             return null;
@@ -350,7 +361,7 @@ public class MedidaSocioEducativaControlador implements Serializable{
 
         MedidaSocioeducativa medidaSocioeducativaAux = servicio.guardarMedidaSocioeducativa(medidaSocioeducativa5);
         if(medidaSocioeducativaAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";     
         }
         else{
             return null;

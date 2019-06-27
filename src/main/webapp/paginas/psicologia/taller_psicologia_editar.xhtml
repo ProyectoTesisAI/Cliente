@@ -24,10 +24,10 @@
                 <!-- Panel para la creación de la Ficha de Planificación del Taller-->
                     <div class="panel panel-default">
 
-                    <div style="background-color: #337ab8; color: white; font-weight: bold" class="panel-heading text-center "> FICHA DE PLANIFICACIÓN DE TALLER DE PSICOLOGÍA</div>
-                    <div class="panel-body" style="padding: 40px;">
+                    <div style="background-color: #337ab8; color: white; font-weight: bold" class="panel-heading text-center "> EDITAR TALLER DE PSICOLOGÍA</div>
+                    <div class="panel-body" >
                         
-                        <h:form id="formPsicologia">
+                        <h:form id="formPsicologia" style="margin: 40px;">
                             <b:tabView active-index="#{tallerPsicologiaEditarControlador.indiceTaller}" contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">    
                                 
                                 <b:tab title="Taller Psicología">
@@ -182,9 +182,9 @@
                                             <div class="row" style="margin-bottom: 20px; margin-top: 20px;">
                                                 <div class=" col-md-2 col-md-offset-9">
                                                     <div class="form-group">
-                                                        <b:commandButton id="btnTaller" value="Guardar" class="btn btn-primary btn-block" action="#{tallerPsicologiaEditarControlador.editarTallerPsicologia()}">
+                                                        <b:commandButton id="btnTaller" value="Guardar" class="btn btn-primary btn-block" update="growlTallerPsicologia" action="#{tallerPsicologiaEditarControlador.editarTallerPsicologia()}">
                                                         </b:commandButton>
-                                                        <b:growl id="growlTallerPsicologia" for="btnTaller" globalOnly="false" severity="info,error"/>
+                                                        <b:growl id="growlTallerPsicologia" globalOnly="false" severity="info,error"/>
                                                     </div>   
                                                 </div>
                                             </div>
@@ -197,13 +197,13 @@
 
                                     <h:form id="formRegistroAsistenciaPsicologia">
 
-                                        <b:panel content-disabled="#{!tallerPsicologiaEditarControlador.registroAsistenciaGuardado}" style="border: transparent">
+                                        <b:panel content-disabled="true" style="border: transparent">
 
                                             <div class="row" style="margin-top: 50px;">
                                                 <div class="col-md-10 col-md-offset-1 ">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txTematica" value="Temática"/>
-                                                        <b:inputText  placeholder="Temática" id="txTematica" style="text-transform:uppercase" required="true" value="#{tallerPsicologiaEditarControlador.registroAsistencia.tematica}" />
+                                                        <b:inputText  placeholder="Temática" id="txTematica" style="text-transform:uppercase" required="true" value="#{tallerPsicologiaEditarControlador.tallerPsicologiaEditar.tema}" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -224,13 +224,6 @@
 
                                             </div>
 
-                                            <div class="row" style="margin-top: 20px;">
-
-                                                <div class="col-md-3 col-md-offset-1">
-                                                    <b:growl id="growlRegistro" globalOnly="false" severity="info,warn,error"/>
-                                                </div>                                          
-
-                                            </div>
 
                                             <div class="row" style="margin-top: 35px;">
                                                 <div class="col-md-10 col-md-offset-1">
@@ -246,22 +239,6 @@
                                                     </b:dataTable>
                                                 </div>
                                             </div>
-
-
-                                            <br/>
-                                            <br/>
-
-                                            <div class="row" style="margin-bottom: 20px; margin-top: 20px;">
-
-                                                <div class=" col-md-3 col-md-offset-1">
-                                                    <div class="form-group">
-                                                        <b:commandButton id="btnGuardarRegistroAsistencia" disabled="#{tallerPsicologiaEditarControlador.registroAsistenciaGuardado}" value="Guardar" class="btn btn-primary btn-block" update=":formPsicologia:formRegistroAsistenciaPsicologia growlRegistroAsistencia" actionListener="#{tallerPsicologiaEditarControlador.guardarRegistroAsistencia()}">                                                                                                              
-                                                        </b:commandButton>
-                                                        <b:growl id="growlRegistroAsistencia" for="btnGuardarRegistroAsistencia" globalOnly="false" severity="info,warn,error"/>
-                                                    </div>   
-                                                </div>     
-
-                                            </div>
                                         </b:panel>
                                     </h:form>
 
@@ -269,7 +246,7 @@
                             </b:tabView>
                         </h:form>
                         <h:form>
-                            <div class="row" style="margin-top: -9%;">
+                            <div class="row">
                                 <div class="col-md-3 col-md-offset-4">                                                  
                                     <b:commandButton id="btnDescargarRegistroAsistencia" value="Registro de Asistencia" class="btn btn-block btn-danger"  action="#{tallerPsicologiaEditarControlador.guardarPDFAsistencia()}"/> 
                                 </div> 

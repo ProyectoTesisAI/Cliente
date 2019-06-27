@@ -44,11 +44,17 @@ public class UnidadZonalControlador implements Serializable{
         listaUDI=servicioUDI.listaUdi();
         
         adolescenteInfractorUDI= new AdolescenteInfractorUDI();
-        adolescenteInfractorUDI= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
         
-        if(adolescenteInfractorUDI != null){
+        AdolescenteInfractorUDI adolescenteInfractorUDIAux= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
+        
+        if(adolescenteInfractorUDIAux != null){
+            
+            adolescenteInfractorUDI=adolescenteInfractorUDIAux;
             UnidadZonal unidadZonalAux= obtenerUnidadZonal(adolescenteInfractorUDI.getId_adolescente_udi_pk());
+            
             if(unidadZonalAux!=null){
+                
+                udi=unidadZonalAux.getIdUdi();
                 unidadZonal=unidadZonalAux;
                 guardado=true;
             }            
@@ -117,7 +123,7 @@ public class UnidadZonalControlador implements Serializable{
     public String guardarUnidadZonal(){
         
         for(UDI u: listaUDI){
-            if(u.getUdi().equals(unidadZonal.getIdUdi().getUdi())){
+            if(u.getUdi().equals(udi.getUdi())){
                 udi=u;
             }
         }

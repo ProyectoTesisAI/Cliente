@@ -39,9 +39,11 @@ public class RepresentanteControlador implements Serializable{
         guardado=false;
         
         adolescenteInfractorUDI= new AdolescenteInfractorUDI();
-        adolescenteInfractorUDI= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
+        AdolescenteInfractorUDI adolescenteInfractorUDIAux= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
         
-        if(adolescenteInfractorUDI != null){
+        if(adolescenteInfractorUDIAux != null){
+            
+            adolescenteInfractorUDI=adolescenteInfractorUDIAux;
             Representante representanteAux= servicio.obtenerRepresentante(adolescenteInfractorUDI.getId_adolescente_udi_pk());
             if(representanteAux!=null){
                 representante=representanteAux;
