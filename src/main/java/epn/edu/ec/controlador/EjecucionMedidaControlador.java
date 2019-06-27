@@ -110,7 +110,7 @@ public class EjecucionMedidaControlador implements Serializable{
 
         EjecucionMedidaCAI ejecucionMedidaAux = servicio.guardarEjecucionMedidaCAI(ejecucionMedida);
         if(ejecucionMedidaAux!=null){
-            return "/paginas/inicio/cai.com?faces-redirect=true";     
+            return "/paginas/cai/cai.com?faces-redirect=true";     
         }
         else{
             return null;

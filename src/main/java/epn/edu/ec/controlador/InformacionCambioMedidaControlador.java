@@ -77,7 +77,7 @@ public class InformacionCambioMedidaControlador implements Serializable{
 
         InformacionCambioMedidaCAI informacionCambioMedidaAux = servicio.guardarInformacionCambioMedidaCAI(estadoCumplimientoMedida);
         if(informacionCambioMedidaAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return "/paginas/cai/cai.com?faces-redirect=true";     
         }
         else{
             return null;

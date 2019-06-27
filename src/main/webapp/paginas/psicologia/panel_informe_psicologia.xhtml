@@ -38,9 +38,7 @@
                                              searching="false"
                                              select="true"
                                              selectionMode="multiple"
-                                             
-                                             ajax="true"
-                                             >
+                                             ajax="true">
                                     <b:dataTableColumn value="#{tp.idTallerPsicologia.numeroTaller}"/>
                                     <b:dataTableColumn value="#{tp.idTallerPsicologia.tema}"/>
                                     <b:dataTableColumn value="#{tp.idTallerPsicologia.fecha}"/>
@@ -57,7 +55,7 @@
                                         </b:commandButton>
                                     </b:dataTableColumn>
                                     <b:dataTableColumn label="Editar Informe">
-                                        <b:commandButton  value="Ver Informe"  class="btn btn-primary btn-block" action="#{panelInformePsicologiaControlador.verInformePsicologia(tp)}">
+                                        <b:commandButton  value="Editar Informe"  class="btn btn-primary btn-block" action="#{panelInformePsicologiaControlador.editarInformePsicologia(tp)}">
                                             <f:ajax execute="@form" />
                                         </b:commandButton>
                                     </b:dataTableColumn>

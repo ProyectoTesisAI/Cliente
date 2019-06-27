@@ -61,11 +61,21 @@ public class PanelInformePsicologiaControlador implements Serializable{
 
     public String verInformePsicologia(InformePsicologia informe){
         try {
+            informe.setEstado("ver");
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("informe_psicologia_editar", informe);
             return "/paginas/psicologia/informe_psicologia_editar.com?faces-redirect=true";
         } catch (Exception e) {
             return null;
         }
     }
-
+    
+    public String editarInformePsicologia(InformePsicologia informe){
+        try {
+            informe.setEstado("editar");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("informe_psicologia_editar", informe);
+            return "/paginas/psicologia/informe_psicologia_editar.com?faces-redirect=true";
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

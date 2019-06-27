@@ -105,7 +105,7 @@ public class EjeSaludCAIControlador implements Serializable {
 
         EjeSaludCAI ejeSaludCAIAux = servicio.guardarEjeSaludCAI(ejeSaludCAI);
         if (ejeSaludCAIAux != null) {
-            return "/paginas/inicio/cai.com?faces-redirect=true";
+            return "/paginas/cai/cai.com?faces-redirect=true";
         } else {
             return null;
         }

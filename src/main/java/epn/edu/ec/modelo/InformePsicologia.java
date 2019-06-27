@@ -18,6 +18,12 @@ public class InformePsicologia implements Serializable {
     private String recomendaciones;
     private String observaciones;
     private String elaborado;
+    
+    //variable local para analizar si estamos viendo o editando
+    private String estado;
+    /*puede tener:
+    -editar
+    -ver*/
 
     private TallerPsicologia idTallerPsicologia;
     
@@ -134,6 +140,15 @@ public class InformePsicologia implements Serializable {
 
     public void setIdTallerPsicologia(TallerPsicologia idTallerPsicologia) {
         this.idTallerPsicologia = idTallerPsicologia;
+    }
+
+    //Get y set de variable local
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     @Override

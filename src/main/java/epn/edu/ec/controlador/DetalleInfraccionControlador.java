@@ -140,7 +140,7 @@ public class DetalleInfraccionControlador implements Serializable {
 
         DetalleInfraccionCAI detalleInfraccionAux = servicio.guardarDetalleInfraccionCAI(detalleInfraccion);
         if (detalleInfraccionAux != null) {
-            return "/paginas/inicio/cai.com?faces-redirect=true";
+            return "/paginas/cai/cai.com?faces-redirect=true";
         } else {
             return null;
         }

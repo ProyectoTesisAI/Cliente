@@ -259,6 +259,8 @@ public class InformePsicologiaControlador implements Serializable{
         try{
             int itemsGuardados=0;
             informePsicologia.setIdTallerPsicologia(tallerPsicologia);
+            //aqui se setea la fecha para la base de datos
+            informePsicologia.setFecha(tallerPsicologia.getFecha());
             InformePsicologia informePsicologiaAux= controlador.guardarInformePsicologia(this.informePsicologia);
 
             if(informePsicologiaAux != null){
