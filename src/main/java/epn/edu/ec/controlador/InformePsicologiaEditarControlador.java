@@ -60,6 +60,8 @@ public class InformePsicologiaEditarControlador implements Serializable{
     boolean registroAsistenciaGuardado=true;
     
     int indiceInforme=0;
+    //variable local para editar/ver
+    private String estadoActual;
     
     @PostConstruct
     public void init(){
@@ -90,14 +92,19 @@ public class InformePsicologiaEditarControlador implements Serializable{
         itemsInformePsicologia.add(item4);
         itemsInformePsicologia.add(item5);
         
-        
-        
         InformePsicologia informePsicologiaAux = (InformePsicologia) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("informe_psicologia_editar");
-
+        estadoActual=informePsicologiaAux.getEstado();
+        if(estadoActual=="ver"){
+            System.out.println("Estado: "+estadoActual);
+            informeGuardado = true;
+        }else if(estadoActual=="editar"){
+            System.out.println("Estado: "+estadoActual);
+            informeGuardado = false;
+        }
         if (informePsicologiaAux != null) {
             
             informePsicologiaEditar = informePsicologiaAux;
-            informeGuardado = true;
+            //informeGuardado = true;
             registroAsistenciaGuardado = false;
             
             tallerPsicologia=informePsicologiaAux.getIdTallerPsicologia();

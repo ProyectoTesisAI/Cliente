@@ -77,7 +77,7 @@ public class CumplimientoMedidaCAIControlador implements Serializable{
 
         CumplimientoMedidaCAI cumplimientoCAIMedidaAux = servicio.guardarCumplimientoMedidaCAI(cumplimientoCAIMedida);
         if(cumplimientoCAIMedidaAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return "/paginas/cai/cai.com?faces-redirect=true";     
         }
         else{
             return null;

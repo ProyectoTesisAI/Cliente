@@ -1,18 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package epn.edu.ec.modelo;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
-
-/**
- *
- * @author User
- */
 public class AdolescenteInfractorUDI implements Serializable {
 
     private Integer id_adolescente_udi_pk;
@@ -141,6 +136,20 @@ public class AdolescenteInfractorUDI implements Serializable {
     }
 
     public Integer getEdad() {
+        if(fechaNacimiento!=null){
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern( "E MMM dd HH:mm:ss z uuuu" ).withLocale( Locale.US );
+            ZonedDateTime zdt = ZonedDateTime.parse( fechaNacimiento.toString() , dtf );
+            LocalDate ld = zdt.toLocalDate();
+
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String fecha= ld.format(fmt);
+            LocalDate fechaNac = LocalDate.parse(fecha, fmt);
+            LocalDate ahora = LocalDate.now();
+
+            Period periodo = Period.between(fechaNac, ahora);
+            edad=periodo.getYears();
+            return edad;
+        }
         return edad;
     }
 

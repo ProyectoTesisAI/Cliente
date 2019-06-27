@@ -34,7 +34,7 @@
                                                 <div class="col-md-10 col-md-offset-1">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txtTema" value="Tema"/>
-                                                        <b:inputText  placeholder="Tema" id="txtTema" disabled="true" required="true"  value="#{informePsicologiaEditarControlador.tallerPsicologia.tema}"/>
+                                                        <b:inputText  placeholder="Tema" id="txtTema" disabled="true" required="true" style="text-transform:uppercase"  value="#{informePsicologiaEditarControlador.tallerPsicologia.tema}"/>
                                                     </div>
                                                 </div>                        
                                             </div>
@@ -49,7 +49,7 @@
                                                     <div class="form-group">
                                                         <b:panelGrid columns="1">
                                                             <h:outputLabel for="txtFecha" value="Fecha" />
-                                                            <b:dateTimePicker id="txtFecha" placeholder="dd/mm/aa"  showTime="false" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.fecha}"/>  
+                                                            <b:dateTimePicker id="txtFecha" placeholder="dd/mm/aa"  showTime="false" value="#{informePsicologiaEditarControlador.tallerPsicologia.fecha}"/>  
                                                         </b:panelGrid>
                                                     </div>
                                                 </div>
@@ -74,14 +74,14 @@
                                                 <div class="col-md-10 col-md-offset-1">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txtObjetivoGeneral" value="Objetivo General"/>
-                                                        <b:inputText id="txtObjetivoGeneral" placeholder="Objetivo" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.objetivoGeneral}"/>
+                                                        <b:inputText id="txtObjetivoGeneral" placeholder="Objetivo" style="text-transform:uppercase" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.objetivoGeneral}"/>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-10 col-md-offset-1">
                                                     <div class="form-group">
-                                                        <h:outputLabel for="txtAntecedentesJustificacion" value="Antecedentes y Justificacion" />
+                                                        <h:outputLabel for="txtAntecedentesJustificacion" style="text-transform:uppercase" value="Antecedentes y Justificacion" />
                                                         <b:inputTextarea id="txtAntecedentesJustificacion" placeholder="Antecedentes y Justificacion" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.adolescentesJustificacion}"/>
                                                     </div>
                                                 </div>
@@ -108,19 +108,19 @@
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Desarrollo"/>
                                                                 </f:facet>
-                                                                <b:inputText required="true" value="#{ip.desarrollo}"/>
+                                                                <b:inputText required="true" style="text-transform:uppercase" value="#{ip.desarrollo}"/>
                                                             </b:dataTableColumn>
                                                             <b:dataTableColumn >
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Objetivo Específico"/>
                                                                 </f:facet>
-                                                                <b:inputText value="#{ip.objetivoEspecifico}"/>
+                                                                <b:inputText style="text-transform:uppercase" value="#{ip.objetivoEspecifico}"/>
                                                             </b:dataTableColumn>
                                                             <b:dataTableColumn >
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Materiales"/>
                                                                 </f:facet>
-                                                                <b:inputText  value="#{ip.materiales}"/>
+                                                                <b:inputText style="text-transform:uppercase" value="#{ip.materiales}"/>
                                                             </b:dataTableColumn>
 
                                                         </b:dataTable>
@@ -131,7 +131,7 @@
                                                 <div class="col-md-10 col-md-offset-1">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txtDesarrollo" value="Desarrollo"/>
-                                                        <b:inputText id="txtDesarrollo" placeholder="Desarrollo" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.socializacionDesarrollo}"/>
+                                                        <b:inputText id="txtDesarrollo" placeholder="Desarrollo" style="text-transform:uppercase" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.socializacionDesarrollo}"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -139,7 +139,7 @@
                                                 <div class="col-md-10 col-md-offset-1">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txtObjetivosEspecificos" value="Objetivos Especificos"/>
-                                                        <b:inputText id="txtObjetivosEspecificos" placeholder="Objetivos Especificos" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.socializacionObjetivos}"/>
+                                                        <b:inputText id="txtObjetivosEspecificos" placeholder="Objetivos Especificos" style="text-transform:uppercase" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.socializacionObjetivos}"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -148,7 +148,7 @@
                                                 <div class="col-md-10 col-md-offset-1">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txtCierreEvaluacion" value="Cierre y Evaluación"/>
-                                                        <b:inputTextarea id="txtCierreEvaluacion" placeholder="Cierre y Evaluación" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.cierreEvaluacion}"/>
+                                                        <b:inputTextarea id="txtCierreEvaluacion" placeholder="Cierre y Evaluación" style="text-transform:uppercase" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.cierreEvaluacion}"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -156,7 +156,7 @@
                                                 <div class="col-md-10 col-md-offset-1">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txtConclusiones" value="Conclusiones"/>
-                                                        <b:inputTextarea id="txtConclusiones" placeholder="Conclusiones" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.conclusiones}"/>
+                                                        <b:inputTextarea id="txtConclusiones" placeholder="Conclusiones" style="text-transform:uppercase" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.conclusiones}"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -164,7 +164,7 @@
                                                 <div class="col-md-10 col-md-offset-1">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txtRecomendaciones" value="Recomendaciones"/>
-                                                        <b:inputTextarea id="txtRecomendaciones" placeholder="Recomendaciones" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.recomendaciones}" />
+                                                        <b:inputTextarea id="txtRecomendaciones" placeholder="Recomendaciones" style="text-transform:uppercase" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.recomendaciones}" />
                                                     </div>
                                                 </div>
 
@@ -173,17 +173,17 @@
                                                 <div class="col-md-10 col-md-offset-1">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txtObservaciones" value="Observaciones"/>
-                                                        <b:inputTextarea id="txtObservaciones" placeholder="Observaciones" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.observaciones}"/>
+                                                        <b:inputTextarea id="txtObservaciones" placeholder="Observaciones" style="text-transform:uppercase" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.observaciones}"/>
                                                     </div>
                                                 </div>
                                             </div>
 
 
                                             <div class="row">
-                                                <div class="col-md-2 col-md-offset-1">
+                                                <div class="col-md-5 col-md-offset-1">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txtElaborado" value="Elaborado por "/>
-                                                        <b:inputText  placeholder="Elaborado por" id="txtElaborado" disabled="true"/>
+                                                        <b:inputText  placeholder="Elaborado por" id="txtElaborado" style="text-transform:uppercase" disabled="true" value="#{informePsicologiaEditarControlador.informePsicologiaEditar.elaborado}"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -221,7 +221,7 @@
                                                         <b:dataTableColumn  value="#{ai.idAdolescenteUdi.apellidos}"/>
                                                         <b:dataTableColumn value="#{ai.idAdolescenteUdi.cedula}"/>
                                                         <b:dataTableColumn label="¿Asistió?">
-                                                            <b:selectBooleanCheckbox value="true"/>
+                                                            <b:selectBooleanCheckbox value="#{ai.asistio}"/>
                                                         </b:dataTableColumn>
                                                     </b:dataTable>
                                                 </div>

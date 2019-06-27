@@ -110,7 +110,7 @@ public class MotivoEgresoCAIControlador implements Serializable{
 
         MotivoEgresoCAI motivoEgresoCAIAux = servicio.guardarMotivoEgresoCAI(motivoEgresoCAI);
         if(motivoEgresoCAIAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return "/paginas/cai/cai.com?faces-redirect=true";     
         }
         else{
             return null;
