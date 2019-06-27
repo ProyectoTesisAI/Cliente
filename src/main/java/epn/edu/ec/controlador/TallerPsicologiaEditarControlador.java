@@ -78,7 +78,6 @@ public class TallerPsicologiaEditarControlador implements Serializable{
     ///////////////////////////////////////////////////
     
     boolean tallerGuardado=false;
-    boolean registroAsistenciaGuardado=true;
     
     int indiceTaller=0;
     
@@ -122,51 +121,50 @@ public class TallerPsicologiaEditarControlador implements Serializable{
             listaCai=controladorCai.listaCai(); //muestro la lista de CAIs rescatadas de la base de datos
         }
         
-        //////////EN EL CASO DE QUE EL TALLER SE HAYA GUARDADO////////////////////77
+        //////////EN EL CASO DE QUE EL TALLER SE HAYA GUARDADO////////////////////
         TallerPsicologia tallerAux= (TallerPsicologia)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("taller_psicologia");
         
         if(tallerAux != null){
             tallerPsicologiaEditar=tallerAux;
             tallerGuardado=true;
-            registroAsistenciaGuardado=false;
+            
             if(tallerAux.getIdCai()!=null){
                 tipoCentro="CAI";
-                esUzdi=false;
+                
             }
             if(tallerAux.getIdUdi() != null){
                 tipoCentro="UZDI";
-                esUzdi=true;
                 listaUdi=controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de datos
                 udi=tallerPsicologiaEditar.getIdUdi();
-            }
+            }           
             
             List<ItemTallerPsicologia> itemsAux= controlador.obtenerItemsPorTalleresPsicologia(tallerPsicologiaEditar.getIdTallerPsicologia());
+            
             if(itemsAux != null){
+                
                 listaItemsTallerPsicologia=itemsAux;
-                generarRegistroAsistencia();
                 indiceTaller=1;
             }
             
-            RegistroAsistencia asistenciaAux= (RegistroAsistencia)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("registro_asistencia");
-            //si la sesión del registro asistencia está vigente, ocurre cuando guardas el registro de asistencia
-            if(asistenciaAux !=null){
-                registroAsistencia= asistenciaAux;
-                tallerGuardado=true;
-                registroAsistenciaGuardado=true;
+
+            List<RegistroAsistenciaAdolescenteUDI> registroAsistenciaAux= controladorAsistencia.listaAdolescentesInfractoresPorTaller(tallerAux);
+            
+            if(registroAsistenciaAux!=null){
                 
+                List<AdolescenteInfractorUDI> listaAsistencia=new ArrayList<>();
+                
+                for(RegistroAsistenciaAdolescenteUDI asis : registroAsistenciaAux){
+                    AdolescenteInfractorUDI a=asis.getIdAdolescenteUdi();
+                    listaAsistencia.add(a);
+                        
+                }
+                
+                listaAdolescentesUzdi=listaAsistencia;
             }
-            //en el caso de que no haya una sesión del registro de asistencia, ocurre cuando se desea ver el Taller a partir de otra página
             else{
-                RegistroAsistencia registroAsistenciaAux= controlador.obtenerRegistroAsistenciaPorTaller(tallerPsicologiaEditar.getIdTallerPsicologia());
-                if(registroAsistenciaAux!=null){
-                    registroAsistencia=registroAsistenciaAux;
-                    
-                    registroAsistenciaGuardado=true;
-                }
-                else{
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "AÚN NO HA GUARDADO EL REGISTRO DE ASISTENCIA","Aviso" ));
-                }
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "AÚN NO HA GUARDADO EL REGISTRO DE ASISTENCIA","Aviso" ));
             }
+        
         }
     }
 
@@ -238,20 +236,21 @@ public class TallerPsicologiaEditarControlador implements Serializable{
     
     public Integer getNumeroParticipantes() {
         
-        if(udi.getUdi()!=null){
-            
-            for(UDI u: listaUdi){
-                if(u.getUdi().equals(udi.getUdi())){
-                    udi=u;
-                    break;
-                }
-            }
-            numeroParticipantes=controlador.obtenerNumeroAdolescentePorUdi(udi);
-            
-        }
-        else if(tallerPsicologiaEditar.getIdCai()!=null){
         
-        }
+            if(udi.getUdi()!=null){
+            
+                for(UDI u: listaUdi){
+                    if(u.getUdi().equals(udi.getUdi())){
+                        udi=u;
+                        break;
+                    }
+                }
+                numeroParticipantes=controlador.obtenerNumeroAdolescentePorUdi(udi);            
+            }
+            
+            else if(tallerPsicologiaEditar.getIdCai()!=null){
+
+            }
         return numeroParticipantes;
     }
 
@@ -331,14 +330,6 @@ public class TallerPsicologiaEditarControlador implements Serializable{
         this.tallerGuardado = tallerGuardado;
     }
 
-    public boolean isRegistroAsistenciaGuardado() {
-        return registroAsistenciaGuardado;
-    }
-
-    public void setRegistroAsistenciaGuardado(boolean registroAsistenciaGuardado) {
-        this.registroAsistenciaGuardado = registroAsistenciaGuardado;
-    }
-
     public RegistroAsistenciaAdolescenteUDIServicio getControladorAsistenciaUDI() {
         return controladorAsistenciaUDI;
     }
@@ -400,13 +391,12 @@ public class TallerPsicologiaEditarControlador implements Serializable{
                 
                 if(itemsGuardados >0 && itemsGuardados==listaItemsTallerPsicologia.size()){
                     
-                    tallerGuardado=true;
-                    registroAsistenciaGuardado=false; 
                     indiceTaller=1;
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia", taller);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL TALLER DE PSICOLOGÍA","Aviso" ));
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "AHORA PUEDE GENERAR EL REGISTRO DE ASISTENCIA","Aviso" ));
-                    return "/paginas/psicologia/taller_psicologia_editar.com?faces-redirect=true";
+                    
+                    guardarRegistroAsistencia(taller);
+                    return "/paginas/psicologia/panel_taller_psicologia.com?faces-redirect=true";
                 }
             }
             else{
@@ -419,28 +409,63 @@ public class TallerPsicologiaEditarControlador implements Serializable{
         return null;
     }
     
-    public void generarRegistroAsistencia(){
+   public void generarRegistroAsistencia(TallerPsicologia tallerPsicologia){
         
-        if( tallerPsicologiaEditar.getIdUdi() == null){
+        if( tallerPsicologia.getIdUdi() == null){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO SE HA SELECCIONADO UNIDAD ZONAL ","Aviso" ));
         }
         else{
-            List<AdolescenteInfractorUDI> registroAux = controladorAsistencia.listaAdolescentesInfractoresPorUzdi(tallerPsicologiaEditar.getIdUdi());
+            List<AdolescenteInfractorUDI> registroAux = controladorAsistencia.listaAdolescentesInfractoresPorUzdi(tallerPsicologia.getIdUdi());
             if(registroAux==null){
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO HAY ADOLESCENTES INFRACTORES EN LA "+tallerPsicologiaEditar.getIdUdi().getUdi(),"Aviso" ));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO HAY ADOLESCENTES INFRACTORES EN LA "+tallerPsicologia.getIdUdi().getUdi(),"Aviso" ));
             }
             else{
                 if(registroAux.size()>0){                    
-                    //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ADOLESCENTES INFRACTORES PERTENECIENTES A "+tallerPsicologia.getIdUdi().getUdi(),"Aviso" ));
                     listaAdolescentesUzdi=registroAux;
                 }
-            }
-
-            
+            } 
         }
-        
-    }
+    } 
+ 
+    
+    public void guardarRegistroAsistencia(TallerPsicologia tallerPsicologia){
+    
+        try{
+            generarRegistroAsistencia(tallerPsicologia);
+            Integer idRegistroTaller = tallerPsicologia.getIdTallerPsicologia();
+            Integer respuestaEliminado = controladorAsistencia.eliminarListadoAsistencia(idRegistroTaller);
+            
+            registroAsistencia.setTematica(tallerPsicologia.getTema());
+            registroAsistencia.setFecha(tallerPsicologia.getFecha());
+            registroAsistencia.setIdRegistroAsistencia(tallerPsicologia);
+            RegistroAsistencia registroAsistenciaAux= controladorAsistencia.guardarRegistroAsistencia(registroAsistencia);
+            
+            if(respuestaEliminado==200 || respuestaEliminado==204){
+                if(registroAsistenciaAux!=null){                
+                int asistenciaAdolescentes=0;
+                
+                for(AdolescenteInfractorUDI a : listaAdolescentesUzdi){
+                    RegistroAsistenciaAdolescenteUDI asistencia= new RegistroAsistenciaAdolescenteUDI();
+                    asistencia.setIdAdolescenteUdi(a);
+                    asistencia.setIdRegistroAsistencia(registroAsistenciaAux);
+                    controladorAsistenciaUDI.guardarRegistroAsistenciaAdolescenteUDI(asistencia);
+                    asistenciaAdolescentes++;
+                }
 
+                if(asistenciaAdolescentes>0 && asistenciaAdolescentes== listaAdolescentesUzdi.size()){
+                    tallerGuardado=true;
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL REGISTRO DE ASISTENCIA","Aviso" ));
+                }
+            }
+            }else{
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "HA OCURRIDO UN ERROR AL GUARDAR EL REGISTRO DE ASISTENCIA","ERROR" ));
+            }
+            
+        }catch(Exception e){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "HA OCURRIDO UN ERROR AL GUARDAR EL REGISTRO DE ASISTENCIA","ERROR" ));
+        }
+    }
+    
     public void guardarPDFAsistencia(){
         //retorna el path del archivo-->Retorna: "file:D:/User/Documents/NetBeansProjects/SistemaReeducacionAI/SistemaReeducacionAI/src/main/java/epn/edu/ec/reportes/RegistroAsistencia.jasper"
         String ruta=getClass().getClassLoader().getResource("/epn/edu/ec/reportes/RegistroAsistencia.jasper").toString();
@@ -480,38 +505,5 @@ public class TallerPsicologiaEditarControlador implements Serializable{
             System.out.println("Error:  " + e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "NO SE HA GENERADO EL REGISTRO DE ASISTENCIA","ERROR" ));
         }
-    }
-    
-    public void guardarRegistroAsistencia(){
-    
-        try{
-            registroAsistencia.setFecha(tallerPsicologiaEditar.getFecha());
-            registroAsistencia.setIdRegistroAsistencia(tallerPsicologiaEditar);
-            RegistroAsistencia registroAsistenciaAux= controladorAsistencia.guardarRegistroAsistencia(registroAsistencia);
-        
-            if(registroAsistenciaAux!=null){                
-                int asistenciaAdolescentes=0;
-                
-                for(AdolescenteInfractorUDI a : listaAdolescentesUzdi){
-                    RegistroAsistenciaAdolescenteUDI asistencia= new RegistroAsistenciaAdolescenteUDI();
-                    asistencia.setIdAdolescenteUdi(a);
-                    asistencia.setIdRegistroAsistencia(registroAsistenciaAux);
-                    controladorAsistenciaUDI.guardarRegistroAsistenciaAdolescenteUDI(asistencia);
-                    asistenciaAdolescentes++;
-                }
-
-                if(asistenciaAdolescentes>0 && asistenciaAdolescentes== listaAdolescentesUzdi.size()){
-                    tallerGuardado=true;
-                    registroAsistenciaGuardado=true;
-                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("registro_asistencia", registroAsistenciaAux);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL REGISTRO DE ASISTENCIA","Aviso" ));
-                }
-            }
-            
-        }catch(Exception e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "HA OCURRIDO UN ERROR AL GUARDAR EL REGISTRO DE ASISTENCIA","ERROR" ));
-        }
-        
-        
     }
 }

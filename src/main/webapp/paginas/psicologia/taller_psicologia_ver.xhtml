@@ -25,14 +25,14 @@
                     <div class="panel panel-default">
 
                     <div style="background-color: #337ab8; color: white; font-weight: bold" class="panel-heading text-center "> FICHA DE PLANIFICACIÓN DE TALLER DE PSICOLOGÍA</div>
-                    <div class="panel-body" style="padding: 40px;">
+                    <div class="panel-body">
                         
-                        <h:form id="formPsicologia">
+                        <h:form id="formPsicologia" style="margin: 40px;">
                             <b:tabView active-index="#{tallerPsicologiaEditarControlador.indiceTaller}" contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">    
                                 
                                 <b:tab title="Taller Psicología">
                                     <h:form id="formTallerPsicologia" >                                
-                                        <b:panel content-disabled="#{tallerPsicologiaEditarControlador.tallerGuardado}" style="border: transparent;" >
+                                        <b:panel content-disabled="true" style="border: transparent;" >
 
                                             <div class="row"  style="margin-top: 50px;">
                                                 <div class="col-md-10 col-md-offset-1">
@@ -188,13 +188,13 @@
 
                                     <h:form id="formRegistroAsistenciaPsicologia">
 
-                                        <b:panel content-disabled="#{tallerPsicologiaEditarControlador.registroAsistenciaGuardado}" style="border: transparent">
+                                        <b:panel content-disabled="true" style="border: transparent">
 
                                             <div class="row" style="margin-top: 50px;">
                                                 <div class="col-md-10 col-md-offset-1 ">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txTematica" value="Temática"/>
-                                                        <b:inputText  placeholder="Temática" id="txTematica" style="text-transform:uppercase" required="true" value="#{tallerPsicologiaEditarControlador.registroAsistencia.tematica}" />
+                                                        <b:inputText  placeholder="Temática" id="txTematica" style="text-transform:uppercase" required="true" value="#{tallerPsicologiaEditarControlador.tallerPsicologiaEditar.tema}" />
                                                     </div>
                                                 </div>
                                             </div>

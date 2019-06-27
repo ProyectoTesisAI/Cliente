@@ -52,7 +52,7 @@ public class PanelInformePsicologiaControlador implements Serializable{
 
         try {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia", informe.getIdTallerPsicologia());
-            return "/paginas/psicologia/taller_psicologia_editar.com?faces-redirect=true";
+            return "/paginas/psicologia/taller_psicologia_ver.com?faces-redirect=true";
 
         } catch (Exception ex) {
             return null;

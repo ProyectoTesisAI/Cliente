@@ -8,6 +8,7 @@ package epn.edu.ec.controlador;
 import epn.edu.ec.modelo.AdolescenteInfractorUDI;
 import epn.edu.ec.modelo.EjeEducativoUDI;
 import epn.edu.ec.servicios.EjeEducativoUDIServicio;
+import epn.edu.ec.utilidades.EnlacesPrograma;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -27,16 +28,17 @@ public class EjeEducativoUDIControlador implements Serializable{
     private EjeEducativoUDIServicio servicio;
     private boolean guardado;
     private boolean estudia;
+    private EnlacesPrograma enlaces;
+    
     
      @PostConstruct
     public void init(){
+        
+        enlaces= new EnlacesPrograma();
         servicio= new EjeEducativoUDIServicio();
         
         ejeEducativoUDI=new EjeEducativoUDI();
         guardado=false;
-        
-        adolescenteInfractorUDI= new AdolescenteInfractorUDI();
-        adolescenteInfractorUDI= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
         
         if(isEstudia()){
             estudia=true;
@@ -45,8 +47,13 @@ public class EjeEducativoUDIControlador implements Serializable{
             estudia=false;
         }
         
+        adolescenteInfractorUDI= new AdolescenteInfractorUDI();
+        AdolescenteInfractorUDI adolescenteInfractorUDIAux= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
         
-        if(adolescenteInfractorUDI != null){
+        if(adolescenteInfractorUDIAux != null){
+            
+            adolescenteInfractorUDI=adolescenteInfractorUDIAux;
+            
             EjeEducativoUDI ejeEducativoUDIAux= servicio.obtenerEjeEducativoUDI(adolescenteInfractorUDI.getId_adolescente_udi_pk());
             if(ejeEducativoUDIAux!=null){
                 ejeEducativoUDI=ejeEducativoUDIAux;
@@ -109,7 +116,7 @@ public class EjeEducativoUDIControlador implements Serializable{
         
         EjeEducativoUDI ejeEducativoUDIAux = servicio.guardarEjeEducativoUDI(ejeEducativoUDI);
         if(ejeEducativoUDIAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";        
         }
         else{
             return null;

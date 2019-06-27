@@ -8,6 +8,7 @@ package epn.edu.ec.controlador;
 import epn.edu.ec.modelo.AdolescenteInfractorUDI;
 import epn.edu.ec.modelo.EstadoCumplimientoMedida;
 import epn.edu.ec.servicios.EstadoCumplimientoMedidaServicio;
+import epn.edu.ec.utilidades.EnlacesPrograma;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -33,19 +34,17 @@ public class EstadoCumplimientoMedidaControlador implements Serializable {
     private boolean culminadaGuardada;
     private boolean derivadaGuardada;
     private boolean incumplimientoGuardada;
+    private EnlacesPrograma enlaces;
 
     @PostConstruct
     public void init() {
+        
+        enlaces= new EnlacesPrograma();
         servicio = new EstadoCumplimientoMedidaServicio();
 
         estadoCumplimientoMedida = new EstadoCumplimientoMedida();
         guardado = false;
-        /*
-        ejecucionGuardada=false;
-        culminadaGuardada=false;
-        derivadaGuardada=false;
-        incumplimientoGuardada=false;
-         */
+
         estado = "EN_EJECUCIÓN";
         System.out.println("estado init: " + estado);
         if (estado.equals("EN_EJECUCIÓN")) {
@@ -54,48 +53,41 @@ public class EstadoCumplimientoMedidaControlador implements Serializable {
             ActivarCulminada = false;
             ActivarDerivada = false;
             ActivarIncumplimiento = false;
-            System.out.println("ee: " + ActivarEjecucion);
-            System.out.println("ec: " + ActivarCulminada);
-            System.out.println("ed: " + ActivarDerivada);
-            System.out.println("ei: " + ActivarIncumplimiento);
+
         } else if (estado.equals("CULMINADA")) {
             System.out.println("culminada");
             ActivarEjecucion = false;
             ActivarCulminada = true;
             ActivarDerivada = false;
             ActivarIncumplimiento = false;
-            System.out.println("ce: " + ActivarEjecucion);
-            System.out.println("cc: " + ActivarCulminada);
-            System.out.println("cd: " + ActivarDerivada);
-            System.out.println("ci: " + ActivarIncumplimiento);
+
         } else if (estado.equals("DERIVADA")) {
             System.out.println("derivada");
             ActivarEjecucion = false;
             ActivarCulminada = false;
             ActivarDerivada = true;
             ActivarIncumplimiento = false;
-            System.out.println("de: " + ActivarEjecucion);
-            System.out.println("dc: " + ActivarCulminada);
-            System.out.println("dd: " + ActivarDerivada);
-            System.out.println("di: " + ActivarIncumplimiento);
+
         } else if (estado.equals("INCUMPLIMIENTO")) {
             System.out.println("incumplimiento");
             ActivarEjecucion = false;
             ActivarCulminada = false;
             ActivarDerivada = false;
             ActivarIncumplimiento = true;
-            System.out.println("ie: " + ActivarEjecucion);
-            System.out.println("ic: " + ActivarCulminada);
-            System.out.println("id: " + ActivarDerivada);
-            System.out.println("ii: " + ActivarIncumplimiento);
+
         }
 
         adolescenteInfractorUDI = new AdolescenteInfractorUDI();
-        adolescenteInfractorUDI = (AdolescenteInfractorUDI) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
+        AdolescenteInfractorUDI adolescenteInfractorUDIAux = (AdolescenteInfractorUDI) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
 
-        if (adolescenteInfractorUDI != null) {
+        if (adolescenteInfractorUDIAux != null) {
+            
+            adolescenteInfractorUDI=adolescenteInfractorUDIAux;
+            
             EstadoCumplimientoMedida estadoCumplimientoMedidaAux = servicio.obtenerEstadoCumplimientoMedida(adolescenteInfractorUDI.getId_adolescente_udi_pk());
+            
             if (estadoCumplimientoMedidaAux != null) {
+            
                 estadoCumplimientoMedida = estadoCumplimientoMedidaAux;
                 guardado = true;
                 if (estadoCumplimientoMedida.getSituacionActual().equals("EN_EJECUCIÓN")) {
@@ -267,7 +259,7 @@ public class EstadoCumplimientoMedidaControlador implements Serializable {
 
         EstadoCumplimientoMedida estadoCumplimientoMedidaAux = servicio.guardarEstadoCumplimientoMedida(estadoCumplimientoMedida);
         if (estadoCumplimientoMedidaAux != null) {
-            return "/paginas/inicio/udi.com?faces-redirect=true";
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";  
         } else {
             return null;
         }

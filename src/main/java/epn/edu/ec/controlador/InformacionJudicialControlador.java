@@ -8,6 +8,7 @@ package epn.edu.ec.controlador;
 import epn.edu.ec.modelo.AdolescenteInfractorUDI;
 import epn.edu.ec.modelo.InformacionJudicial;
 import epn.edu.ec.servicios.InformacionJudicialServicio;
+import epn.edu.ec.utilidades.EnlacesPrograma;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -34,20 +35,24 @@ public class InformacionJudicialControlador implements Serializable{
    private boolean servicioComunidad;
    private boolean libertadAsistida;
    private int numeroMedidas=0;
-   
+   private EnlacesPrograma enlaces;
    
     @PostConstruct
     public void init(){
         
+        enlaces= new EnlacesPrograma();
         servicio= new InformacionJudicialServicio();
         guardado=false;
         
         informacionJudicial= new InformacionJudicial();
                
         adolescenteInfractorUDI= new AdolescenteInfractorUDI();
-        adolescenteInfractorUDI= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
+        AdolescenteInfractorUDI adolescenteInfractorUDIAux = (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
         
-        if(adolescenteInfractorUDI != null){
+        if(adolescenteInfractorUDIAux != null){
+            
+            adolescenteInfractorUDI=adolescenteInfractorUDIAux;
+            
             InformacionJudicial  informacionJudicialAux= servicio.obtenerInformacionJudicial(adolescenteInfractorUDI.getId_adolescente_udi_pk());
             if(informacionJudicialAux != null){
                 informacionJudicial=informacionJudicialAux;
@@ -210,7 +215,7 @@ public class InformacionJudicialControlador implements Serializable{
 
         InformacionJudicial informacionJudicialAux = servicio.guardarInformacionJudicial(informacionJudicial);
         if(informacionJudicialAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";        
         }
         else{
             return null;

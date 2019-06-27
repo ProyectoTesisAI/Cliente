@@ -10,6 +10,7 @@ import epn.edu.ec.modelo.DatosProvinciaCanton;
 import epn.edu.ec.modelo.IdentificacionGeografica;
 import epn.edu.ec.servicios.DatosProvinciaCantonServicio;
 import epn.edu.ec.servicios.IdentificacionGeograficaServicio;
+import epn.edu.ec.utilidades.EnlacesPrograma;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +31,12 @@ public class IdentificacionGeograficaControlador implements Serializable{
     private List<DatosProvinciaCanton> provincias;
     private List<DatosProvinciaCanton> cantones;
     private DatosProvinciaCantonServicio servicioCAIPC;
+    private EnlacesPrograma enlaces;
     
     @PostConstruct
     public void init(){
+        
+        enlaces= new EnlacesPrograma();
         servicio= new IdentificacionGeograficaServicio();
         
         identificacionGeografica= new IdentificacionGeografica();
@@ -42,9 +46,11 @@ public class IdentificacionGeograficaControlador implements Serializable{
         servicioCAIPC = new DatosProvinciaCantonServicio();
         
         adolescenteInfractorUDI= new AdolescenteInfractorUDI();
-        adolescenteInfractorUDI= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
+        AdolescenteInfractorUDI adolescenteInfractorUDIAux= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
         
-        if(adolescenteInfractorUDI != null){
+        if(adolescenteInfractorUDIAux != null){
+            
+            adolescenteInfractorUDI=adolescenteInfractorUDIAux;
             IdentificacionGeografica identificacionGeograficaAux= servicio.obtenerIdentificacionGeografica(adolescenteInfractorUDI.getId_adolescente_udi_pk());
             if(identificacionGeograficaAux!=null){
                 identificacionGeografica=identificacionGeograficaAux;
@@ -116,7 +122,7 @@ public class IdentificacionGeograficaControlador implements Serializable{
 
         IdentificacionGeografica identificacionGeograficaAux= servicio.guardarIdentificacionGeografica(identificacionGeografica);
         if(identificacionGeograficaAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";      
         }
         else{
             return null;

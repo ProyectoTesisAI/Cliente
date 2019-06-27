@@ -8,6 +8,7 @@ package epn.edu.ec.controlador;
 import epn.edu.ec.modelo.AdolescenteInfractorUDI;
 import epn.edu.ec.modelo.EjeLaboral;
 import epn.edu.ec.servicios.EjeLaboralServicio;
+import epn.edu.ec.utilidades.EnlacesPrograma;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -23,16 +24,16 @@ public class EjeLaboralControlador implements Serializable{
     private EjeLaboralServicio servicio;
     private boolean guardado;
     private boolean trabaja;
+    private EnlacesPrograma enlaces;
     
     @PostConstruct
     public void init(){
+        
+        enlaces= new EnlacesPrograma();
         servicio= new EjeLaboralServicio();
         
         ejeLaboral= new EjeLaboral();
         guardado=false;
-        
-        adolescenteInfractorUDI= new AdolescenteInfractorUDI();
-        adolescenteInfractorUDI= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
         
         if (isTrabaja()) {
             trabaja = true;
@@ -40,7 +41,13 @@ public class EjeLaboralControlador implements Serializable{
             trabaja = false;            
         }
         
-        if(adolescenteInfractorUDI != null){
+        adolescenteInfractorUDI= new AdolescenteInfractorUDI();
+        AdolescenteInfractorUDI adolescenteInfractorUDIAux= (AdolescenteInfractorUDI)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
+        
+        if(adolescenteInfractorUDIAux != null){
+            
+            adolescenteInfractorUDI=adolescenteInfractorUDIAux;
+            
             EjeLaboral ejeLaboralAux= servicio.obtenerEjeLaboral(adolescenteInfractorUDI.getId_adolescente_udi_pk());
             if(ejeLaboralAux!=null){
                 ejeLaboral=ejeLaboralAux;
@@ -101,7 +108,7 @@ public class EjeLaboralControlador implements Serializable{
 
         EjeLaboral ejeLaboralAux = servicio.guardarEjeLaboral(ejeLaboral);
         if(ejeLaboralAux!=null){
-            return "/paginas/inicio/udi.com?faces-redirect=true";     
+            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";        
         }
         else{
             return null;

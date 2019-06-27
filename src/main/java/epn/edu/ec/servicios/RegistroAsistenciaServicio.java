@@ -67,4 +67,13 @@ public class RegistroAsistenciaServicio {
         return registroAsistenciaUdi;
 
     }
+
+    public Integer eliminarListadoAsistencia(Integer registroAsistenciaTaller){
+        Integer resultado=0;
+        WebTarget webTarget=cliente.target(URL_REGISTRO_ASISTENCIA).path(registroAsistenciaTaller.toString());        
+        Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+ ";charset=UTF-8");        
+        Response response=invocationBuilder.delete();
+        resultado=response.getStatus();
+        return resultado;
+    }
 }

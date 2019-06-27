@@ -23,7 +23,7 @@
                <!-- Panel para la creación de la Ficha de Informe de Taller-->
                 <div class="panel panel-default">
 
-                    <div style="background-color: #337ab8; color: white; font-weight: bold" class="panel-heading text-center "> FICHA DE INFORME DE PSICOLOGÍA</div>
+                    <div style="background-color: #337ab8; color: white; font-weight: bold" class="panel-heading text-center ">CREAR FICHA INFORME DE PSICOLOGÍA</div>
                     <div class="panel-body" style="padding: 40px;">
 
                         <b:form id="form">
@@ -50,7 +50,7 @@
                                                     <div class="form-group">
                                                         <b:panelGrid columns="1">
                                                             <h:outputLabel for="txtFecha" value="Fecha" />
-                                                            <b:dateTimePicker id="txtFecha" placeholder="dd/mm/aa"  showTime="false" value="#{informePsicologiaControlador.informePsicologia.fecha}"/>  
+                                                            <b:dateTimePicker id="txtFecha" placeholder="dd/mm/aa"  showTime="false" disabled="true" value="#{informePsicologiaControlador.tallerPsicologia.fecha}"/>  
                                                         </b:panelGrid>
                                                     </div>
                                                 </div>
@@ -220,9 +220,18 @@
                                                         <b:dataTableColumn value="#{ai.idAdolescenteUdi.apellidos}"/>
                                                         <b:dataTableColumn value="#{ai.idAdolescenteUdi.cedula}"/>
                                                         <b:dataTableColumn label="¿Asistió?">
-                                                            <b:selectBooleanCheckbox value="true"/>
+                                                            <b:selectBooleanCheckbox value="#{ai.asistio}"/>
                                                         </b:dataTableColumn>
                                                     </b:dataTable>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row" style="margin-bottom: 20px; margin-top: 20px;">
+                                                <div class=" col-md-2 col-md-offset-9">
+                                                    <div class="form-group">
+                                                        <b:commandButton id="btnRegistroAsistencia" value="Guardar" class="btn btn-primary btn-block" update="growlRegistroAsistencia" action="#{informePsicologiaControlador.guardarRegistroAsistencia()}"/>
+                                                        <b:growl id="growlRegistroAsistencia" globalOnly="false" severity="info,error"/>
+                                                    </div>   
                                                 </div>
                                             </div>
                                         </b:panel>

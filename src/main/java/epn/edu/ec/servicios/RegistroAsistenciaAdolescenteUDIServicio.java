@@ -38,12 +38,20 @@ public class RegistroAsistenciaAdolescenteUDIServicio {
         
         WebTarget webTarget=cliente.target(URL_REGISTRO_ASISTENCIA_ADOLESCENTE_UDI);        
         Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");     
-        Response response =invocationBuilder.post(Entity.entity(registroAsistencia, MediaType.APPLICATION_JSON+";charset=UTF-8"));
+        Response response =invocationBuilder.put(Entity.entity(registroAsistencia, MediaType.APPLICATION_JSON+";charset=UTF-8"));
         if(response.getStatus()==200){
             registroAsistenciaAux =response.readEntity(RegistroAsistenciaAdolescenteUDI.class);
         }
         
         return registroAsistenciaAux;
 
+    }
+    
+    public Integer eliminarListadoAsistencia(Integer registroAsistenciaTaller){
+        Integer resultado=0;
+        WebTarget webTarget=cliente.target(URL_REGISTRO_ASISTENCIA_ADOLESCENTE_UDI).path(registroAsistenciaTaller.toString());        
+        Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+ ";charset=UTF-8");        
+        Response response=invocationBuilder.delete();
+        return resultado;
     }
 }
