@@ -114,19 +114,21 @@
                                                 <div class="col-md-10 col-md-offset-1">
                                                     <div class="form-group">
                                                         <b:dataTable id="tablaTallerPsicologia" value="#{tallerPsicologiaEditarControlador.listaItemsTallerPsicologia}" 
+                                                                    widgetVar="tableWidgetVar"
                                                                     var="tp"
                                                                     fixed-header="true"
                                                                     scroll-x="true"
                                                                     scroll-size="1000px"
-                                                                    responsive="true"
+                                                                    responsive="false"
                                                                     searching="false"
                                                                     select="true"
+                                                                    paginated="false"
                                                                     selectionMode="multiple"
-                                                                    style="margin: auto; width: 100%;"
+                                                                    style="margin: 0 auto; width: 100%;"
                                                                     
-                                                                    >
+                                                                     >
                                                             <b:dataTableColumn style="min-width: 100px;">
-                                                                <f:facet name="header" >
+                                                                <f:facet name="header">
                                                                     <h:outputText value="Hora"/>
                                                                 </f:facet>
                                                                 <b:dateTimePicker style="color: #262626" id="txtDuracion" placeholder="hh:mm:ss"  show-date="false" value="#{tp.hora}"/>  
@@ -135,27 +137,27 @@
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Actividad"/>
                                                                 </f:facet>
-                                                                <b:inputText required="true" style="text-transform:uppercase" required-message="Activida es requerida, ingrese una actividad" value="#{tp.actividad}"/>
+                                                                <b:inputTextarea rows="2" required="true" style="text-transform:uppercase" required-message="Activida es requerida, ingrese una actividad" value="#{tp.actividad}"/>
                                                             </b:dataTableColumn>
-                                                            <b:dataTableColumn >
+                                                            <b:dataTableColumn>
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Objetivo Específico"/>
                                                                 </f:facet>
-                                                                <b:inputText style="text-transform:uppercase" value="#{tp.objetivoEspecifico}"/>
+                                                                <b:inputTextarea rows="2" style="text-transform:uppercase" value="#{tp.objetivoEspecifico}"/>
                                                             </b:dataTableColumn>
                                                             <b:dataTableColumn >
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Materiales"/>
                                                                 </f:facet>
-                                                                <b:inputText style="text-transform:uppercase" value="#{tp.materiales}"/>
+                                                                <b:inputTextarea rows="2" style="text-transform:uppercase" value="#{tp.materiales}"/>
                                                             </b:dataTableColumn>
-                                                            <b:dataTableColumn >
+                                                            <b:dataTableColumn>
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Responsable"/>
                                                                 </f:facet>
-                                                                <b:inputText style="text-transform:uppercase" value="#{tp.responsable}"/>
+                                                                <b:inputTextarea rows="2" style="text-transform:uppercase" value="#{tp.responsable}"/>
                                                             </b:dataTableColumn>
-
+                                                            
                                                         </b:dataTable>
                                                     </div>
                                                 </div>

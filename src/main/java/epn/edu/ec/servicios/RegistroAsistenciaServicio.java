@@ -67,6 +67,22 @@ public class RegistroAsistenciaServicio {
         return registroAsistenciaUdi;
 
     }
+    
+    public int obtenerNumeroAdolescentesPorTaller(Integer idTaller){
+          
+        WebTarget webTarget=cliente.target(URL_REGISTRO_ASISTENCIA+"/Taller/NumeroAsistentes/"+idTaller.toString());        
+        Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");     
+        Response response =invocationBuilder.get();
+        if(response.getStatus()==200){
+            int numeroAsistentes=Integer.parseInt(response.readEntity(String.class)); 
+            return numeroAsistentes;
+        }
+        else{
+            return 0;
+        }
+        
+
+    }
 
     public Integer eliminarListadoAsistencia(Integer registroAsistenciaTaller){
         Integer resultado=0;

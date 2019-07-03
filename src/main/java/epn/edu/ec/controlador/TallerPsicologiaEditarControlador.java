@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,12 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @Named(value = "tallerPsicologiaEditarControlador")
 @ViewScoped
 public class TallerPsicologiaEditarControlador implements Serializable{
-
+    //////////variables usadas para la edicion de los item de las actividades
+    private Date hora;
+    private String actividad;
+    private String objetivoEspecifico;
+    private String materiales;
+    private String responsable;
     
     //////////variables usadas para el Taller Psicologia/////////
     TallerPsicologia tallerPsicologiaEditar;
@@ -53,11 +59,6 @@ public class TallerPsicologiaEditarControlador implements Serializable{
     List<UDI> listaUdi; 
     List<CAI> listaCai;
     
-    ItemTallerPsicologia item1;
-    ItemTallerPsicologia item2;
-    ItemTallerPsicologia item3;
-    ItemTallerPsicologia item4;
-    ItemTallerPsicologia item5;
     List<ItemTallerPsicologia> listaItemsTallerPsicologia;
     
     String tipoCentro;
@@ -98,20 +99,9 @@ public class TallerPsicologiaEditarControlador implements Serializable{
         listaCai= new ArrayList<>();
         listaUdi= new ArrayList<>();
         listaAdolescentesUzdi= new ArrayList<>();
-
-        item1= new ItemTallerPsicologia();
-        item2= new ItemTallerPsicologia();
-        item3= new ItemTallerPsicologia();
-        item4= new ItemTallerPsicologia();
-        item5= new ItemTallerPsicologia();      
+     
         listaItemsTallerPsicologia= new ArrayList<>();
-        
-        listaItemsTallerPsicologia.add(item1);
-        listaItemsTallerPsicologia.add(item2);
-        listaItemsTallerPsicologia.add(item3);
-        listaItemsTallerPsicologia.add(item4);
-        listaItemsTallerPsicologia.add(item5);
-        
+                
         if(isEsUzdi()){
             tipoCentro="UZDI";           
             listaUdi=controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de datos
@@ -270,46 +260,6 @@ public class TallerPsicologiaEditarControlador implements Serializable{
         return controladorAsistencia;
     }
 
-    public ItemTallerPsicologia getItem1() {
-        return item1;
-    }
-
-    public void setItem1(ItemTallerPsicologia item1) {
-        this.item1 = item1;
-    }
-
-    public ItemTallerPsicologia getItem2() {
-        return item2;
-    }
-
-    public void setItem2(ItemTallerPsicologia item2) {
-        this.item2 = item2;
-    }
-
-    public ItemTallerPsicologia getItem3() {
-        return item3;
-    }
-
-    public void setItem3(ItemTallerPsicologia item3) {
-        this.item3 = item3;
-    }
-
-    public ItemTallerPsicologia getItem4() {
-        return item4;
-    }
-
-    public void setItem4(ItemTallerPsicologia item4) {
-        this.item4 = item4;
-    }
-
-    public ItemTallerPsicologia getItem5() {
-        return item5;
-    }
-
-    public void setItem5(ItemTallerPsicologia item5) {
-        this.item5 = item5;
-    }
-
     public List<ItemTallerPsicologia> getListaItemsTallerPsicologia() {
         return listaItemsTallerPsicologia;
     }
@@ -361,8 +311,60 @@ public class TallerPsicologiaEditarControlador implements Serializable{
     public void setUdi(UDI udi) {
         this.udi = udi;
     }
+
+    public Date getHora() {
+        return hora;
+    }
+
+    public void setHora(Date hora) {
+        this.hora = hora;
+    }
+
+    public String getActividad() {
+        return actividad;
+    }
+
+    public void setActividad(String actividad) {
+        this.actividad = actividad;
+    }
+
+    public String getObjetivoEspecifico() {
+        return objetivoEspecifico;
+    }
+
+    public void setObjetivoEspecifico(String objetivoEspecifico) {
+        this.objetivoEspecifico = objetivoEspecifico;
+    }
+
+    public String getMateriales() {
+        return materiales;
+    }
+
+    public void setMateriales(String materiales) {
+        this.materiales = materiales;
+    }
+
+    public String getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
+    }
     
     /*****************************Eventos*********************************************/
+    public void agregarActividad()
+    {
+        
+        ItemTallerPsicologia itemAux = new ItemTallerPsicologia();
+        itemAux.setHora(hora);
+        itemAux.setActividad(actividad);
+        itemAux.setMateriales(materiales);
+        itemAux.setObjetivoEspecifico(objetivoEspecifico);
+        itemAux.setResponsable(responsable);
+        
+        listaItemsTallerPsicologia.add(itemAux);
+    }
     
     public String editarTallerPsicologia(){
         
@@ -396,7 +398,7 @@ public class TallerPsicologiaEditarControlador implements Serializable{
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL TALLER DE PSICOLOGÍA","Aviso" ));
                     
                     guardarRegistroAsistencia(taller);
-                    return "/paginas/psicologia/panel_taller_psicologia.com?faces-redirect=true";
+                    return "/paginas/psicologia/taller_psicologia_ver.com?faces-redirect=true";
                 }
             }
             else{
