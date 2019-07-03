@@ -105,7 +105,7 @@
                                                 <div class="col-md-3 col-md-offset-1">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txtNumeroTotalParticipantes" value="Número Total Participantes"/>
-                                                        <b:inputText mask="integer" placeholder="Numero Total Participantes" id="txtNumeroTotalParticipantes" value="#{informePsicologiaControlador.informePsicologia.numAdolescentes}"/>
+                                                        <b:inputText mask="integer" placeholder="Numero Total Participantes" disabled="true" id="txtNumeroTotalParticipantes" value="#{informePsicologiaControlador.informePsicologia.numAdolescentes}"/>
                                                     </div> 
                                                 </div>
                                             </div>
@@ -113,7 +113,7 @@
                                                 <div class="col-md-10 col-md-offset-1">
                                                     <div class="form-group">
                                                         <h:outputLabel for="txtObjetivoGeneral" value="Objetivo General"/>
-                                                        <b:inputText id="txtObjetivoGeneral" placeholder="Objetivo" style="text-transform:uppercase" value="#{informePsicologiaControlador.informePsicologia.objetivoGeneral}"/>
+                                                        <b:inputText id="txtObjetivoGeneral" placeholder="Objetivo" style="text-transform:uppercase" disabled="true" value="#{informePsicologiaControlador.tallerPsicologia.objetivo}"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -243,7 +243,7 @@
                                             <div class="row" style="margin-bottom: 20px; margin-top: 20px;">
                                                 <div class=" col-md-2 col-md-offset-9">
                                                     <div class="form-group">
-                                                        <h:commandButton id="btnInforme" value="Guardar" class="btn btn-primary btn-block" action="#{informePsicologiaControlador.guardarInformePsicologia()}"/>
+                                                        <b:commandButton id="btnInforme" value="Guardar" class="btn btn-primary btn-block" update="growlInformePsicologia" action="#{informePsicologiaControlador.guardarInformePsicologia()}"/>
                                                         <b:growl id="growlInformePsicologia" for="btnInforme" globalOnly="false" severity="info,error"/>
                                                     </div>   
                                                 </div>

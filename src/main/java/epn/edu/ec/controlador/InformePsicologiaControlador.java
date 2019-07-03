@@ -233,6 +233,7 @@ public class InformePsicologiaControlador implements Serializable{
             
         }catch(Exception e){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "HA OCURRIDO UN ERROR AL GUARDAR EL TALLER DE PSICOLOGÍA","Aviso" ));
+            System.out.println("Alerta del boton guardar");
         }
         return null;
     }
@@ -273,6 +274,7 @@ public class InformePsicologiaControlador implements Serializable{
         }
         
         if(cantidadAsistentes>0 ){
+            informePsicologia.setEstadoegistroAsistencia(true);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se ha guardado correctamente el Registro de Asistencia", "Aviso"));
             return "/paginas/psicologia/informe_psicologia.com?faces-redirect=true";
         }
