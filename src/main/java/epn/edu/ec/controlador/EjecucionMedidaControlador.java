@@ -45,7 +45,9 @@ public class EjecucionMedidaControlador implements Serializable{
             if(ejecucionMedidaAux!=null){
                 ejecucionMedida=ejecucionMedidaAux;
                 guardado=true;
-            }            
+            }else{
+                ejecucionMedida.setFechaReporteCAI(adolescenteInfractorCAI.getFechaReporte());
+            }
         }
         
     }

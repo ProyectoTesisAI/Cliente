@@ -22,6 +22,7 @@ public class MotivoEgresoCAI implements Serializable {
     }
 
     public String getMotivoSalida() {
+        System.out.println("motivo: "+motivoSalida);
         return motivoSalida;
     }
 

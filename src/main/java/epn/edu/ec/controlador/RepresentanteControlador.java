@@ -9,9 +9,11 @@ import epn.edu.ec.modelo.AdolescenteInfractorUDI;
 import epn.edu.ec.modelo.Representante;
 import epn.edu.ec.servicios.RepresentanteServicio;
 import epn.edu.ec.utilidades.EnlacesPrograma;
+import epn.edu.ec.utilidades.Validaciones;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -23,6 +25,11 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class RepresentanteControlador implements Serializable{
 
+    //mensajes que controlan las validaciones
+    private String mensaje = "";
+    //Objeto que contiene el codigo de las validaciones
+    private Validaciones validacion;
+    
     private AdolescenteInfractorUDI adolescenteInfractorUDI;
     private Representante representante;
     private RepresentanteServicio servicio;
@@ -32,6 +39,7 @@ public class RepresentanteControlador implements Serializable{
     @PostConstruct
     public void init(){
         
+        validacion = new Validaciones();
         enlaces= new EnlacesPrograma();
         servicio= new RepresentanteServicio();
         
@@ -81,6 +89,13 @@ public class RepresentanteControlador implements Serializable{
         this.guardado = guardado;
     }
 
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
     
     /*********************Métodos para invocar a los diferentes servicios web******************/
     
@@ -97,5 +112,22 @@ public class RepresentanteControlador implements Serializable{
         }
     }
 
-    
+    public void limpiarMensajeCedula(AjaxBehaviorEvent evento) {
+        String cedula = representante.getCedula();
+        if (validacion.cedulaValida(cedula)) {
+            mensaje = "";
+        } else {
+            mensaje = "cédula incorrecta";
+        }
+    }
+
+    public void validarCedula(AjaxBehaviorEvent evento) {
+
+        String cedula = representante.getCedula();
+        if (validacion.cedulaValida(cedula)) {
+            mensaje = "cédula correcta";
+        } else {
+            mensaje = "cédula incorrecta";
+        }
+    }
 }

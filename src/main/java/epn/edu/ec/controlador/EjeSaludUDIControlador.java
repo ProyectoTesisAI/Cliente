@@ -9,9 +9,11 @@ import epn.edu.ec.modelo.AdolescenteInfractorUDI;
 import epn.edu.ec.modelo.EjeSaludUDI;
 import epn.edu.ec.servicios.EjeSaludUDIServicio;
 import epn.edu.ec.utilidades.EnlacesPrograma;
+import epn.edu.ec.utilidades.Validaciones;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -19,6 +21,11 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class EjeSaludUDIControlador implements Serializable{
 
+    //mensajes que controlan las validaciones
+    private String mensaje = "";
+    //Objeto que contiene el codigo de las validaciones
+    private Validaciones validacion;
+    
     private AdolescenteInfractorUDI adolescenteInfractorUDI;
     private EjeSaludUDI ejeSaludUDI;
     private EjeSaludUDIServicio servicio;
@@ -29,6 +36,7 @@ public class EjeSaludUDIControlador implements Serializable{
      @PostConstruct
     public void init(){
         
+        validacion = new Validaciones();
         enlaces= new EnlacesPrograma();
         servicio= new EjeSaludUDIServicio();
         
@@ -106,6 +114,14 @@ public class EjeSaludUDIControlador implements Serializable{
         }
     }
     
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+    
         /*********************Métodos para invocar a los diferentes servicios web******************/
     
     public String guardarEjeSaludUDI(){
@@ -121,5 +137,22 @@ public class EjeSaludUDIControlador implements Serializable{
         }
     }
 
+    public void limpiarMensaje(AjaxBehaviorEvent evento) {
+        String numero = ejeSaludUDI.getNumeroHistoriaClinica();
+        if (validacion.verificadorSoloNumeros(numero)) {
+            mensaje = "";
+        } else {
+            mensaje = "Número incorrecto";
+        }
+    }
+
+    public void validarSoloNumero(AjaxBehaviorEvent evento) {
+        String numero = ejeSaludUDI.getNumeroHistoriaClinica();
+        if (validacion.verificadorSoloNumeros(numero)) {
+            mensaje = "Número correcto";
+        } else {
+            mensaje = "Número incorrecto";
+        }
+    }
     
 }

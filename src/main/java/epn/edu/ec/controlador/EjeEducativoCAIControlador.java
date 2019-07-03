@@ -99,7 +99,7 @@ public class EjeEducativoCAIControlador implements Serializable{
     
     public String guardarEjeEducativoCAI(){
         this.ejeEducativoCAI.setIdEjeEducativo(adolescenteInfractorCAI);
-        EjeEducativoCAI ejeEducativoCAIAux = servicio.guardarEjeEducativoCAI(ejeEducativoCAI);
+        EjeEducativoCAI ejeEducativoCAIAux = servicio.guardarEjeEducativoCAI(this.ejeEducativoCAI);
         if(ejeEducativoCAIAux!=null){
             return "/paginas/cai/cai.com?faces-redirect=true";     
         }

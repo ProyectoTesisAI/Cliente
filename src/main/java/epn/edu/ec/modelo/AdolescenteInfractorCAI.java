@@ -1,12 +1,8 @@
 package epn.edu.ec.modelo;
 
+import epn.edu.ec.utilidades.Validaciones;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Locale;
 
 public class AdolescenteInfractorCAI implements Serializable {
 
@@ -31,12 +27,16 @@ public class AdolescenteInfractorCAI implements Serializable {
     private String numeroContacto;
     private String nombresRepresentante;
     private String observacionIngreso;
-    
-    
+
+    //Verificadores
+    private Validaciones validacion = new Validaciones();
+    private Boolean verificadorCedula;
+    private Boolean verificadorFechaNacimiento;
+
     public AdolescenteInfractorCAI() {
     }
 
-     public Integer getIdAdolescenteCai() {
+    public Integer getIdAdolescenteCai() {
         return idAdolescenteCai;
     }
 
@@ -44,7 +44,7 @@ public class AdolescenteInfractorCAI implements Serializable {
         this.idAdolescenteCai = idAdolescenteCai;
     }
 
-     public Date getFechaReporte() {
+    public Date getFechaReporte() {
         return fechaReporte;
     }
 
@@ -85,21 +85,7 @@ public class AdolescenteInfractorCAI implements Serializable {
     }
 
     public Integer getEdad() {
-        if(fechaNacimiento!=null){
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern( "E MMM dd HH:mm:ss z uuuu" ).withLocale( Locale.US );
-            ZonedDateTime zdt = ZonedDateTime.parse( fechaNacimiento.toString() , dtf );
-            LocalDate ld = zdt.toLocalDate();
-
-            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String fecha= ld.format(fmt);
-            LocalDate fechaNac = LocalDate.parse(fecha, fmt);
-            LocalDate ahora = LocalDate.now();
-
-            Period periodo = Period.between(fechaNac, ahora);
-            edad=periodo.getYears();
-            return edad;
-        }
-        return edad;
+        return edad=validacion.obtenerEdad(fechaNacimiento);
     }
 
     public void setEdad(Integer edad) {
@@ -218,6 +204,44 @@ public class AdolescenteInfractorCAI implements Serializable {
         this.observacionIngreso = observacionIngreso;
     }
 
-    
-    
+    public Boolean getVerificadorCedula() {
+        if (cedula != null) {
+            verificadorCedula = false;
+            verificadorCedula = validacion.cedulaValida(cedula);
+            if (verificadorCedula == true) {
+                return verificadorCedula;
+            } else {
+                return verificadorCedula = false;
+            }
+        } else {
+            return verificadorCedula;
+        }
+    }
+
+    public void setVerificadorCedula(Boolean verificadorCedula) {
+        this.verificadorCedula = verificadorCedula;
+    }
+
+    public Boolean getVerificadorFechaNacimiento() {
+        if (fechaNacimiento != null) {
+            verificadorFechaNacimiento = false;
+            verificadorFechaNacimiento = validacion.verificarFechaNacimiento(fechaNacimiento);
+            if (verificadorFechaNacimiento == true) {
+                return verificadorCedula;
+            } else {
+                return verificadorCedula = false;
+            }
+        } else {
+            return verificadorFechaNacimiento;
+        }
+    }
+
+    public void setVerificadorFechaNacimiento(Boolean verificadorFechaNacimiento) {
+        this.verificadorFechaNacimiento = verificadorFechaNacimiento;
+    }
+
+    @Override
+    public String toString() {
+        return "AdolescenteInfractorCAI{" + "idAdolescenteCai=" + idAdolescenteCai + ", fechaReporte=" + fechaReporte + ", apellidos=" + apellidos + ", nombres=" + nombres + ", cedula=" + cedula + ", fechaNacimiento=" + fechaNacimiento + ", edad=" + edad + ", sexo=" + sexo + ", paisOrigen=" + paisOrigen + ", nacionalidad=" + nacionalidad + ", estadoCivil=" + estadoCivil + ", ocupacion=" + ocupacion + ", tieneHijos=" + tieneHijos + ", etnia=" + etnia + ", registroSocial=" + registroSocial + ", direccionDomicilio=" + direccionDomicilio + ", provinciaAdolescente=" + provinciaAdolescente + ", cantonAdolescente=" + cantonAdolescente + ", numeroContacto=" + numeroContacto + ", nombresRepresentante=" + nombresRepresentante + ", observacionIngreso=" + observacionIngreso + '}';
+    }
 }

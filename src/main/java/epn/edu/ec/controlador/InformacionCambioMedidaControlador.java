@@ -1,7 +1,9 @@
 package epn.edu.ec.controlador;
 
 import epn.edu.ec.modelo.AdolescenteInfractorCAI;
+import epn.edu.ec.modelo.EjecucionMedidaCAI;
 import epn.edu.ec.modelo.InformacionCambioMedidaCAI;
+import epn.edu.ec.servicios.EjecucionMedidaServicio;
 import epn.edu.ec.servicios.InformacionCambioMedidaServicio;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -18,9 +20,15 @@ public class InformacionCambioMedidaControlador implements Serializable{
     private InformacionCambioMedidaServicio servicio;
     private boolean guardado;
     
+    private EjecucionMedidaCAI ejecucionMedida;
+    private EjecucionMedidaServicio servicioEM;
+    
      @PostConstruct
     public void init(){
         servicio= new InformacionCambioMedidaServicio();
+        servicioEM=new EjecucionMedidaServicio();
+        
+        ejecucionMedida = new EjecucionMedidaCAI();
         
         estadoCumplimientoMedida =new InformacionCambioMedidaCAI();
         guardado=false;
@@ -30,10 +38,14 @@ public class InformacionCambioMedidaControlador implements Serializable{
         
         if(adolescenteInfractorCAI != null){
             InformacionCambioMedidaCAI informacionCambioMedidaAux= servicio.obtenerInformacionCambioMedidaCAI(adolescenteInfractorCAI.getIdAdolescenteCai());
+            ejecucionMedida=servicioEM.obtenerEjecucionMedidaCAI(adolescenteInfractorCAI.getIdAdolescenteCai());
             if(informacionCambioMedidaAux!=null){
                 estadoCumplimientoMedida=informacionCambioMedidaAux;
+                estadoCumplimientoMedida.setEjecucionAux(ejecucionMedida);
                 guardado=true;
-            }            
+            }else{
+                estadoCumplimientoMedida.setEjecucionAux(ejecucionMedida);
+            }
         }
         
     }

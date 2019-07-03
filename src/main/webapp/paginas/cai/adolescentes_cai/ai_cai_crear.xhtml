@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"          
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">    
-    
+
     <h:body>
         <ui:composition template="./../../../templates/psicologo.xhtml">
 
@@ -30,9 +30,9 @@
                                 <b:row>
                                     <b:column span="4" offset="1">
                                         <h:outputLabel for="txtFechaReporteCAI" value="Fecha de reporte"/>
-                                        <b:dateTimePicker id="txtFechaReporteCAI" placeholder="dd/mm/aa" showTodayButton="true" showTime="false" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.fechaReporte}"/>
+                                        <b:dateTimePicker id="txtFechaReporteCAI" placeholder="dd/mm/aa" required="true" requiredMessage="Es requerido, ingrese un valor" showTodayButton="true" showTime="false" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.fechaReporte}"/>
                                     </b:column>
-                                    
+
                                     <b:column span="4" offset="2">
                                         <h:outputLabel for="txtSexoCAI" value="Sexo"/>
                                         <b:selectOneMenu id="txtSexoCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.sexo}">
@@ -43,47 +43,55 @@
 
                                     </b:column>
                                 </b:row>
-                                
+
                                 <b:row>
                                     <b:column span="4" offset="1">
                                         <h:outputLabel for="txtApellidosCAI" value="Apellidos"/>
-                                        <b:inputText id="txtApellidosCAI" placeholder="Apellidos" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.apellidos}"/>
+                                        <b:inputText id="txtApellidosCAI" placeholder="Apellidos" style="text-transform: uppercase" required="true" requiredMessage="Es requerido, ingrese un valor" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.apellidos}"/>
                                     </b:column>
-                                    
+
                                     <b:column span="4" offset="2">
                                         <h:outputLabel for="txtNombresCAI" value="Nombres"/>
-                                        <b:inputText id="txtNombresCAI" placeholder="Nombres" required="true" requiredMessage="Nombres es requerido, ingrese un valor" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.nombres}"/>
+                                        <b:inputText id="txtNombresCAI" placeholder="Nombres" style="text-transform: uppercase" required="true" requiredMessage="Nombres es requerido, ingrese un valor" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.nombres}"/>
                                     </b:column>
                                 </b:row>
 
                                 <b:row>
                                     <b:column span="4" offset="1">
                                         <h:outputLabel for="txtCedulaCAI" value="Cédula"/>
-                                        <b:inputText id="txtCedulaCAI" placeholder="Cédula" mask="integer" maxlength="10" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.cedula}"/>
+                                        <b:inputText id="txtCedulaCAI" placeholder="Cédula" required="true" maxlength="10" required-message="#{adolescenteInfractorCAIControlador.mensaje}" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.cedula}">
+                                            <f:ajax event="blur" listener="#{adolescenteInfractorCAIControlador.limpiarMensajeCedula}" render="txtCedulaCAI mensaje-cedula" />
+                                            <f:ajax event="keyup" listener="#{adolescenteInfractorCAIControlador.validarCedula}" render="mensaje-cedula" />
+                                        </b:inputText>
+                                        <h:outputText style="color: red; font-size: 14px;" id="mensaje-cedula" class="mensaje-error" value="#{adolescenteInfractorCAIControlador.mensaje}"/>
                                     </b:column>
 
                                     <b:column span="4" offset="2">
-                                        <h:outputLabel for="txtFechaNacimientoCAI" value="Fecha Nacimiento"/>
-                                        <b:dateTimePicker id="txtFechaNacimientoCAI" required="true" requiredMessage="Fecha Nacimiento es requerido, ingrese un valor" placeholder="Fecha"  showTime="false" update="txtEdadCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.fechaNacimiento}" />  
+                                        <h:outputLabel for="txtFechaNacimientoCAI" value="Fecha Nacimiento"/><!-->update="txtEdadCAI" process="@this" <-->
+                                        <b:dateTimePicker id="txtFechaNacimientoCAI" required="true" requiredMessage="Fecha Nacimiento es requerido, ingrese un valor" placeholder="Fecha"  showTime="false" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.fechaNacimiento}">
+                                            <f:ajax event="blur" listener="#{adolescenteInfractorCAIControlador.validarFechaNacimiento}" render="mensaje-edad txtEdadCAI" />
+                                            <f:ajax event="blur" listener="#{adolescenteInfractorCAIControlador.limpiarMensajeFechaNacimiento}" render="txtFechaNacimientoCAI mensaje-edad" />
+                                        </b:dateTimePicker>
+                                        <h:outputText style="color: red; font-size: 14px;" id="mensaje-edad" class="mensaje-error" value="#{adolescenteInfractorCAIControlador.mensaje1}"/>
                                     </b:column>
                                 </b:row>
 
                                 <b:row>
-                                    
+
                                     <b:column span="4" offset="1">
                                         <h:outputLabel for="txtEdadCAI" value="Edad "/>
                                         <b:inputText mask="integer" id="txtEdadCAI" readonly="true" placeholder="Edad" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.edad}"/>
                                     </b:column>
-                                    
-                                
+
+
                                     <b:column span="4" offset="2"><!-->HAY QUE CONSIDERAR QUE ES UN COMBOBOX CON TODOS LOS PAISES DEL MUNDO<-->                                            
                                         <h:outputLabel for="txtPaisOrigenCAI" value="País de origen"/>
-                                        <b:inputText id="txtPaisOrigenCAI" placeholder="País de origen" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.paisOrigen}"/>                                            
+                                        <b:inputText id="txtPaisOrigenCAI" style="text-transform: uppercase" placeholder="País de origen" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.paisOrigen}"/>                                            
                                     </b:column>
                                 </b:row>
-                                
+
                                 <b:row>
-                                    
+
                                     <b:column span="4" offset="1">
                                         <h:outputLabel for="txtNacionalidadCAI" value="Nacionalidad"/>
                                         <b:selectOneMenu id="txtNacionalidadCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.nacionalidad}">
@@ -111,7 +119,7 @@
                                 <b:row>
                                     <b:column span="4" offset="1">
                                         <h:outputLabel for="txtOcupacionCAI" value="Ocupación"/>
-                                        <b:inputText id="txtOcupacionCAI" placeholder="Ocupación" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.ocupacion}"/>
+                                        <b:inputText id="txtOcupacionCAI" placeholder="Ocupación" style="text-transform: uppercase" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.ocupacion}"/>
                                     </b:column>
 
                                     <b:column span="4" offset="2">
@@ -128,7 +136,7 @@
                                 </b:row>
 
                                 <b:row>
-                                    
+
                                     <b:column span="4" offset="1">
                                         <h:outputLabel for="txtEtniaCAI" value="Etnia"/>
                                         <b:selectOneMenu id="txtEtniaCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.etnia}">
@@ -153,15 +161,15 @@
                                 </b:row>
 
                                 <b:row>
-                                    
+
                                     <b:column span="4" offset="1">
                                         <h:outputLabel for="txtDireccionDomiciliariaCAI" value="Dirección domiciliaria"/>
-                                        <b:inputText id="txtDireccionDomiciliariaCAI" placeholder="Dirección domiciliaria" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.direccionDomicilio}"/>
+                                        <b:inputText id="txtDireccionDomiciliariaCAI" placeholder="Dirección domiciliaria" style="text-transform: uppercase" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.direccionDomicilio}"/>
                                     </b:column>
 
-                                    <b:column span="4" offset="2"> <!-->esta parte de la provincia y canton hay que revisar si esta bien hecho<-->
-                                        <h:outputLabel for="txtProvinciaCAI" value="Provincia"/><!-->update="txtCantonCAI" process="@this" <-->
-                                        <b:selectOneMenu id="txtProvinciaCAI" update="txtCantonCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.provinciaAdolescente}">
+                                    <b:column span="4" offset="2">
+                                        <h:outputLabel for="txtProvincia" value="Provincia"/>
+                                        <b:selectOneMenu id="txtProvincia" update="txtCanton" process="@this" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.provinciaAdolescente}">
                                             <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
                                             <f:selectItem itemLabel="AZUAY"  itemValue="AZUAY" />
                                             <f:selectItem itemLabel="BOLIVAR"  itemValue="BOLIVAR" />
@@ -193,19 +201,21 @@
 
                                 <b:row>
                                     <b:column span="4" offset="1">
-
-                                        <h:outputLabel for="txtCantonCAI" value="Cantón"/>
-                                        <b:selectOneMenu id="txtCantonCAI" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.cantonAdolescente}">
+                                        <h:outputLabel for="txtCanton" value="Cantón"/>
+                                        <b:selectOneMenu id="txtCanton" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.cantonAdolescente}">
                                             <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
                                             <f:selectItems value="#{adolescenteInfractorCAIControlador.cantones}" var="canton" itemValue="#{canton.canton}" itemLabel="#{canton.canton}"/>
                                         </b:selectOneMenu>
-
                                     </b:column>
-                                
+
                                     <b:column span="4" offset="2">
 
                                         <h:outputLabel for="txtNumeroContactoCAI" value="Número de contacto"/>
-                                        <b:inputText id="txtNumeroContactoCAI" maxlength="10" placeholder="Número de contacto" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.numeroContacto}"/>
+                                        <b:inputText id="txtNumeroContactoCAI" maxlength="10" placeholder="Número de contacto" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.numeroContacto}">
+                                            <f:ajax event="blur" listener="#{adolescenteInfractorCAIControlador.limpiarMensajeNumeroContacto}" render="txtNumeroContactoCAI mensaje-celular" />
+                                            <f:ajax event="keyup" listener="#{adolescenteInfractorCAIControlador.validarNumeroContacto}" render="mensaje-celular" />
+                                        </b:inputText>
+                                        <h:outputText style="color: red; font-size: 14px;" id="mensaje-celular" class="mensaje-error" value="#{adolescenteInfractorCAIControlador.mensaje2}"/>
                                     </b:column>
                                 </b:row>
 
@@ -213,21 +223,21 @@
 
                                     <b:column span="4" offset="1">
                                         <h:outputLabel for="txtNombreRepresentanteCAI" value="Nombre del representante"/>
-                                        <b:inputText id="txtNombreRepresentanteCAI" placeholder="Nombre del representante" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.nombresRepresentante}"/>
+                                        <b:inputText id="txtNombreRepresentanteCAI" style="text-transform: uppercase" placeholder="Nombre del representante" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.nombresRepresentante}"/>
                                     </b:column>
 
                                     <b:column span="4" offset="2">
                                         <h:outputLabel for="txtObservacionesCAI" value="Observaciones de ingreso"/>
-                                        <b:inputText id="txtObservacionesCAI" placeholder="Observaciones de ingreso" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.observacionIngreso}"/>
+                                        <b:inputText id="txtObservacionesCAI" style="text-transform: uppercase" placeholder="Observaciones de ingreso" value="#{adolescenteInfractorCAIControlador.adolescenteInfractorCAICrear.observacionIngreso}"/>
                                     </b:column>
                                 </b:row>
 
-                                
+
                                 <b:column span="3" offset="8">
                                     <b:button onclick="$('.formGuardarAdolescenteInfractorCAI').modal('show')" class="btn btn-primary btn-block" value="Guardar"/>
                                 </b:column>
-                                
-                                
+
+
                                 <b:modal title="Adolescente Infractor CAI" styleClass="formGuardarAdolescenteInfractorCAI"
                                          closable="false"
                                          closeOnEscape="true">
@@ -240,7 +250,7 @@
                                                              action="#{adolescenteInfractorCAIControlador.guardarAdolescenteInfractor()}"
                                                              onclick="$('.modalPseudoClass2').modal('hide')"
                                                              />
-                                            
+
                                             <b:growl id="growlAdolescenteInfractorCAI" globalOnly="false" severity="info,error"/>
                                         </b:column>
                                     </b:row>

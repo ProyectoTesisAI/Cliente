@@ -26,6 +26,8 @@ public class EjecucionMedidaCAI implements Serializable {
     private String observacionesProcesoJudicial;
     private CAI idCai;
     
+    //Fecha de reporte
+    private Date fechaReporteCAI;
     //Cumplimiento de medida
     private Date fechaCumplimiento100;
     private Date alertaCumplimiento100;
@@ -147,8 +149,9 @@ public class EjecucionMedidaCAI implements Serializable {
         int d = 0;
         int m = 0;
         int ac = 0;
-        if (fechaAprehension != null) {
-            Date fechaResolucion = idEjecucionMedida.getFechaReporte();
+        if (fechaAprehension != null && fechaReporteCAI!=null) {
+            //Date fechaResolucion = idEjecucionMedida.getFechaReporte();
+            Date fechaResolucion = fechaReporteCAI;
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z uuuu").withLocale(Locale.US);
             ZonedDateTime zdt1 = ZonedDateTime.parse(fechaAprehension.toString(), dtf);
             LocalDate ld1 = zdt1.toLocalDate();
@@ -220,6 +223,14 @@ public class EjecucionMedidaCAI implements Serializable {
 
     public void setAlertaCumplimiento100(Date alertaCumplimiento100) {
         this.alertaCumplimiento100 = alertaCumplimiento100;
+    }
+
+    public Date getFechaReporteCAI() {
+        return fechaReporteCAI;
+    }
+
+    public void setFechaReporteCAI(Date fechaReporteCAI) {
+        this.fechaReporteCAI = fechaReporteCAI;
     }
 
     @Override
