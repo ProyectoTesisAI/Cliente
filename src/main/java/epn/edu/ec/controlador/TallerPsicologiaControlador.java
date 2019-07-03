@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,12 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @ViewScoped
 public class TallerPsicologiaControlador implements Serializable{
 
+    private Date hora;
+    private String actividad;
+    private String objetivoEspecifico;
+    private String materiales;
+    private String responsable;
+    
     //////////variables usadas para el Taller Psicologia/////////
     TallerPsicologia tallerPsicologiaCrear;
     UDI udi;
@@ -45,11 +52,6 @@ public class TallerPsicologiaControlador implements Serializable{
     List<UDI> listaUdi; 
     List<CAI> listaCai;
 
-    ItemTallerPsicologia item1;
-    ItemTallerPsicologia item2;
-    ItemTallerPsicologia item3;
-    ItemTallerPsicologia item4;
-    ItemTallerPsicologia item5;
     List<ItemTallerPsicologia> listaItemsTallerPsicologia;
     
     String tipoCentro;
@@ -57,6 +59,7 @@ public class TallerPsicologiaControlador implements Serializable{
     Integer numeroParticipantes;
     
     TallerPsicologiaServicio controlador;
+    
     CaiServicio controladorCai;
     UdiServicio controladorUdi;
     ItemTallerPsicologiaServicio controladroItemTaller;
@@ -90,19 +93,9 @@ public class TallerPsicologiaControlador implements Serializable{
         listaAdolescentesUzdi= new ArrayList<>();
         listaUdi= new ArrayList<>();
         listaCai= new ArrayList<>();
-        
-        item1= new ItemTallerPsicologia();
-        item2= new ItemTallerPsicologia();
-        item3= new ItemTallerPsicologia();
-        item4= new ItemTallerPsicologia();
-        item5= new ItemTallerPsicologia();      
+             
         listaItemsTallerPsicologia= new ArrayList<>();
         
-        listaItemsTallerPsicologia.add(item1);
-        listaItemsTallerPsicologia.add(item2);
-        listaItemsTallerPsicologia.add(item3);
-        listaItemsTallerPsicologia.add(item4);
-        listaItemsTallerPsicologia.add(item5);
         
         if(isEsUzdi()){
             tipoCentro="UZDI";
@@ -113,51 +106,7 @@ public class TallerPsicologiaControlador implements Serializable{
             listaCai=controladorCai.listaCai(); //muestro la lista de CAIs rescatadas de la base de datos
         }
         
-        //////////EN EL CASO DE QUE EL TALLER SE HAYA GUARDADO////////////////////77
-        TallerPsicologia tallerAux= (TallerPsicologia)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("taller_psicologia_crear");
         
-        if(tallerAux != null){
-            tallerPsicologiaCrear=tallerAux;
-            tallerGuardado=true;
-            
-            if(tallerAux.getIdCai()!=null){
-                tipoCentro="CAI";
-                
-            }
-            if(tallerAux.getIdUdi() != null){
-                tipoCentro="UZDI";
-                listaUdi=controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de datos
-                udi=tallerPsicologiaCrear.getIdUdi();
-            }           
-            
-            List<ItemTallerPsicologia> itemsAux= controlador.obtenerItemsPorTalleresPsicologia(tallerPsicologiaCrear.getIdTallerPsicologia());
-            
-            if(itemsAux != null){
-                
-                listaItemsTallerPsicologia=itemsAux;
-                indiceTaller=1;
-            }
-            
-
-            List<RegistroAsistenciaAdolescenteUDI> registroAsistenciaAux= controladorAsistencia.listaAdolescentesInfractoresPorTaller(tallerAux);
-            
-            if(registroAsistenciaAux!=null){
-                
-                List<AdolescenteInfractorUDI> listaAsistencia=new ArrayList<>();
-                
-                for(RegistroAsistenciaAdolescenteUDI asis : registroAsistenciaAux){
-                    AdolescenteInfractorUDI a=asis.getIdAdolescenteUdi();
-                    listaAsistencia.add(a);
-                        
-                }
-                
-                listaAdolescentesUzdi=listaAsistencia;
-            }
-            else{
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "AÚN NO HA GUARDADO EL REGISTRO DE ASISTENCIA","Aviso" ));
-            }
-        
-        }
     }
 
     public TallerPsicologia getTallerPsicologiaCrear() {
@@ -268,46 +217,6 @@ public class TallerPsicologiaControlador implements Serializable{
         return controladorAsistencia;
     }
 
-    public ItemTallerPsicologia getItem1() {
-        return item1;
-    }
-
-    public void setItem1(ItemTallerPsicologia item1) {
-        this.item1 = item1;
-    }
-
-    public ItemTallerPsicologia getItem2() {
-        return item2;
-    }
-
-    public void setItem2(ItemTallerPsicologia item2) {
-        this.item2 = item2;
-    }
-
-    public ItemTallerPsicologia getItem3() {
-        return item3;
-    }
-
-    public void setItem3(ItemTallerPsicologia item3) {
-        this.item3 = item3;
-    }
-
-    public ItemTallerPsicologia getItem4() {
-        return item4;
-    }
-
-    public void setItem4(ItemTallerPsicologia item4) {
-        this.item4 = item4;
-    }
-
-    public ItemTallerPsicologia getItem5() {
-        return item5;
-    }
-
-    public void setItem5(ItemTallerPsicologia item5) {
-        this.item5 = item5;
-    }
-
     public List<ItemTallerPsicologia> getListaItemsTallerPsicologia() {
         return listaItemsTallerPsicologia;
     }
@@ -359,10 +268,63 @@ public class TallerPsicologiaControlador implements Serializable{
     public void setUdi(UDI udi) {
         this.udi = udi;
     }
+
+    public Date getHora() {
+        return hora;
+    }
+
+    public void setHora(Date hora) {
+        this.hora = hora;
+    }
+
+    public String getActividad() {
+        return actividad;
+    }
+
+    public void setActividad(String actividad) {
+        this.actividad = actividad;
+    }
+
+    public String getObjetivoEspecifico() {
+        return objetivoEspecifico;
+    }
+
+    public void setObjetivoEspecifico(String objetivoEspecifico) {
+        this.objetivoEspecifico = objetivoEspecifico;
+    }
+
+    public String getMateriales() {
+        return materiales;
+    }
+
+    public void setMateriales(String materiales) {
+        this.materiales = materiales;
+    }
+
+    public String getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
+    }
     
     
     
     /*****************************Eventos*********************************************/
+    
+    public void agregarActividad()
+    {
+        
+        ItemTallerPsicologia itemAux = new ItemTallerPsicologia();
+        itemAux.setHora(hora);
+        itemAux.setActividad(actividad);
+        itemAux.setMateriales(materiales);
+        itemAux.setObjetivoEspecifico(objetivoEspecifico);
+        itemAux.setResponsable(responsable);
+        
+        listaItemsTallerPsicologia.add(itemAux);
+    }
     
     public String guardarTallerPsicologia(){
         
@@ -389,11 +351,10 @@ public class TallerPsicologiaControlador implements Serializable{
                 if(itemsGuardados >0 && itemsGuardados==listaItemsTallerPsicologia.size()){
                     
                     indiceTaller=1;
-                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia_crear", taller);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia", taller);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL TALLER DE PSICOLOGÍA","Aviso" ));
-                    
                     guardarRegistroAsistencia(taller);
-                    return "/paginas/psicologia/taller_psicologia.com?faces-redirect=true";
+                    return "/paginas/psicologia/taller_psicologia_ver.com?faces-redirect=true";
                 }
             }
             else{
