@@ -24,6 +24,7 @@ public class InformePsicologia implements Serializable {
     /*puede tener:
     -editar
     -ver*/
+    private Boolean estadoegistroAsistencia;
 
     private TallerPsicologia idTallerPsicologia;
     
@@ -149,6 +150,14 @@ public class InformePsicologia implements Serializable {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public Boolean getEstadoegistroAsistencia() {
+        return estadoegistroAsistencia;
+    }
+
+    public void setEstadoegistroAsistencia(Boolean estadoegistroAsistencia) {
+        this.estadoegistroAsistencia = estadoegistroAsistencia;
     }
 
     @Override
