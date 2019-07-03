@@ -37,7 +37,7 @@ public class ActividadesInstrumentosControlador implements Serializable{
         enlaces= new EnlacesPrograma();
         servicio= new ActividadesInstrumentosServicio();
         
-       actividadesInstrumentos= new ActividadesInstrumentos();
+        actividadesInstrumentos= new ActividadesInstrumentos();
         guardado=false;
         
         adolescenteInfractorUDI= new AdolescenteInfractorUDI();

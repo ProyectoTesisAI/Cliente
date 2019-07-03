@@ -16,6 +16,12 @@
                 <link rel="stylesheet" type="text/css" href="../../../resources/css/menu.css"/>
                 <link rel="stylesheet" type="text/css" href="../../../resources/css/bootstrap.css"/>
                 <script src="../../../resources/js/bootstrap.min.js"></script>
+                <script>
+                    function validarSiNumero(numero) {
+                        if (!/^([0-9])*$/.test(numero))
+                            alert("La cedula " + numero + " no es un valor aceptable");
+                    }
+                </script>
             </ui:define>
             
             <ui:define name="content">
@@ -38,7 +44,7 @@
                                 <b:row>
                                     <b:column span="4" offset="1">                                        
                                             <h:outputLabel for="txtCedula" value="Cédula"/>
-                                            <b:inputText id="txtCedula" placeholder="Cédula" required="true" mask="numeric" maxlength="10" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.cedula}"/>                                        
+                                            <b:inputText id="txtCedula" placeholder="Cédula" required="true" onkeyup="validarSiNumero(this.value)" maxlength="10" value="#{adolescenteInfractorUDIControlador.adolescenteInfractorUDIEditar.cedula}"/>                                        
                                     </b:column>
                                     <b:column span="4" offset="2">                                        
                                             <h:outputLabel for="txtGenero" value="Género"/>

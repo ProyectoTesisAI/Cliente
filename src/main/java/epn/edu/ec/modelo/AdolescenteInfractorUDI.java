@@ -1,5 +1,6 @@
 package epn.edu.ec.modelo;
 
+import epn.edu.ec.utilidades.Validaciones;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
@@ -26,6 +27,8 @@ public class AdolescenteInfractorUDI implements Serializable {
     private Integer edad;
     private Integer numeroHijos;
     private String conQuienVive;
+    
+    private Validaciones validacion = new Validaciones();
 
     
     public AdolescenteInfractorUDI() {
@@ -56,6 +59,17 @@ public class AdolescenteInfractorUDI implements Serializable {
     }
 
     public String getCedula() {
+        /*if (cedula != null) {
+            Boolean verificar = false;
+            verificar = verificarCedula(cedula);
+            if (verificar == true) {
+                return cedula;
+            } else {
+                return null;
+            }
+        } else {
+            return cedula="";
+        }*/
         return cedula;
     }
 
@@ -136,21 +150,7 @@ public class AdolescenteInfractorUDI implements Serializable {
     }
 
     public Integer getEdad() {
-        if(fechaNacimiento!=null){
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern( "E MMM dd HH:mm:ss z uuuu" ).withLocale( Locale.US );
-            ZonedDateTime zdt = ZonedDateTime.parse( fechaNacimiento.toString() , dtf );
-            LocalDate ld = zdt.toLocalDate();
-
-            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String fecha= ld.format(fmt);
-            LocalDate fechaNac = LocalDate.parse(fecha, fmt);
-            LocalDate ahora = LocalDate.now();
-
-            Period periodo = Period.between(fechaNac, ahora);
-            edad=periodo.getYears();
-            return edad;
-        }
-        return edad;
+        return edad=validacion.obtenerEdad(fechaNacimiento);
     }
 
     public void setEdad(Integer edad) {
@@ -177,5 +177,31 @@ public class AdolescenteInfractorUDI implements Serializable {
     public String toString() {
         return "AdolescenteInfractorUDI{" + "id_adolescente_udi_pk=" + id_adolescente_udi_pk + ", nombres=" + nombres + ", apellidos=" + apellidos + ", cedula=" + cedula + ", genero=" + genero + ", etnia=" + etnia + ", discapacidad=" + discapacidad + ", tipoDiscapacidad=" + tipoDiscapacidad + ", porcentajeDiscapacidad=" + porcentajeDiscapacidad + ", enfermedadesCatastroficasRaras=" + enfermedadesCatastroficasRaras + ", registroSocial=" + registroSocial + ", estadoCivil=" + estadoCivil + ", fechaNacimiento=" + fechaNacimiento + ", edad=" + edad + ", numeroHijos=" + numeroHijos + ", conQuienVive=" + conQuienVive + '}';
     }
-
+/*
+    //Metodo verificador de cedula
+    public boolean verificarCedula(String cedula) {
+        int total = 0;
+        int tamanoLongitudCedula = 10;
+        int[] coeficientes = {2, 1, 2, 1, 2, 1, 2, 1, 2};
+        int numeroProvincias = 24;
+        int tercerdigito = 6;
+        if (cedula.matches("[0-9]*") && cedula.length() == tamanoLongitudCedula) {
+            int provincia = Integer.parseInt(cedula.charAt(0) + "" + cedula.charAt(1));
+            int digitoTres = Integer.parseInt(cedula.charAt(2) + "");
+            if ((provincia > 0 && provincia <= numeroProvincias) && digitoTres < tercerdigito) {
+                int digitoVerificadorRecibido = Integer.parseInt(cedula.charAt(9) + "");
+                for (int i = 0; i < coeficientes.length; i++) {
+                    int valor = Integer.parseInt(coeficientes[i] + "") * Integer.parseInt(cedula.charAt(i) + "");
+                    total = valor >= 10 ? total + (valor - 9) : total + valor;
+                }
+                int digitoVerificadorObtenido = total >= 10 ? (total % 10) != 0 ? 10 - (total % 10) : (total % 10) : total;
+                if (digitoVerificadorObtenido == digitoVerificadorRecibido) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+    */
 }

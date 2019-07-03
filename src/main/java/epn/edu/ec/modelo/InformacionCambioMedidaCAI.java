@@ -15,10 +15,10 @@ public class InformacionCambioMedidaCAI implements Serializable {
     private Date alertaCambioMedida;
     private String especificacionNuevaMedida;
     
-    private EjecucionMedidaCAI ejecucionAux;
+    private EjecucionMedidaCAI ejecucionAux=new EjecucionMedidaCAI();
 
     public InformacionCambioMedidaCAI() {
-        ejecucionAux = new EjecucionMedidaCAI();
+        //ejecucionAux = new EjecucionMedidaCAI();
     }
 
     public AdolescenteInfractorCAI getIdInformacionCambioMedida() {
