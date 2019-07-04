@@ -23,7 +23,7 @@ public class EstadoCumplimientoMedidaControlador implements Serializable {
     private EstadoCumplimientoMedida estadoCumplimientoMedida;
     private EstadoCumplimientoMedidaServicio servicio;
     private boolean guardado;
-    private String estado;
+    private String estado = "";
 
     private boolean ActivarEjecucion;
     private boolean ActivarCulminada;
@@ -38,15 +38,15 @@ public class EstadoCumplimientoMedidaControlador implements Serializable {
 
     @PostConstruct
     public void init() {
-        
-        enlaces= new EnlacesPrograma();
+
+        enlaces = new EnlacesPrograma();
         servicio = new EstadoCumplimientoMedidaServicio();
 
         estadoCumplimientoMedida = new EstadoCumplimientoMedida();
         guardado = false;
 
         estado = "EN_EJECUCIÓN";
-        System.out.println("estado init: " + estado);
+        //System.out.println("estado init: " + estado);
         if (estado.equals("EN_EJECUCIÓN")) {
             System.out.println("ejecucion");
             ActivarEjecucion = true;
@@ -81,27 +81,47 @@ public class EstadoCumplimientoMedidaControlador implements Serializable {
         AdolescenteInfractorUDI adolescenteInfractorUDIAux = (AdolescenteInfractorUDI) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("adolescente_infractor_udi");
 
         if (adolescenteInfractorUDIAux != null) {
-            
-            adolescenteInfractorUDI=adolescenteInfractorUDIAux;
-            
+
+            adolescenteInfractorUDI = adolescenteInfractorUDIAux;
+
             EstadoCumplimientoMedida estadoCumplimientoMedidaAux = servicio.obtenerEstadoCumplimientoMedida(adolescenteInfractorUDI.getId_adolescente_udi_pk());
-            
+
             if (estadoCumplimientoMedidaAux != null) {
-            
+
                 estadoCumplimientoMedida = estadoCumplimientoMedidaAux;
                 guardado = true;
-                if (estadoCumplimientoMedida.getSituacionActual().equals("EN_EJECUCIÓN")) {
-                    ActivarEjecucion = true;
-                    System.out.println("ee: " + ActivarEjecucion);
-                } else if (estadoCumplimientoMedida.getSituacionActual().equals("CULMINADA")) {
-                    ActivarCulminada = true;
-                    System.out.println("ec: " + ActivarCulminada);
-                } else if (estadoCumplimientoMedida.getSituacionActual().equals("DERIVADA")) {
-                    ActivarDerivada = true;
-                    System.out.println("ed: " + ActivarDerivada);
-                } else if (estadoCumplimientoMedida.getSituacionActual().equals("INCUMPLIMIENTO")) {
-                    ActivarIncumplimiento = true;
-                    System.out.println("ei: " + ActivarIncumplimiento);
+                if (estadoCumplimientoMedidaAux.getSituacionActual() != null) {
+                    if (estadoCumplimientoMedida.getSituacionActual().equals("EN_EJECUCIÓN")) {
+                        ActivarEjecucion = true;
+                        ActivarCulminada = false;
+                        ActivarDerivada = false;
+                        ActivarIncumplimiento = false;
+                        estado=estadoCumplimientoMedida.getSituacionActual();
+                        //System.out.println("ee: " + ActivarEjecucion);
+                    } else if (estadoCumplimientoMedida.getSituacionActual().equals("CULMINADA")) {
+                        ActivarEjecucion = false;
+                        ActivarCulminada = true;
+                        ActivarDerivada = false;
+                        ActivarIncumplimiento = false;
+                        estado=estadoCumplimientoMedida.getSituacionActual();
+                        //System.out.println("ec: " + ActivarCulminada);
+                    } else if (estadoCumplimientoMedida.getSituacionActual().equals("DERIVADA")) {
+                        ActivarEjecucion = false;
+                        ActivarCulminada = false;
+                        ActivarDerivada = true;
+                        ActivarIncumplimiento = false;
+                        estado=estadoCumplimientoMedida.getSituacionActual();
+                        //System.out.println("ed: " + ActivarDerivada);
+                    } else if (estadoCumplimientoMedida.getSituacionActual().equals("INCUMPLIMIENTO")) {
+                        ActivarEjecucion = false;
+                        ActivarCulminada = false;
+                        ActivarDerivada = false;
+                        ActivarIncumplimiento = true;
+                        estado=estadoCumplimientoMedida.getSituacionActual();
+                        //System.out.println("ei: " + ActivarIncumplimiento);
+                    }
+                } else {
+                    System.out.println("La situacion es " + estadoCumplimientoMedida.getSituacionActual());
                 }
             }
         }
@@ -137,6 +157,7 @@ public class EstadoCumplimientoMedidaControlador implements Serializable {
     }
 
     public String getEstado() {
+        System.out.println("estado: "+estado);
         return estado;
     }
 
@@ -148,40 +169,40 @@ public class EstadoCumplimientoMedidaControlador implements Serializable {
             ActivarCulminada = false;
             ActivarDerivada = false;
             ActivarIncumplimiento = false;
-            System.out.println("ee: " + ActivarEjecucion);
-            System.out.println("ec: " + ActivarCulminada);
-            System.out.println("ed: " + ActivarDerivada);
-            System.out.println("ei: " + ActivarIncumplimiento);
+            //System.out.println("ee: " + ActivarEjecucion);
+            //System.out.println("ec: " + ActivarCulminada);
+            //System.out.println("ed: " + ActivarDerivada);
+            //System.out.println("ei: " + ActivarIncumplimiento);
         } else if (estado.equals("CULMINADA")) {
             System.out.println("culminada");
             ActivarEjecucion = false;
             ActivarCulminada = true;
             ActivarDerivada = false;
             ActivarIncumplimiento = false;
-            System.out.println("ce: " + ActivarEjecucion);
-            System.out.println("cc: " + ActivarCulminada);
-            System.out.println("cd: " + ActivarDerivada);
-            System.out.println("ci: " + ActivarIncumplimiento);
+            //System.out.println("ce: " + ActivarEjecucion);
+            //System.out.println("cc: " + ActivarCulminada);
+            //System.out.println("cd: " + ActivarDerivada);
+            //System.out.println("ci: " + ActivarIncumplimiento);
         } else if (estado.equals("DERIVADA")) {
             System.out.println("derivada");
             ActivarEjecucion = false;
             ActivarCulminada = false;
             ActivarDerivada = true;
             ActivarIncumplimiento = false;
-            System.out.println("de: " + ActivarEjecucion);
-            System.out.println("dc: " + ActivarCulminada);
-            System.out.println("dd: " + ActivarDerivada);
-            System.out.println("di: " + ActivarIncumplimiento);
+            //System.out.println("de: " + ActivarEjecucion);
+            //System.out.println("dc: " + ActivarCulminada);
+            //System.out.println("dd: " + ActivarDerivada);
+            //System.out.println("di: " + ActivarIncumplimiento);
         } else if (estado.equals("INCUMPLIMIENTO")) {
             System.out.println("incumplimiento");
             ActivarEjecucion = false;
             ActivarCulminada = false;
             ActivarDerivada = false;
             ActivarIncumplimiento = true;
-            System.out.println("ie: " + ActivarEjecucion);
-            System.out.println("ic: " + ActivarCulminada);
-            System.out.println("id: " + ActivarDerivada);
-            System.out.println("ii: " + ActivarIncumplimiento);
+            //System.out.println("ie: " + ActivarEjecucion);
+            //System.out.println("ic: " + ActivarCulminada);
+            //System.out.println("id: " + ActivarDerivada);
+            //System.out.println("ii: " + ActivarIncumplimiento);
         }
     }
 
@@ -256,10 +277,11 @@ public class EstadoCumplimientoMedidaControlador implements Serializable {
     public String guardarEstadoCumplimientoMedida() {
 
         this.estadoCumplimientoMedida.setIdEstadoCumplimientoMedida(adolescenteInfractorUDI);
+        this.estadoCumplimientoMedida.setSituacionActual(estado);
 
         EstadoCumplimientoMedida estadoCumplimientoMedidaAux = servicio.guardarEstadoCumplimientoMedida(estadoCumplimientoMedida);
         if (estadoCumplimientoMedidaAux != null) {
-            return enlaces.PATH_PANEL_UDI+"?faces-redirect=true";  
+            return enlaces.PATH_PANEL_UDI + "?faces-redirect=true";
         } else {
             return null;
         }
