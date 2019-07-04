@@ -324,6 +324,12 @@ public class TallerPsicologiaControlador implements Serializable{
         itemAux.setResponsable(responsable);
         
         listaItemsTallerPsicologia.add(itemAux);
+        
+        hora=null;
+        actividad=null;
+        materiales=null;
+        objetivoEspecifico=null;
+        responsable=null;
     }
     
     public String guardarTallerPsicologia(){
@@ -428,6 +434,7 @@ public class TallerPsicologiaControlador implements Serializable{
 
         Map<String,Object> parametros= new HashMap<String,Object>();
 	parametros.put("txtUDI","REGISTRO DE ASISTENCIA "+ tallerPsicologiaCrear.getIdUdi().getUdi());
+        parametros.put("txtTema","TALLER:  "+ tallerPsicologiaCrear.getTema());
 			       
         try{
            
@@ -440,7 +447,7 @@ public class TallerPsicologiaControlador implements Serializable{
             if (response instanceof HttpServletResponse) {
                   HttpServletResponse hsr = (HttpServletResponse) response;
                   hsr.setContentType("application/pdf");
-                  hsr.addHeader("Content-disposition","attachment; filename=jsfReporte.pdf");
+                  hsr.addHeader("Content-disposition","attachment; filename=RegistroAsistencia.pdf");
                   try {
                         ServletOutputStream stream = hsr.getOutputStream();
                         JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
