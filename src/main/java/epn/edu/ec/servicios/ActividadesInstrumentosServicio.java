@@ -28,7 +28,7 @@ public class ActividadesInstrumentosServicio {
                        
         WebTarget webTarget=cliente.target(URL_ACTIVIDADES_INSTRUMENTOS);        
         Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");        
-        Response response = invocationBuilder.put(Entity.entity(actividadesInstrumentos, MediaType.APPLICATION_JSON+";charset=UTF-8"));
+        Response response = invocationBuilder.post(Entity.entity(actividadesInstrumentos, MediaType.APPLICATION_JSON+";charset=UTF-8"));
         
         if(response.getStatus()==200){        
             actividadesInstrumentosAux=response.readEntity(ActividadesInstrumentos.class);       
