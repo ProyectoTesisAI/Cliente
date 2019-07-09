@@ -1,14 +1,17 @@
 package epn.edu.ec.controlador;
 
+import epn.edu.ec.modelo.AdolescenteInfractorCAI;
 import epn.edu.ec.modelo.AdolescenteInfractorUDI;
 import epn.edu.ec.modelo.CAI;
 import epn.edu.ec.modelo.ItemTallerPsicologia;
 import epn.edu.ec.modelo.RegistroAsistencia;
+import epn.edu.ec.modelo.RegistroAsistenciaAdolescenteCAI;
 import epn.edu.ec.modelo.RegistroAsistenciaAdolescenteUDI;
 import epn.edu.ec.modelo.TallerPsicologia;
 import epn.edu.ec.modelo.UDI;
 import epn.edu.ec.servicios.CaiServicio;
 import epn.edu.ec.servicios.ItemTallerPsicologiaServicio;
+import epn.edu.ec.servicios.RegistroAsistenciaAdolescenteCAIServicio;
 import epn.edu.ec.servicios.RegistroAsistenciaAdolescenteUDIServicio;
 import epn.edu.ec.servicios.RegistroAsistenciaServicio;
 import epn.edu.ec.servicios.TallerPsicologiaServicio;
@@ -37,76 +40,82 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Named(value = "tallerPsicologiaControlador")
 @ViewScoped
-public class TallerPsicologiaControlador implements Serializable{
+public class TallerPsicologiaControlador implements Serializable {
 
     private Date hora;
     private String actividad;
     private String objetivoEspecifico;
     private String materiales;
     private String responsable;
-    
+
     //////////variables usadas para el Taller Psicologia/////////
     TallerPsicologia tallerPsicologiaCrear;
     UDI udi;
-    
-    List<UDI> listaUdi; 
+    CAI cai;
+
+    List<UDI> listaUdi;
     List<CAI> listaCai;
 
     List<ItemTallerPsicologia> listaItemsTallerPsicologia;
-    
+
     String tipoCentro;
     boolean esUzdi;
     Integer numeroParticipantes;
-    
+
     TallerPsicologiaServicio controlador;
-    
+
     CaiServicio controladorCai;
     UdiServicio controladorUdi;
     ItemTallerPsicologiaServicio controladroItemTaller;
-    
+
     //////////////////////////////////////////variables usadas para el Registro Asistencia////////
     List<AdolescenteInfractorUDI> listaAdolescentesUzdi;
+    List<AdolescenteInfractorCAI> listaAdolescentesCai;
     RegistroAsistencia registroAsistencia;
-    
+
     RegistroAsistenciaServicio controladorAsistencia;
-    RegistroAsistenciaAdolescenteUDIServicio controladorAsistenciaUDI;  
+    RegistroAsistenciaAdolescenteUDIServicio controladorAsistenciaUDI;
+    RegistroAsistenciaAdolescenteCAIServicio controladorAsistenciaCAI;
     ///////////////////////////////////////////////////
-    
-    boolean tallerGuardado=false;
-    
-    int indiceTaller=0;
-    
+
+    boolean tallerGuardado = false;
+
+    int indiceTaller = 0;
+
     @PostConstruct
-    public void init(){
-        
-        controlador= new TallerPsicologiaServicio();
-        controladorCai= new CaiServicio();
-        controladorUdi= new UdiServicio();
-        controladorAsistencia= new RegistroAsistenciaServicio();
-        controladroItemTaller= new ItemTallerPsicologiaServicio();        
-        controladorAsistenciaUDI= new RegistroAsistenciaAdolescenteUDIServicio();
-        
-        
-        tallerPsicologiaCrear= new TallerPsicologia();
-        registroAsistencia= new RegistroAsistencia();
-        udi=new UDI();
-        listaAdolescentesUzdi= new ArrayList<>();
-        listaUdi= new ArrayList<>();
-        listaCai= new ArrayList<>();
-             
-        listaItemsTallerPsicologia= new ArrayList<>();
-        
-        
-        if(isEsUzdi()){
-            tipoCentro="UZDI";
-            listaUdi=controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de datos
+    public void init() {
+
+        controlador = new TallerPsicologiaServicio();
+        controladorCai = new CaiServicio();
+        controladorUdi = new UdiServicio();
+        controladorAsistencia = new RegistroAsistenciaServicio();
+        controladroItemTaller = new ItemTallerPsicologiaServicio();
+        controladorAsistenciaUDI = new RegistroAsistenciaAdolescenteUDIServicio();
+        controladorAsistenciaCAI = new RegistroAsistenciaAdolescenteCAIServicio();
+
+        tallerPsicologiaCrear = new TallerPsicologia();
+        registroAsistencia = new RegistroAsistencia();
+        udi = new UDI();
+        cai = new CAI();
+        listaAdolescentesUzdi = new ArrayList<>();
+        listaAdolescentesCai = new ArrayList<>();
+        listaUdi = new ArrayList<>();
+        listaCai = new ArrayList<>();
+
+        listaItemsTallerPsicologia = new ArrayList<>();
+
+        if (isEsUzdi()) {
+            tipoCentro = "UZDI";
+            listaUdi = controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de datos
+            udi = new UDI();
+            cai = new CAI();
+        } else {
+            tipoCentro = "CAI";
+            listaCai = controladorCai.listaCai(); //muestro la lista de CAIs rescatadas de la base de datos
+            cai = new CAI();
+            udi = new UDI();
         }
-        else{
-            tipoCentro="CAI";
-            listaCai=controladorCai.listaCai(); //muestro la lista de CAIs rescatadas de la base de datos
-        }
-        
-        
+
     }
 
     public TallerPsicologia getTallerPsicologiaCrear() {
@@ -121,33 +130,34 @@ public class TallerPsicologiaControlador implements Serializable{
         return controlador;
     }
 
-    
-    public String getTipoCentro() {       
-        return tipoCentro;        
+    public String getTipoCentro() {
+        return tipoCentro;
     }
 
     public void setTipoCentro(String tipoCentro) {
         this.tipoCentro = tipoCentro;
-        if("UZDI".equals(tipoCentro)){
+        if ("UZDI".equals(tipoCentro)) {
             System.out.println("Ha seleccionado UZDI");
-            esUzdi=true;
-            listaUdi=controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de datos
-        }
-        else if("CAI".equals(tipoCentro)){
+            esUzdi = true;
+            udi = new UDI();
+            cai = new CAI();
+            listaUdi = controladorUdi.listaUdi(); //muestro la lista de UDIs rescatadas de la base de 
+        } else if ("CAI".equals(tipoCentro)) {
             System.out.println("Ha seleccionado CAI");
-            esUzdi=false;
-            listaCai=controladorCai.listaCai(); //muestro la lista de CAIs rescatadas de la base de datos
-        }    
-     }
+            esUzdi = false;
+            udi = new UDI();
+            cai = new CAI();
+            listaCai = controladorCai.listaCai(); //muestro la lista de CAIs rescatadas de la base de datos
+        }
+    }
 
     public boolean isEsUzdi() {
-        if("UZDI".equals(tipoCentro)){
-            esUzdi=true;
-            
+        if ("UZDI".equals(tipoCentro)) {
+            esUzdi = true;
+
+        } else if ("CAI".equals(tipoCentro)) {
+            esUzdi = false;
         }
-        else if("CAI".equals(tipoCentro)){
-            esUzdi=false;
-        }    
         return esUzdi;
     }
 
@@ -174,28 +184,32 @@ public class TallerPsicologiaControlador implements Serializable{
     public UdiServicio getControladorUdi() {
         return controladorUdi;
     }
-    
+
     public Integer getNumeroParticipantes() {
-        
-        if(tallerPsicologiaCrear.getNumeroTotalParticipantes()!=null){
-        
-            numeroParticipantes=tallerPsicologiaCrear.getNumeroTotalParticipantes();
-        }
-        else{
-            
-            if(udi.getUdi()!=null){
-            
-                for(UDI u: listaUdi){
-                    if(u.getUdi().equals(udi.getUdi())){
-                        udi=u;
+
+        if (tallerPsicologiaCrear.getNumeroTotalParticipantes() != null) {
+            numeroParticipantes = tallerPsicologiaCrear.getNumeroTotalParticipantes();
+        } else {
+            if (udi.getUdi() != null) {
+                for (UDI u : listaUdi) {
+                    if (u.getUdi().equals(udi.getUdi())) {
+                        udi = u;
                         break;
                     }
                 }
-                numeroParticipantes=controlador.obtenerNumeroAdolescentePorUdi(udi);            
-            }
-            
-            else if(tallerPsicologiaCrear.getIdCai()!=null){
-
+                numeroParticipantes = controlador.obtenerNumeroAdolescentePorUdi(udi);
+            } else if (tallerPsicologiaCrear.getIdCai() != null) {
+                //return numeroParticipantes;
+            } else if (cai.getCai() != null) {
+                for (CAI c : listaCai) {
+                    if (c.getCai().equals(cai.getCai())) {
+                        cai = c;
+                        break;
+                    }
+                }
+                numeroParticipantes = controlador.obtenerNumeroAdolescentePorCai(cai);
+            } else if (tallerPsicologiaCrear.getIdUdi() != null) {
+                //return numeroParticipantes;
             }
         }
         return numeroParticipantes;
@@ -211,6 +225,14 @@ public class TallerPsicologiaControlador implements Serializable{
 
     public void setListaAdolescentesUzdi(List<AdolescenteInfractorUDI> listaAdolescentesUzdi) {
         this.listaAdolescentesUzdi = listaAdolescentesUzdi;
+    }
+
+    public List<AdolescenteInfractorCAI> getListaAdolescentesCai() {
+        return listaAdolescentesCai;
+    }
+
+    public void setListaAdolescentesCai(List<AdolescenteInfractorCAI> listaAdolescentesCai) {
+        this.listaAdolescentesCai = listaAdolescentesCai;
     }
 
     public RegistroAsistenciaServicio getControladorAsistencia() {
@@ -269,6 +291,14 @@ public class TallerPsicologiaControlador implements Serializable{
         this.udi = udi;
     }
 
+    public CAI getCai() {
+        return cai;
+    }
+
+    public void setCai(CAI cai) {
+        this.cai = cai;
+    }
+
     public Date getHora() {
         return hora;
     }
@@ -308,157 +338,183 @@ public class TallerPsicologiaControlador implements Serializable{
     public void setResponsable(String responsable) {
         this.responsable = responsable;
     }
-    
-    
-    
-    /*****************************Eventos*********************************************/
-    
-    public void agregarActividad()
-    {
-        
+
+    /**
+     * ***************************Eventos********************************************
+     */
+    public void agregarActividad() {
+
         ItemTallerPsicologia itemAux = new ItemTallerPsicologia();
         itemAux.setHora(hora);
         itemAux.setActividad(actividad);
         itemAux.setMateriales(materiales);
         itemAux.setObjetivoEspecifico(objetivoEspecifico);
         itemAux.setResponsable(responsable);
-        
+
         listaItemsTallerPsicologia.add(itemAux);
     }
-    
-    public String guardarTallerPsicologia(){
-        
-        try{
-            int itemsGuardados=0;
-            for(UDI u: listaUdi){
-                if(u.getUdi().equals(udi.getUdi())){
-                    udi=u;
+
+    public String guardarTallerPsicologia() {
+
+        try {
+            int itemsGuardados = 0;
+            for (UDI u : listaUdi) {
+                if (u.getUdi().equals(udi.getUdi())) {
+                    udi = u;
                     break;
                 }
             }
-            tallerPsicologiaCrear.setIdUdi(udi);
+            for (CAI c : listaCai) {
+                if (c.getCai().equals(cai.getCai())) {
+                    cai = c;
+                    break;
+                }
+            }
+            if (udi.getIdUdi() != null) {
+                tallerPsicologiaCrear.setIdUdi(udi);
+            } else {
+                tallerPsicologiaCrear.setIdUdi(null);
+            }
+            if (cai.getIdCai() != null) {
+                tallerPsicologiaCrear.setIdCai(cai);
+            } else {
+                tallerPsicologiaCrear.setIdCai(null);
+            }
             tallerPsicologiaCrear.setNumeroTotalParticipantes(numeroParticipantes);
-            TallerPsicologia taller= controlador.guardarTallerPsicologia(tallerPsicologiaCrear);
+            TallerPsicologia taller = controlador.guardarTallerPsicologia(tallerPsicologiaCrear);
 
-            if(taller.getIdTallerPsicologia() > 0  ){
-                for(ItemTallerPsicologia i : listaItemsTallerPsicologia){
+            if (taller.getIdTallerPsicologia() > 0) {
+                for (ItemTallerPsicologia i : listaItemsTallerPsicologia) {
                     i.setIdTallerPsicologia(taller);
                     controladroItemTaller.guardarItemTallerPsicologia(i);
                     itemsGuardados++;
 
                 }
-                
-                if(itemsGuardados >0 && itemsGuardados==listaItemsTallerPsicologia.size()){
-                    
-                    indiceTaller=1;
+
+                if (itemsGuardados > 0 && itemsGuardados == listaItemsTallerPsicologia.size()) {
+
+                    indiceTaller = 1;
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("taller_psicologia", taller);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL TALLER DE PSICOLOGÍA","Aviso" ));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL TALLER DE PSICOLOGÍA", "Aviso"));
                     guardarRegistroAsistencia(taller);
                     return "/paginas/psicologia/taller_psicologia_ver.com?faces-redirect=true";
                 }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "HA OCURRIDO UN ERROR AL GUARDAR EL TALLER DE PSICOLOGÍA", "Aviso"));
             }
-            else{
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "HA OCURRIDO UN ERROR AL GUARDAR EL TALLER DE PSICOLOGÍA","Aviso" ));
-            }
-            
-        }catch(Exception e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "HA OCURRIDO UN ERROR AL GUARDAR EL TALLER DE PSICOLOGÍA","Aviso" ));       
-        }  
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "HA OCURRIDO UN ERROR AL GUARDAR EL TALLER DE PSICOLOGÍA", "Aviso"));
+        }
         return null;
     }
-    
-    public void generarRegistroAsistencia(TallerPsicologia tallerPsicologia){
-        
-        if( tallerPsicologia.getIdUdi() == null){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO SE HA SELECCIONADO UNIDAD ZONAL ","Aviso" ));
-        }
-        else{
+
+    public void generarRegistroAsistencia(TallerPsicologia tallerPsicologia) {
+
+        if (tallerPsicologia.getIdUdi() == null && tallerPsicologia.getIdCai() == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO SE HA SELECCIONADO UNIDAD ZONAL / CAI ", "Aviso"));
+        } else if (tallerPsicologia.getIdUdi() != null) {
             List<AdolescenteInfractorUDI> registroAux = controladorAsistencia.listaAdolescentesInfractoresPorUzdi(tallerPsicologia.getIdUdi());
-            if(registroAux==null){
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO HAY ADOLESCENTES INFRACTORES EN LA "+tallerPsicologia.getIdUdi().getUdi(),"Aviso" ));
-            }
-            else{
-                if(registroAux.size()>0){                    
-                    listaAdolescentesUzdi=registroAux;
+            if (registroAux == null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO HAY ADOLESCENTES INFRACTORES EN LA " + tallerPsicologia.getIdUdi().getUdi(), "Aviso"));
+            } else {
+                if (registroAux.size() > 0) {
+                    listaAdolescentesUzdi = registroAux;
                 }
-            } 
+            }
+        } else if (tallerPsicologia.getIdCai() != null) {
+            List<AdolescenteInfractorCAI> registroAux = controladorAsistencia.listaAdolescentesInfractoresPorCai(tallerPsicologia.getIdCai());
+            if (registroAux == null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "NO HAY ADOLESCENTES INFRACTORES EN LA " + tallerPsicologia.getIdCai().getCai(), "Aviso"));
+            } else {
+                if (registroAux.size() > 0) {
+                    listaAdolescentesCai = registroAux;
+                }
+            }
         }
     }
-    
-    
-    public void guardarRegistroAsistencia(TallerPsicologia tallerPsicologia){
-    
-        try{
+
+    public void guardarRegistroAsistencia(TallerPsicologia tallerPsicologia) {
+
+        try {
             generarRegistroAsistencia(tallerPsicologia);
-            
+
             registroAsistencia.setTematica(tallerPsicologia.getTema());
             registroAsistencia.setFecha(tallerPsicologia.getFecha());
             registroAsistencia.setIdRegistroAsistencia(tallerPsicologia);
-            RegistroAsistencia registroAsistenciaAux= controladorAsistencia.guardarRegistroAsistencia(registroAsistencia);
-        
-            if(registroAsistenciaAux!=null){                
-                int asistenciaAdolescentes=0;
-                
-                for(AdolescenteInfractorUDI a : listaAdolescentesUzdi){
-                    RegistroAsistenciaAdolescenteUDI asistencia= new RegistroAsistenciaAdolescenteUDI();
-                    asistencia.setIdAdolescenteUdi(a);
-                    asistencia.setIdRegistroAsistencia(registroAsistenciaAux);
-                    controladorAsistenciaUDI.guardarRegistroAsistenciaAdolescenteUDI(asistencia);
-                    asistenciaAdolescentes++;
-                }
+            RegistroAsistencia registroAsistenciaAux = controladorAsistencia.guardarRegistroAsistencia(registroAsistencia);
 
-                if(asistenciaAdolescentes>0 && asistenciaAdolescentes== listaAdolescentesUzdi.size()){
-                    tallerGuardado=true;
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL REGISTRO DE ASISTENCIA","Aviso" ));
+            if (registroAsistenciaAux != null) {
+                int asistenciaAdolescentes = 0;
+                if (listaAdolescentesUzdi.size() != 0 && listaAdolescentesCai.size() == 0) {
+                    for (AdolescenteInfractorUDI au : listaAdolescentesUzdi) {
+                        RegistroAsistenciaAdolescenteUDI asistencia = new RegistroAsistenciaAdolescenteUDI();
+                        asistencia.setIdAdolescenteUdi(au);
+                        asistencia.setIdRegistroAsistencia(registroAsistenciaAux);
+                        controladorAsistenciaUDI.guardarRegistroAsistenciaAdolescenteUDI(asistencia);
+                        asistenciaAdolescentes++;
+                    }
+                    if (asistenciaAdolescentes > 0 && asistenciaAdolescentes == listaAdolescentesUzdi.size()) {
+                        tallerGuardado = true;
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL REGISTRO DE ASISTENCIA", "Aviso"));
+                    }
+                } else if (listaAdolescentesUzdi.size() == 0 && listaAdolescentesCai.size() != 0) {
+                    for (AdolescenteInfractorCAI ac : listaAdolescentesCai) {
+                        RegistroAsistenciaAdolescenteCAI asistencia = new RegistroAsistenciaAdolescenteCAI();
+                        asistencia.setIdAdolescenteCai(ac);
+                        asistencia.setIdRegistroAsistencia(registroAsistenciaAux);
+                        controladorAsistenciaCAI.guardarRegistroAsistenciaAdolescenteCAI(asistencia);
+                        asistenciaAdolescentes++;
+                    }
+                    if (asistenciaAdolescentes > 0 && asistenciaAdolescentes == listaAdolescentesCai.size()) {
+                        tallerGuardado = true;
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GUARDADO CORRECTAMENTE EL REGISTRO DE ASISTENCIA", "Aviso"));
+                    }
                 }
             }
-            
-        }catch(Exception e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "HA OCURRIDO UN ERROR AL GUARDAR EL REGISTRO DE ASISTENCIA","ERROR" ));
-        }
-        
-        
-    }
-    
-    public void guardarPDFAsistencia(){
-        //retorna el path del archivo-->Retorna: "file:D:/User/Documents/NetBeansProjects/SistemaReeducacionAI/SistemaReeducacionAI/src/main/java/epn/edu/ec/reportes/RegistroAsistencia.jasper"
-        String ruta=getClass().getClassLoader().getResource("/epn/edu/ec/reportes/RegistroAsistencia.jasper").toString();
-        //elimino los 6 primeros caracteres, es decir elimino: "file:/", para obtener solo la ruta del archivo
-        ruta= ruta.substring(6); 
 
-        Map<String,Object> parametros= new HashMap<String,Object>();
-	parametros.put("txtUDI","REGISTRO DE ASISTENCIA "+ tallerPsicologiaCrear.getIdUdi().getUdi());
-			       
-        try{
-           
-            
-            File jasper = new File(ruta);       
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(),parametros, new JRBeanCollectionDataSource(this.getListaAdolescentesUzdi()));
-            
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "HA OCURRIDO UN ERROR AL GUARDAR EL REGISTRO DE ASISTENCIA", "ERROR"));
+        }
+
+    }
+
+    public void guardarPDFAsistencia() {
+        //retorna el path del archivo-->Retorna: "file:D:/User/Documents/NetBeansProjects/SistemaReeducacionAI/SistemaReeducacionAI/src/main/java/epn/edu/ec/reportes/RegistroAsistencia.jasper"
+        String ruta = getClass().getClassLoader().getResource("/epn/edu/ec/reportes/RegistroAsistencia.jasper").toString();
+        //elimino los 6 primeros caracteres, es decir elimino: "file:/", para obtener solo la ruta del archivo
+        ruta = ruta.substring(6);
+
+        Map<String, Object> parametros = new HashMap<String, Object>();
+        parametros.put("txtUDI", "REGISTRO DE ASISTENCIA " + tallerPsicologiaCrear.getIdUdi().getUdi());
+
+        try {
+
+            File jasper = new File(ruta);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros, new JRBeanCollectionDataSource(this.getListaAdolescentesUzdi()));
+
             FacesContext context = FacesContext.getCurrentInstance();
             Object response = context.getExternalContext().getResponse();
             if (response instanceof HttpServletResponse) {
-                  HttpServletResponse hsr = (HttpServletResponse) response;
-                  hsr.setContentType("application/pdf");
-                  hsr.addHeader("Content-disposition","attachment; filename=jsfReporte.pdf");
-                  try {
-                        ServletOutputStream stream = hsr.getOutputStream();
-                        JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
-                        stream.flush();
-                  } catch (IOException ex) {
-                        System.out.println("Error:  " + ex.getMessage());
-                  }
-                  context.responseComplete();
+                HttpServletResponse hsr = (HttpServletResponse) response;
+                hsr.setContentType("application/pdf");
+                hsr.addHeader("Content-disposition", "attachment; filename=jsfReporte.pdf");
+                try {
+                    ServletOutputStream stream = hsr.getOutputStream();
+                    JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+                    stream.flush();
+                } catch (IOException ex) {
+                    System.out.println("Error:  " + ex.getMessage());
+                }
+                context.responseComplete();
             }
-            
-            
+
             /*JasperExportManager.exportReportToPdfFile(jasperPrint, "D:\\User\\Desktop\\Registro Asistencia "+tallerPsicologia.getIdUdi().getUdi()+".pdf"); // 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SE HA GENERADO CORRECTAMENTE EL REGISTRO DE ASISTENCIA ","Aviso" ));*/
-            
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Error:  " + e.getMessage());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "NO SE HA GENERADO EL REGISTRO DE ASISTENCIA","ERROR" ));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "NO SE HA GENERADO EL REGISTRO DE ASISTENCIA", "ERROR"));
         }
     }
- 
+
 }
