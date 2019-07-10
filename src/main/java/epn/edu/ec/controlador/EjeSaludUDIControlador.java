@@ -31,6 +31,7 @@ public class EjeSaludUDIControlador implements Serializable{
     private EjeSaludUDIServicio servicio;
     private boolean guardado;
     private boolean saludable;
+    private boolean consumeSustancias;
     private EnlacesPrograma enlaces;
     
      @PostConstruct
@@ -42,6 +43,7 @@ public class EjeSaludUDIControlador implements Serializable{
         
         ejeSaludUDI= new EjeSaludUDI();
         guardado=false;
+        consumeSustancias=true;
         
         if (isSaludable()) {
             saludable = true;
@@ -64,9 +66,18 @@ public class EjeSaludUDIControlador implements Serializable{
                 if(saludableAux.equals("SALUDABLE")){
                     System.out.println("entro a saludable");
                     saludable=true;
+                    
+                    
                 }else if(saludableAux.equals("NO SALUDABLE")){
                     System.out.println("no entro a saludable");
                     saludable=false;
+                    
+                    if(ejeSaludUDI.getConsumeSustancias()==true){
+                        consumeSustancias=true;
+                    }
+                    else{
+                        consumeSustancias=false;
+                    }
                 }
             }            
         }
@@ -112,6 +123,21 @@ public class EjeSaludUDIControlador implements Serializable{
         }else if(saludable==false){
             ejeSaludUDI.setSituacionSalud("NO SALUDABLE");
         }
+    }
+
+    public boolean isConsumeSustancias() {
+        return consumeSustancias;
+    }
+
+    public void setConsumeSustancias(boolean consumeSustancias) {
+        
+        this.consumeSustancias = consumeSustancias;
+        if(consumeSustancias==true){
+            ejeSaludUDI.setConsumeSustancias(true);
+        }else{
+            ejeSaludUDI.setConsumeSustancias(false);
+        }
+        
     }
     
     public String getMensaje() {

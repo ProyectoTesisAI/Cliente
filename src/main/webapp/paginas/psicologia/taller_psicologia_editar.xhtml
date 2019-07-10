@@ -153,7 +153,7 @@
                                                         <b:commandButton class="btn-success btn-block" value="Agregar"
                                                                          onclick="$('.formItemTallerPsicologia').modal('hide'); tableWidgetVar.DataTable({destroy: true, searching: false});tableWidgetVar.DataTable().responsive.recalc();" 
                                                                          actionListener="#{tallerPsicologiaEditarControlador.agregarActividad()}">
-                                                            <f:ajax execute="modalActividades" render="tablaTallerPsicologia"/>
+                                                            <f:ajax execute="modalActividades" render="tablaTallerPsicologia modalActividades"/>
                                                         </b:commandButton>
 
                                                     </b:column>

@@ -352,6 +352,12 @@ public class TallerPsicologiaControlador implements Serializable {
         itemAux.setResponsable(responsable);
 
         listaItemsTallerPsicologia.add(itemAux);
+        
+        hora=null;
+        actividad=null;
+        materiales=null;
+        objetivoEspecifico=null;
+        responsable=null;
     }
 
     public String guardarTallerPsicologia() {
