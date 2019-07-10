@@ -85,9 +85,9 @@
                                                             </b:selectOneMenu>
                                                             
                                                             <h:outputLabel for="txtCai" value="CAI" rendered="#{!tallerPsicologiaEditarControlador.esUzdi}"/>
-                                                            <b:selectOneMenu id="txtCai" required="true" rendered="#{!tallerPsicologiaEditarControlador.esUzdi}" value="#{tallerPsicologiaEditarControlador.tallerPsicologiaEditar.idCai}" update="txtNumeroTotalParticipantes" process="@this">
+                                                            <b:selectOneMenu id="txtCai" required="true" rendered="#{!tallerPsicologiaEditarControlador.esUzdi}" value="#{tallerPsicologiaEditarControlador.cai.cai}" update="txtNumeroTotalParticipantes" process="@this">
                                                                 <f:selectItem itemLabel="Seleccione una opción"  itemDisabled="false" />
-                                                                <f:selectItems value="#{tallerPsicologiaEditarControlador.listaCai}" var="c" itemValue="#{c}" itemLabel="#{c.cai}" />
+                                                                <f:selectItems value="#{tallerPsicologiaEditarControlador.listaCai}" var="c" itemValue="#{c.cai}" itemLabel="#{c.cai}" />
                                                             </b:selectOneMenu>
                                                         </div>
                                                     </div>
@@ -225,21 +225,51 @@
 
                                             </div>
 
-                                            <div class="row" style="margin-top: 35px;">
-                                                <div class="col-md-10 col-md-offset-1">
-                                                    <b:dataTable id="dtRegistroAsistencia" value="#{tallerPsicologiaEditarControlador.listaAdolescentesUzdi}"
-                                                                 var="ai"
-                                                                 searching="true"
-                                                                 select="true"
-                                                                 selectionMode="multiple"
-                                                                 responsive="false" >
-                                                        <b:dataTableColumn value="#{ai.nombres}"/>
-                                                        <b:dataTableColumn value="#{ai.apellidos}"/>
-                                                        <b:dataTableColumn value="#{ai.cedula}"/>
-                                                    </b:dataTable>
-                                                </div>
-                                            </div>
+                                            <h:panelGroup id="tablaRegistro">
+                                                <b:panel rendered="#{tallerPsicologiaEditarControlador.tabla}">
+                                                    <div class="row" style="margin-top: 35px;">
+                                                        <div class="col-md-10 col-md-offset-1">
+                                                            <h:outputText value="TABLA DE REGISTRO ASISTENCIA UDI"/>
+                                                            <b:dataTable id="dtRegistroAsistenciaUdi" value="#{tallerPsicologiaEditarControlador.listaAdolescentesUzdi}"
+                                                                         var="ai"
+                                                                         fixed-header="true"
+                                                                         scroll-x="true"
+                                                                         scroll-size="1000px"
+                                                                         responsive="true"
+                                                                         searching="false"
+                                                                         select="true"
+                                                                         selectionMode="multiple"
+                                                                         style="margin: auto; width: 100%;">
+                                                                <b:dataTableColumn value="#{ai.nombres}"/>
+                                                                <b:dataTableColumn value="#{ai.apellidos}"/>
+                                                                <b:dataTableColumn value="#{ai.cedula}"/>
+                                                            </b:dataTable>
+                                                        </div>
+                                                    </div>
+                                                </b:panel>
 
+                                                <b:panel rendered="#{!tallerPsicologiaEditarControlador.tabla}">
+                                                    <div class="row" style="margin-top: 35px;">
+                                                        <div class="col-md-10 col-md-offset-1">
+                                                            <h:outputText value="TABLA DE REGISTRO ASISTENCIA CAI"/>
+                                                            <b:dataTable id="dtRegistroAsistenciaCai" value="#{tallerPsicologiaEditarControlador.listaAdolescentesCai}"
+                                                                         var="ai"
+                                                                         fixed-header="true"
+                                                                         scroll-x="true"
+                                                                         scroll-size="1000px"
+                                                                         responsive="true"
+                                                                         searching="false"
+                                                                         select="true"
+                                                                         selectionMode="multiple"
+                                                                         style="margin: auto; width: 100%;">
+                                                                <b:dataTableColumn value="#{ai.nombres}"/>
+                                                                <b:dataTableColumn value="#{ai.apellidos}"/>
+                                                                <b:dataTableColumn value="#{ai.cedula}"/>
+                                                            </b:dataTable>
+                                                        </div>
+                                                    </div>
+                                                </b:panel>
+                                            </h:panelGroup>
 
                                             <br/>
                                             <br/>

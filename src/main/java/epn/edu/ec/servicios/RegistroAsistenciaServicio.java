@@ -1,7 +1,10 @@
 package epn.edu.ec.servicios;
 
+import epn.edu.ec.modelo.AdolescenteInfractorCAI;
 import epn.edu.ec.modelo.AdolescenteInfractorUDI;
+import epn.edu.ec.modelo.CAI;
 import epn.edu.ec.modelo.RegistroAsistencia;
+import epn.edu.ec.modelo.RegistroAsistenciaAdolescenteCAI;
 import epn.edu.ec.modelo.RegistroAsistenciaAdolescenteUDI;
 import epn.edu.ec.modelo.TallerPsicologia;
 import epn.edu.ec.modelo.UDI;
@@ -34,9 +37,23 @@ public class RegistroAsistenciaServicio {
         Response response =invocationBuilder.post(Entity.entity(udi, MediaType.APPLICATION_JSON+";charset=UTF-8"));
         if(response.getStatus()==200){
             registroAsistenciaUdi=response.readEntity(new GenericType<List<AdolescenteInfractorUDI>>(){});
+        }        
+        return registroAsistenciaUdi;
+
+    }
+    
+    public List<AdolescenteInfractorCAI> listaAdolescentesInfractoresPorCai(CAI cai){
+        
+        List<AdolescenteInfractorCAI> registroAsistenciaCai=null;
+        
+        WebTarget webTarget=cliente.target(URL_REGISTRO_ASISTENCIA+"/ListaAdolescentesPorCai");        
+        Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");     
+        Response response =invocationBuilder.post(Entity.entity(cai, MediaType.APPLICATION_JSON+";charset=UTF-8"));
+        if(response.getStatus()==200){
+            registroAsistenciaCai=response.readEntity(new GenericType<List<AdolescenteInfractorCAI>>(){});
         }
         
-        return registroAsistenciaUdi;
+        return registroAsistenciaCai;
 
     }
     
@@ -68,6 +85,20 @@ public class RegistroAsistenciaServicio {
 
     }
     
+    public List<RegistroAsistenciaAdolescenteCAI> listaAdolescentesInfractoresPorTallerCAI(TallerPsicologia taller){
+        
+        List<RegistroAsistenciaAdolescenteCAI> registroAsistenciaCai=null;
+        
+        WebTarget webTarget=cliente.target(URL_REGISTRO_ASISTENCIA+"/ListaAdolescentesPorTallerCai");        
+        Invocation.Builder invocationBuilder=webTarget.request(MediaType.APPLICATION_JSON+";charset=UTF-8");     
+        Response response =invocationBuilder.post(Entity.entity(taller, MediaType.APPLICATION_JSON+";charset=UTF-8"));
+        if(response.getStatus()==200){
+            registroAsistenciaCai=response.readEntity(new GenericType<List<RegistroAsistenciaAdolescenteCAI>>(){});
+        }        
+        return registroAsistenciaCai;
+
+    }
+    
     public int obtenerNumeroAdolescentesPorTaller(Integer idTaller){
           
         WebTarget webTarget=cliente.target(URL_REGISTRO_ASISTENCIA+"/Taller/NumeroAsistentes/"+idTaller.toString());        
@@ -80,8 +111,6 @@ public class RegistroAsistenciaServicio {
         else{
             return 0;
         }
-        
-
     }
 
     public Integer eliminarListadoAsistencia(Integer registroAsistenciaTaller){

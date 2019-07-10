@@ -702,6 +702,7 @@
                                                         <f:selectItem itemLabel="Alfabetizacion/Postalfabetizacion"  itemValue="Alfabetizacion/Postalfabetizacion" />
                                                         <f:selectItem itemLabel="Basica Intensiva"  itemValue="Basica Intensiva" />
                                                         <f:selectItem itemLabel="Bachillerato Intensivo"  itemValue="Bachillerato Intensivo" />
+                                                        <f:selectItem itemLabel="Tercer Nivel o Superior"  itemValue="Tercer Nivel o Superior" />
                                                     </b:selectOneMenu>
                                                 </b:column>
                                             </b:row>
@@ -864,6 +865,7 @@
                                                     <f:selectItem itemLabel="ESPECIALIZADA"  itemValue="ESPECIALIZADA" />
                                                     <f:selectItem itemLabel="UNIDAD DE FAMILIA"  itemValue="UNIDAD DE FAMILIA" />
                                                     <f:selectItem itemLabel="MULTICOMPETENTE"  itemValue="MULTICOMPETENTE" />
+                                                    <f:selectItem itemLabel="UNIDAD JUDICIAL PENAL"  itemValue="UNIDAD JUDICIAL PENAL" />
                                                 </b:selectOneMenu>
                                             </b:column>
 
@@ -913,6 +915,7 @@
                                                     <f:selectItem itemLabel="SENTENCIA"  itemValue="SENTENCIA" />
                                                     <f:selectItem itemLabel="TERMINACIÓN ANTICIPADA DEL PROCESO"  itemValue="TERMINACIÓN ANTICIPADA DEL PROCESO" />
                                                     <f:selectItem itemLabel="RESOLUCIÓN"  itemValue="RESOLUCIÓN" />
+                                                    <f:selectItem itemLabel="REMISIÓN"  itemValue="REMISIÓN" />
                                                 </b:selectOneMenu>
                                             </b:column>
                                         </b:row>
@@ -959,7 +962,7 @@
                                             </b:column>
 
                                             <b:column span="4" offset="1">
-                                                <h:outputLabel for="txtOrientacionApoyoSocioFamiliar" value="Orientación Apoyo Socio Familiar"/>
+                                                <h:outputLabel for="txtOrientacionApoyoSocioFamiliar" value="Orientación Apoyo Psico Socio Familiar"/>
                                                 <b:selectOneMenu id="txtOrientacionApoyoSocioFamiliar" update="txtNumeroMedidas" process="@this" value="#{informacionJudicialControlador.apoyoSocioFamiliar}">
                                                     <f:selectItem itemLabel="Seleccione una opcion"  itemDisabled="true" />
                                                     <f:selectItem itemLabel="SI"  itemValue="true" />
